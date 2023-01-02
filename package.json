@@ -1,0 +1,13 @@
+{
+  "name": "react-nestjs-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "web": "cd react-chat-frontend && yarn dev",
+    "api": "cd nestjs-chat-backend && yarn start:dev",
+    "studio": "cd nestjs-chat-backend && yarn prisma studio"
+  },
+  "author": "dezzerlol",
+  "license": "ISC"
+}

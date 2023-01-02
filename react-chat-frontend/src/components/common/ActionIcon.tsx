@@ -1,0 +1,18 @@
+import React, { HTMLAttributes } from 'react'
+
+interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode
+  className?: React.ComponentProps<'button'>['className']
+}
+
+const ActionIcon = ({ children, className, ...props }: ButtonProps) => {
+  return (
+    <button
+      {...props}
+      className={`cursor-pointer border-0 rounded-full p-2 transition-all hover:bg-slate-50 active:scale-90 ${className}`}>
+      {children}
+    </button>
+  )
+}
+
+export default ActionIcon
