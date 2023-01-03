@@ -1,29 +1,57 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
 import { MdOutlineInsertEmoticon } from 'react-icons/md'
 import useUser from '../../hooks/useUser'
+import { SocketContext } from '../../services/socket'
 import useUiStore from '../../store/uiStore'
 import ActionIcon from '../common/ActionIcon'
 import ChatHeader from './ChatHeader'
 
 const Chat = () => {
   const router = useRouter()
-
   const [newMessage, setNewMessage] = useState('')
+  const [messages, setMessages] = useState<string[]>([])
   const { user, error, isError, isLoading } = useUser()
-
-  const activeChat = user?.contacts.find((chat: any) => chat.username === router.query.username) || null
-
-
-  const { isChatOpen } = useUiStore((state) => ({
+  const { isChatOpen, openChat, closeChat } = useUiStore((state) => ({
     isChatOpen: state.isChatOpen,
+    openChat: state.openChat,
+    closeChat: state.closeChat,
   }))
 
-  const handleSend = () => {
-    /*  socket.emit('chatToServer', { sender: currentUser.username, room: 'testRoom', message: newMessage.value })
-    newMessage.value = '' */
+  const socket = useContext(SocketContext)
+
+  const openedChatUser = router.query.username ? router.query.username[0] : null
+  const activeChat = user?.contacts.find((chat) => chat.username === openedChatUser)
+
+  useEffect(() => {
+    if (user) {
+      socket.emit('user:online', { username: user.username, id: user.id })
+    }
+
+    socket.on('chatToClient', (msg) => {
+      console.log({ msg })
+      setMessages((messages) => [...messages, msg])
+    })
+
+    return () => {
+      if (user) socket.emit('user:offline', { username: user.username, id: user.id })
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (!activeChat) return
+
+    openChat()
+
+    return () => closeChat()
+  }, [activeChat])
+
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault()
+    socket.emit('chatToServer', { sender: user.username, room: 'testRoom', message: newMessage })
+    setNewMessage('')
   }
 
   if (!activeChat) {
@@ -38,12 +66,12 @@ const Chat = () => {
           id='chat-box'
           className='flex flex-col-reverse items-center w-full h-full py-4 px-4 md:px-0 overflow-y-auto max-h-[calc(100%-130px)]'>
           <div id='chat-list' className='w-full md:w-1/2 flex flex-col flex-1 gap-4'>
-            {activeChat.messages.map((message: any) => (
+            {messages.map((message: any) => (
               <div
-                key={message.id}
+                key={message.message}
                 className={`rounded-xl flex justify-end flex-col p-2 shadow-md message relative
-            ${message.senderId === user.id ? 'bg-[#EEFFDE] self-end own' : 'bg-white self-start other'}`}>
-                <div>{message.text}</div>
+            ${message.sender === user.username ? 'bg-[#EEFFDE] self-end own' : 'bg-white self-start other'}`}>
+                <div>{message.message}</div>
                 <div className='text-xs text-[#707579] self-end z-50'>{message.time}</div>
               </div>
             ))}
@@ -60,6 +88,7 @@ const Chat = () => {
               <form onSubmit={handleSend} className='w-full'>
                 <input
                   onChange={(e) => setNewMessage(e.target.value)}
+                  value={newMessage}
                   className='h-full w-full outline-none'
                   placeholder='Message'
                 />

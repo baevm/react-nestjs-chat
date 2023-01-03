@@ -9,7 +9,6 @@ import { MdOutlineMenu } from 'react-icons/md'
 import useUiStore from '../../store/uiStore'
 import useUser from '../../hooks/useUser'
 
-
 const folders = [
   { title: 'All', count: 10 },
   { title: 'Unread', count: 6 },
@@ -18,18 +17,17 @@ const folders = [
 
 const Sidebar = () => {
   const router = useRouter()
-  const [activeFolder, setActiveFolder] = useState('')
+  const [activeFolder, setActiveFolder] = useState('All')
   const { user, error, isError, isLoading } = useUser()
 
   const chats = user?.contacts
 
-  
   const { openChat, isChatOpen } = useUiStore((state) => ({
     isChatOpen: state.isChatOpen,
     openChat: state.openChat,
   }))
 
-  const handleOpenChat = (chatId: number) => {
+  const handleOpenChat = (chatId: string) => {
     openChat()
     router.push(`/chat/${chatId}`)
   }
@@ -70,7 +68,7 @@ const Sidebar = () => {
         {chats?.map((chat: any) => (
           <button
             key={chat.id}
-            onClick={() => handleOpenChat(chat.id)}
+            onClick={() => handleOpenChat(chat.username)}
             id='chat-item'
             className='w-full p-2 rounded-lg cursor-pointer hover:bg-[#f4f4f5] flex gap-2'>
             <img src={chat.avatar ? chat.avatar : '/user.svg'} className='w-12 h-12' alt={'test'} />
@@ -81,7 +79,7 @@ const Sidebar = () => {
               </div>
               <div className='flex justify-between'>
                 <div className='text-gray-500 text-left'>{chat.lastMessage}</div>
-                <Badge v-if='chat.unreadCount > 0'>{chat.unreadCount}</Badge>
+                {chat.unreadCount > 0 ? <Badge>{chat.unreadCount}</Badge> : null}
               </div>
             </div>
           </button>
