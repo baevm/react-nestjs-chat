@@ -7,14 +7,17 @@ import { AuthModule } from './auth/auth.module'
 import { AtGuard } from './common/guards/at.guard'
 import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module';
+import { ChatService } from './chat/chat.service';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UserModule],
+  imports: [PrismaModule, AuthModule, UserModule, ChatModule],
   providers: [
     ChatGateway,
     /* AlertGateway, */
     // Make AtGuard global
     { provide: APP_GUARD, useClass: AtGuard },
+    ChatService,
   ],
   /* controllers: [AlertController], */
 })

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 import { GetCurrentUserId } from 'src/common/decorators/get-current-userId.decorator'
 import { UserService } from './user.service'
 
@@ -9,6 +9,11 @@ export class UserController {
   @Get()
   getUser(@GetCurrentUserId() userId: string) {
     return this.userService.getUser(userId)
+  }
+
+  @Get('/messages/:contactName')
+  getMessages(@GetCurrentUserId() userId: string, @Param() params: { contactName: string }) {
+    return this.userService.getMessages(userId, params.contactName)
   }
 
   @Post('/addContact')

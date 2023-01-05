@@ -25,6 +25,45 @@ export class UserService {
     })
   }
 
+  async getMessages(userId: string, contactName: string) {
+    const contact = await this.prisma.user.findUnique({
+      where: {
+        username: contactName,
+      },
+    })
+
+    return this.prisma.message.findMany({
+      where: {
+        AND: [
+          {
+            senderId: userId,
+          },
+          {
+            receiverId: contact.id,
+          }
+        ]
+      }
+    })
+
+   /*  return this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        sender: {
+          where: {
+            senderId: userId,
+          },
+        },
+        receiver: {
+          where: {
+            receiverId: contact.id,
+          },
+        },
+      },
+    }) */
+  }
+
   async addContact(userId: string, username: string) {
     const newContact = await this.prisma.user.findUnique({
       where: {

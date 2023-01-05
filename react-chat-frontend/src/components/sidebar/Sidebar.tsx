@@ -1,23 +1,13 @@
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { Folder } from '../../types/app.types'
-import ActionIcon from '../common/ActionIcon'
+import useUser from '../../hooks/useUser'
+import useUiStore from '../../store/uiStore'
 import Badge from '../common/Badge'
 import NewContactButton from './NewContactButton'
-import SearchInput from './SearchInput'
-import { MdOutlineMenu } from 'react-icons/md'
-import useUiStore from '../../store/uiStore'
-import useUser from '../../hooks/useUser'
-
-const folders = [
-  { title: 'All', count: 10 },
-  { title: 'Unread', count: 6 },
-  { title: 'Trash', count: 0 },
-]
+import SidebarHeader from './SidebarHeader'
 
 const Sidebar = () => {
   const router = useRouter()
-  const [activeFolder, setActiveFolder] = useState('All')
+
   const { user, error, isError, isLoading } = useUser()
 
   const chats = user?.contacts
@@ -29,7 +19,7 @@ const Sidebar = () => {
 
   const handleOpenChat = (chatId: string) => {
     openChat()
-    router.push(`/chat/${chatId}`)
+    router.push(`/chat/${chatId}`, undefined, { shallow: true })
   }
 
   return (
@@ -37,32 +27,7 @@ const Sidebar = () => {
       className={`h-full w-full md:w-1/4 md:min-w-[465px] border-r-[1px] border-gray-300 bg-white relative ${
         isChatOpen ? '' : 'absolute md:relative'
       }`}>
-      <div
-        id='sidebar-header'
-        className='h-24 border-b-[1px] border-gray-300 shadow-sm pt-2 px-4 flex flex-col justify-between'>
-        <div className='flex items-center gap-4'>
-          <ActionIcon>
-            <MdOutlineMenu color='#707579' />
-          </ActionIcon>
-          <SearchInput />
-        </div>
-
-        <div id='sidebar-folders' className='flex gap-4'>
-          {folders.map((folder) => (
-            <div
-              key={folder.title}
-              className={`border-blue-500 min-w-[3rem] flex gap-2 cursor-pointer font-medium ${
-                activeFolder === folder.title ? 'border-b-2 text-blue-500' : 'text-gray-500'
-              }`}
-              onClick={() => {
-                setActiveFolder(folder.title)
-              }}>
-              {folder.title}
-              <Badge>{folder.count}</Badge>
-            </div>
-          ))}
-        </div>
-      </div>
+      <SidebarHeader />
 
       <div id='sidebar-chats' className='p-2 overflow-y-auto'>
         {chats?.map((chat: any) => (

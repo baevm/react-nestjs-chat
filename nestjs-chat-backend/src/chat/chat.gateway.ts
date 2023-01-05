@@ -3,14 +3,17 @@ import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets'
 import { WebSocketServer } from '@nestjs/websockets/decorators'
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets/interfaces'
 import { Server, Socket } from 'socket.io'
+import { ChatService } from './chat.service'
 
 @WebSocketGateway({ namespace: '/chat' })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  constructor(private chatService: ChatService) {}
+
   @WebSocketServer() wss: Server
   private logger: Logger = new Logger('ChatGateway')
   private users = []
 
-  handleConnection(client: Socket, ...args: any[]) {
+  handleConnection(client: Socket, user: { id: string; username: string }) {
     this.logger.log(`client connected: ${client.id}`)
   }
 
@@ -49,9 +52,12 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
 
   @SubscribeMessage('chatToServer')
-  handleMessage(client: Socket, message: { sender: string; message: string; room: string }) {
+  handleMessage(client: Socket, message: { senderId: string; text: string; receiverId: string }) {
     console.log(message)
-    this.wss/* .to(message.room) */.emit('chatToClient', message)
+
+    this.chatService.saveMessage(message)
+    this.wss /* .to(message.room) */
+      .emit('chatToClient', message)
   }
 
   @SubscribeMessage('joinRoom')
@@ -59,7 +65,6 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     client.join(room)
     client.emit('joinedRoom', room)
   }
-
 
   @SubscribeMessage('leaveRoom')
   handleLeaveRoom(client: Socket, room: string) {
