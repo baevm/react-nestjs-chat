@@ -53,11 +53,13 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('chatToServer')
   handleMessage(client: Socket, message: { senderId: string; text: string; receiverId: string }) {
-    console.log(message)
+    const formatMessage = this.chatService.formatMessage(message)
 
-    this.chatService.saveMessage(message)
+    console.log(formatMessage)
+
+    this.chatService.saveMessage(formatMessage)
     this.wss /* .to(message.room) */
-      .emit('chatToClient', message)
+      .emit('chatToClient', formatMessage)
   }
 
   @SubscribeMessage('joinRoom')

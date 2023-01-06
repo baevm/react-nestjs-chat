@@ -1,12 +1,16 @@
+import useAddContact from '@hooks/useAddContact'
 import React, { useState } from 'react'
 
 const NewContactModal = ({ isShow, setIsShow }: { isShow: boolean; setIsShow: (v: boolean) => void }) => {
   const [contactName, setContactName] = useState('')
+  const { isLoading, handleAdd } = useAddContact()
 
   if (!isShow) return null
 
-  const handleAdd = () => {
-    console.log('test')
+  const handleAddContact = () => {
+    if (!contactName) return
+
+    handleAdd(contactName)
   }
 
   return (
@@ -32,8 +36,8 @@ const NewContactModal = ({ isShow, setIsShow }: { isShow: boolean; setIsShow: (v
               <button className='modal-default-button' onClick={() => setIsShow(false)}>
                 Cancel
               </button>
-              <button className='modal-default-button' onClick={handleAdd}>
-                Done
+              <button className='modal-default-button' onClick={handleAddContact} disabled={isLoading}>
+                {!isLoading ? 'Done' : 'Load...'}
               </button>
             </div>
           </div>

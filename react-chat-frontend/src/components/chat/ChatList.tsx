@@ -1,22 +1,25 @@
-import useActiveChat from '@hooks/useActiveChat'
+import useMessages from '@hooks/useMessages'
 import useUser from '@hooks/useUser'
 import { SocketContext } from '@services/socket'
+import formatTime from '@utils/formatTime'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
 const ChatList = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
 
   const { user, error, isError, isLoading } = useUser()
-  const { messages } = useActiveChat(router.query.username as string)
+  const { messages, addNewMessage } = useMessages(router.query.username as string)
 
   useEffect(() => {
     socket.on('chatToClient', (msg) => {
       console.log({ msg })
-      /* setMessages((messages) => [...messages, msg]) */
+      addNewMessage(msg)
     })
   }, [])
+
+  console.log({ messages })
 
   return (
     <>
@@ -27,7 +30,7 @@ const ChatList = () => {
             className={`rounded-xl flex justify-end flex-col p-2 shadow-md message relative
             ${message.senderId === user.id ? 'bg-[#EEFFDE] self-end own' : 'bg-white self-start other'}`}>
             <div>{message.text}</div>
-            <div className='text-xs text-[#707579] self-end z-50'>{message.time}</div>
+            <div className='text-xs text-[#707579] self-end z-50'>{formatTime(message.createdAt)}</div>
           </div>
         ))}
         <div id='bottom'></div>

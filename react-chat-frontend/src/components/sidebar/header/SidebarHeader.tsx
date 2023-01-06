@@ -1,8 +1,7 @@
+import Badge from '@components/common/Badge'
 import { useState } from 'react'
-import { MdOutlineMenu } from 'react-icons/md'
-import ActionIcon from '../common/ActionIcon'
-import Badge from '../common/Badge'
-import SearchInput from './SearchInput'
+import SearchInput from '../SearchInput'
+import MenuButton from './MenuButton'
 
 const folders = [
   { title: 'All', count: 10 },
@@ -12,15 +11,13 @@ const folders = [
 
 const SidebarHeader = () => {
   const [activeFolder, setActiveFolder] = useState('All')
-  
+
   return (
     <div
       id='sidebar-header'
       className='h-24 border-b-[1px] border-gray-300 shadow-sm pt-2 px-4 flex flex-col justify-between'>
       <div className='flex items-center gap-4'>
-        <ActionIcon>
-          <MdOutlineMenu color='#707579' />
-        </ActionIcon>
+        <MenuButton />
         <SearchInput />
       </div>
 
@@ -28,8 +25,8 @@ const SidebarHeader = () => {
         {folders.map((folder) => (
           <div
             key={folder.title}
-            className={`border-blue-500 min-w-[3rem] flex gap-2 cursor-pointer font-medium ${
-              activeFolder === folder.title ? 'border-b-2 text-blue-500' : 'text-gray-500'
+            className={`border-active-item-color min-w-[3rem] flex gap-2 cursor-pointer font-medium ${
+              activeFolder === folder.title ? 'border-b-2 text-active-item-color' : 'text-gray-500'
             }`}
             onClick={() => {
               setActiveFolder(folder.title)

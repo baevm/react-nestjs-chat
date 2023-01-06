@@ -11,7 +11,7 @@ const NewContactButton = () => {
         onClick={() => {
           setIsShow(true)
         }}
-        className='w-14 h-14 absolute bottom-4 right-4 flex items-center justify-center bg-[#3390EC] rounded-full active:scale-95'>
+        className='w-14 h-14 absolute bottom-4 right-4 flex items-center justify-center bg-active-item-color rounded-full active:scale-95'>
         <RiPencilFill color='white' />
       </button>
       {isShow && createPortal(<NewContactModal isShow={isShow} setIsShow={setIsShow} />, document.body)}

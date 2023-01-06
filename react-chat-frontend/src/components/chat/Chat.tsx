@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import useUser from '../../hooks/useUser'
-import useUiStore from '../../store/uiStore'
+import useUser from '@hooks/useUser'
+import useUiStore from '@store/uiStore'
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
 import ChatList from './ChatList'
@@ -32,8 +32,6 @@ const Chat = () => {
     )
   }
 
-  console.log({ isChatOpen })
-
   return (
     <div className={`w-full h-full flex flex-col bg-[#8FBC88] ${isChatOpen ? 'absolute md:relative' : 'hidden'}`}>
       <ChatHeader activeChat={activeChat} />
@@ -41,7 +39,6 @@ const Chat = () => {
         id='chat-box'
         className='flex flex-col-reverse items-center w-full h-full py-4 px-4 md:px-0 overflow-y-auto max-h-[calc(100%-130px)]'>
         <ChatList />
-
         <ChatInput activeChat={activeChat} />
       </div>
     </div>

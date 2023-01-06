@@ -1,15 +1,14 @@
 import { useRouter } from 'next/router'
-import useUser from '../../hooks/useUser'
-import useUiStore from '../../store/uiStore'
-import Badge from '../common/Badge'
+import useUser from '@hooks/useUser'
+import useUiStore from '@store/uiStore'
 import NewContactButton from './NewContactButton'
-import SidebarHeader from './SidebarHeader'
+import SidebarHeader from './header/SidebarHeader'
+import Badge from '@components/common/Badge'
 
 const Sidebar = () => {
   const router = useRouter()
-
   const { user, error, isError, isLoading } = useUser()
-
+  const activeChat = router.query.username ? router.query.username[0] : null
   const chats = user?.contacts
 
   const { openChat, isChatOpen } = useUiStore((state) => ({
@@ -35,7 +34,9 @@ const Sidebar = () => {
             key={chat.id}
             onClick={() => handleOpenChat(chat.username)}
             id='chat-item'
-            className='w-full p-2 rounded-lg cursor-pointer hover:bg-[#f4f4f5] flex gap-2'>
+            className={`w-full p-2 rounded-lg cursor-pointer  flex gap-2 ${
+              chat.username === activeChat ? 'bg-active-item-color text-white' : 'bg-white hover:bg-[#f4f4f5]'
+            }`}>
             <img src={chat.avatar ? chat.avatar : '/user.svg'} className='w-12 h-12' alt={'test'} />
             <div className='w-full'>
               <div className='flex justify-between'>

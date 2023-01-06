@@ -18,7 +18,9 @@ const ChatInput = ({ activeChat }: any) => {
   }
 
   return (
-    <div id='chat-input' className='w-full md:w-1/2 min-w-[300px] h-12 flex items-end gap-2 absolute bottom-4 z-50'>
+    <div
+      id='chat-input'
+      className='px-8 w-full md:w-1/2 md:px-0 min-w-[300px] h-12 flex items-end gap-2 absolute bottom-4 z-50'>
       <div className='w-full h-full flex items-center bg-white rounded-xl'>
         <ActionIcon>
           <MdOutlineInsertEmoticon color='#707579' />

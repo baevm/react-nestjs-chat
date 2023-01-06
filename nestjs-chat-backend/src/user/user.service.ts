@@ -34,18 +34,20 @@ export class UserService {
 
     return this.prisma.message.findMany({
       where: {
-        AND: [
+        OR: [
           {
             senderId: userId,
+            receiverId: contact.id,
           },
           {
-            receiverId: contact.id,
-          }
-        ]
-      }
+            receiverId: userId,
+            senderId: contact.id,
+          },
+        ],
+      },
     })
 
-   /*  return this.prisma.user.findUnique({
+    /*  return this.prisma.user.findUnique({
       where: {
         id: userId,
       },
