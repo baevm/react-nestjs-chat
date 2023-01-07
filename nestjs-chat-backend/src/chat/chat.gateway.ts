@@ -11,15 +11,24 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @WebSocketServer() wss: Server
   private logger: Logger = new Logger('ChatGateway')
-  private users = []
+  private users = {
+    update: function (id, propertiesObject) {
+      this[id] = { ...this[id], ...propertiesObject }
+    },
+  }
 
-  handleConnection(client: Socket, user: { id: string; username: string }) {
+  handleConnection(client: Socket) {
     this.logger.log(`client connected: ${client.id}`)
   }
 
   handleDisconnect(client: Socket) {
     this.logger.log(`client disconnected: ${client.id}`)
-    this.users = this.users.filter((u) => u.socketId === client.id)
+
+    for (const key in this.users) {
+      if (this.users[key].socketId === client.id) {
+        delete this.users[key]
+      }
+    }
     console.log({ users: this.users })
   }
 
@@ -29,37 +38,50 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('user:online')
   handleUserOnline(client: Socket, user: { id: string; username: string }) {
-    const isExist = this.users.find((u) => u.id === user.id)
+    const isExist = this.users[user.username]
 
-    if (isExist) {
-      isExist.socketId = client.id
-      console.log({ users: this.users })
-      return
-    }
+    const userId = user.id
 
     const connectedUser = {
       socketId: client.id,
       ...user,
     }
-    this.users.push(connectedUser)
+
+    if (isExist) {
+      this.users.update(userId, connectedUser)
+      console.log({ users: this.users })
+      return
+    }
+
+    this.users[userId] = connectedUser
     console.log({ users: this.users })
   }
 
   @SubscribeMessage('user:offline')
   handleUserOffline(client: Socket, user: { id: string; username: string }) {
-    this.users = this.users.filter((u) => u.id === user.id)
+    for (const key in this.users) {
+      if (this.users[key].socketId === client.id) {
+        delete this.users[key]
+      }
+    }
     console.log({ users: this.users })
   }
 
   @SubscribeMessage('chatToServer')
-  handleMessage(client: Socket, message: { senderId: string; text: string; receiverId: string }) {
+  handleMessage(
+    client: Socket,
+    message: { senderId: string; senderName: string; text: string; receiverId: string; receiverName: string }
+  ) {
     const formatMessage = this.chatService.formatMessage(message)
+    const receiverOnline = this.users[message.receiverId]
+    const senderSocketId = this.users[message.senderId].socketId
 
-    console.log(formatMessage)
+    console.log({ formatMessage })
 
     this.chatService.saveMessage(formatMessage)
-    this.wss /* .to(message.room) */
-      .emit('chatToClient', formatMessage)
+    if (receiverOnline) {
+      this.wss.to([receiverOnline.socketId, senderSocketId]).emit('chatToClient', formatMessage)
+    }
   }
 
   @SubscribeMessage('joinRoom')

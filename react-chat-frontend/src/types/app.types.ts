@@ -11,7 +11,7 @@ type Contact = {
 }
 
 export type User = {
-  id: number
+  id: string
   avatar: string
   username: string
   contacts: Contact[]

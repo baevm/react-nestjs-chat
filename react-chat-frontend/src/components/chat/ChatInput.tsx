@@ -13,7 +13,13 @@ const ChatInput = ({ activeChat }: any) => {
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
-    socket.emit('chatToServer', { senderId: user.id, receiverId: activeChat.id, text: newMessage })
+    socket.emit('chatToServer', {
+      senderId: user.id,
+      senderName: user.username,
+      receiverId: activeChat.id,
+      receiverName: activeChat.username,
+      text: newMessage,
+    })
     setNewMessage('')
   }
 

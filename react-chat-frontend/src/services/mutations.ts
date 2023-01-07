@@ -5,8 +5,8 @@ export const getUser = async () => {
   return res.data
 }
 
-export const getMessages = async (contactName: string | null) => {
-  const res = await axiosFetch.get(`/user/messages/${contactName}`)
+export const getMessages = async (contactId: string | null) => {
+  const res = await axiosFetch.get(`/user/messages/${contactId}`)
   return res.data
 }
 

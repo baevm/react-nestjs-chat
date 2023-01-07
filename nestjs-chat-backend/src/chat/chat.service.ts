@@ -16,6 +16,14 @@ export class ChatService {
   }
 
   async saveMessage(message: Message) {
-    return this.prisma.message.create({ data: message })
+    return this.prisma.message.create({
+      data: {
+        id: message.id,
+        text: message.text,
+        createdAt: message.createdAt,
+        receiverId: message.receiverId,
+        senderId: message.senderId,
+      },
+    })
   }
 }

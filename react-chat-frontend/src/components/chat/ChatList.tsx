@@ -15,7 +15,7 @@ const ChatList = () => {
   useEffect(() => {
     socket.on('chatToClient', (msg) => {
       console.log({ msg })
-      addNewMessage(msg)
+      addNewMessage(msg, user)
     })
   }, [])
 

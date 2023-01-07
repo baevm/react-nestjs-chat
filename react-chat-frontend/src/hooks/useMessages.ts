@@ -9,9 +9,14 @@ export default function useMessages(contactName: string | null) {
     staleTime: Infinity,
   })
 
-  function addNewMessage(msg: any) {
-    queryClient.setQueryData(['messages', contactName], (oldData: any) => {
-      return [...oldData, msg]
+  function addNewMessage(msg: any, user: any) {
+    // decice which user to cache the message for
+    let userToCache = msg.senderName === user.username ? msg.receiverName : msg.senderName
+
+    queryClient.setQueryData(['messages', [userToCache]], (oldData: any) => {
+      if (oldData) {
+        return [...oldData, msg]
+      }
     })
   }
 
