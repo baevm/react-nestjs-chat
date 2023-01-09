@@ -5,6 +5,8 @@
 @layer utilities {
   .dropdown-shadow {
     box-shadow: 0 0.25rem 0.5rem 0.125rem rgba(114, 114, 114, 0.25098);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.733333);
   }
 }
 

@@ -76,11 +76,11 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     const receiverOnline = this.users[message.receiverId]
     const senderSocketId = this.users[message.senderId].socketId
 
-    console.log({ formatMessage })
-
     this.chatService.saveMessage(formatMessage)
     if (receiverOnline) {
       this.wss.to([receiverOnline.socketId, senderSocketId]).emit('chatToClient', formatMessage)
+    } else {
+      this.wss.to(senderSocketId).emit('chatToClient', formatMessage)
     }
   }
 

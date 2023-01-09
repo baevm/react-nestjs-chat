@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <IconContext.Provider value={{ size: '24' }}>
+      <IconContext.Provider value={{ size: '24', color: '#707579' }}>
         <main className={roboto.className}>
           <Component {...pageProps} />
         </main>

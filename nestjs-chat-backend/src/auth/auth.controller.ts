@@ -34,7 +34,10 @@ export class AuthController {
   /* @UseGuards(AtGuard) */
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
-  async logout(@GetCurrentUserId() userId: string) {
+  async logout(@GetCurrentUserId() userId: string, @Res({ passthrough: true }) res: Response) {
+    res.cookie('ACCESS_TOKEN', '', { secure: true, maxAge: 1 })
+    res.cookie('REFRESH_TOKEN', '', { secure: true, maxAge: 1 })
+
     return this.authService.logout(userId)
   }
 

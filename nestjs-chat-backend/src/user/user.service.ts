@@ -47,23 +47,6 @@ export class UserService {
       },
     })
 
-    /*  return this.prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-      select: {
-        sender: {
-          where: {
-            senderId: userId,
-          },
-        },
-        receiver: {
-          where: {
-            receiverId: contact.id,
-          },
-        },
-      },
-    }) */
   }
 
   async addContact(userId: string, username: string) {

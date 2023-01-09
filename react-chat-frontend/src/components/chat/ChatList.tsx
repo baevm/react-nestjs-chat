@@ -8,9 +8,10 @@ import { useContext, useEffect } from 'react'
 const ChatList = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
+  const activeChat = router.query.username ? router.query.username[0] : null
 
   const { user, error, isError, isLoading } = useUser()
-  const { messages, addNewMessage } = useMessages(router.query.username as string)
+  const { messages, addNewMessage } = useMessages(activeChat)
 
   useEffect(() => {
     socket.on('chatToClient', (msg) => {

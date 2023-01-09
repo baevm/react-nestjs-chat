@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ActionIcon from '../common/ActionIcon'
 import { IoArrowBack } from 'react-icons/io5'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 import useUiStore from '@store/uiStore'
 import { useRouter } from 'next/router'
+import Menu from '@components/common/Menu'
 
 const ChatHeader = ({ activeChat }: any) => {
+  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { closeChat } = useUiStore((state) => ({
     closeChat: state.closeChat,
   }))
 
-  const handleBack = () =>{
+  const handleBack = () => {
     closeChat()
     router.push('/chat')
   }
@@ -28,9 +30,16 @@ const ChatHeader = ({ activeChat }: any) => {
             <div className='font-medium text-lg'>{activeChat.username}</div>
           </div>
         </div>
-        <ActionIcon>
-          <HiOutlineDotsVertical size='24' color='#707579' />
-        </ActionIcon>
+        <Menu isOpen={isOpen} setIsOpen={setIsOpen}>
+          <Menu.Target>
+            <ActionIcon>
+              <HiOutlineDotsVertical size='24' color='#707579' />
+            </ActionIcon>
+          </Menu.Target>
+          <Menu.Dropdown className='right-4'>
+            <Menu.Item>Test</Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </div>
     </>
   )

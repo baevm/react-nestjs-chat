@@ -21,10 +21,12 @@ model User {
   createdAt        DateTime @default(now())
   contacts         User[]   @relation("contacts")
   contactsRelation User[]   @relation("contacts")
+  folders          Folder[] @relation("folder_contacts")
 
   sender   Message[] @relation("sender")
   receiver Message[] @relation("receiver")
   userId   String?
+  Folder   Folder[]
 }
 
 model Message {
@@ -36,4 +38,13 @@ model Message {
 
   senderId   String
   receiverId String
+}
+
+model Folder {
+  id       String @id @unique @default(cuid())
+  name     String
+  contacts User[] @relation("folder_contacts")
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
