@@ -29,17 +29,20 @@ const MenuContext = createContext({
 
 const Menu = ({ children, isOpen, setIsOpen }: MenuProps) => {
   const menuRef = useRef<HTMLDivElement | null>(null)
-  useClickOutside(menuRef, () => setIsOpen(false))
+  useClickOutside(menuRef, () => {
+    console.log('CLICK HOOK')
+    setIsOpen(false)
+  })
 
   return (
     <MenuContext.Provider value={{ isOpen, setIsOpen }}>
-      <div ref={menuRef}>{children}</div>
+      <div ref={isOpen ? menuRef : null}>{children}</div>
     </MenuContext.Provider>
   )
 }
 
 const MenuDropdown = ({ children, className }: MenuDropdownProps) => {
-  const { isOpen, setIsOpen } = useContext(MenuContext)
+  const { isOpen } = useContext(MenuContext)
 
   if (!isOpen) return null
 

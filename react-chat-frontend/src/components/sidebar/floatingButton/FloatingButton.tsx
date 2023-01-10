@@ -12,6 +12,16 @@ const FloatingButton = () => {
   const [type, setType] = useState<ButtonOptions>(null)
   const [isShow, setIsShow] = useState(false)
 
+  const handleClose = () => {
+    setType(null)
+    setIsShow(false)
+  }
+
+  const handleOpen = (type: ButtonOptions) => {
+    setType(type)
+    setIsShow(false)
+  }
+
   return (
     <div className='absolute z-50 bottom-4 right-4'>
       <Menu setIsOpen={setIsShow} isOpen={isShow}>
@@ -21,13 +31,19 @@ const FloatingButton = () => {
           </button>
         </Menu.Target>
         <Menu.Dropdown className='bottom-16 right-4'>
-          <Menu.Item icon={<IoPersonOutline size='20' />}>New contact</Menu.Item>
-          <Menu.Item icon={<IoPeopleOutline size='20' />}>New group</Menu.Item>
-          <Menu.Item icon={<IoChatboxEllipsesOutline size='20' />}>New message</Menu.Item>
+          <Menu.Item onClick={() => handleOpen('contact')} icon={<IoPersonOutline size='20' />}>
+            New contact
+          </Menu.Item>
+          <Menu.Item onClick={() => handleOpen('group')} icon={<IoPeopleOutline size='20' />}>
+            New group
+          </Menu.Item>
+          <Menu.Item onClick={() => handleOpen('message')} icon={<IoChatboxEllipsesOutline size='20' />}>
+            New message
+          </Menu.Item>
         </Menu.Dropdown>
       </Menu>
 
-      {type === 'contact' && createPortal(<NewContactModal isShow={isShow} setIsShow={setIsShow} />, document.body)}
+      {type === 'contact' && createPortal(<NewContactModal isShow={true} handleClose={handleClose} />, document.body)}
     </div>
   )
 }

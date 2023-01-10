@@ -2,8 +2,8 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useUser from '@hooks/useUser'
 import useUiStore from '@store/uiStore'
-import ChatHeader from './ChatHeader'
-import ChatInput from './ChatInput'
+import ChatHeader from './header/ChatHeader'
+import ChatInput from './input/ChatInput'
 import ChatList from './ChatList'
 
 const Chat = () => {

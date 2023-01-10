@@ -1,7 +1,7 @@
 import useAddContact from '@hooks/useAddContact'
 import React, { useState } from 'react'
 
-const NewContactModal = ({ isShow, setIsShow }: { isShow: boolean; setIsShow: (v: boolean) => void }) => {
+const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: () => void }) => {
   const [contactName, setContactName] = useState('')
   const { isLoading, handleAdd } = useAddContact()
 
@@ -33,7 +33,7 @@ const NewContactModal = ({ isShow, setIsShow }: { isShow: boolean; setIsShow: (v
             </div>
 
             <div className='modal-footer'>
-              <button className='modal-default-button' onClick={() => setIsShow(false)}>
+              <button className='modal-default-button' onClick={() => handleClose()}>
                 Cancel
               </button>
               <button className='modal-default-button' onClick={handleAddContact} disabled={isLoading}>

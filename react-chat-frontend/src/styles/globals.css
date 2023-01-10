@@ -13,3 +13,7 @@
 :root {
   --active-item-color: #3390ec;
 }
+
+html[data-theme='dark'] {
+  --active-item-color: #766ac8;
+}

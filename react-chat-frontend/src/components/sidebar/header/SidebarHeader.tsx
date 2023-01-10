@@ -1,6 +1,6 @@
 import Badge from '@components/common/Badge'
 import { useState } from 'react'
-import SearchInput from '../SearchInput'
+import SearchInput from './SearchInput'
 import MenuButton from './MenuButton'
 
 const folders = [
