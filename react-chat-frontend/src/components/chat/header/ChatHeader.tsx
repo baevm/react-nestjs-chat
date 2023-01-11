@@ -6,7 +6,7 @@ import DotsMenu from './DotsMenu'
 const ChatHeader = ({ activeChat }: any) => {
   return (
     <>
-      <div className='p-2 w-full h-14 bg-white shadow-sm flex items-center justify-between'>
+      <div className='p-2 w-full h-14 bg-background-color text-text-color shadow-sm flex items-center justify-between'>
         <div className='flex gap-2 items-center'>
           <BackButton />
           <div className='flex gap-2 items-center'>

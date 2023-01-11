@@ -14,7 +14,7 @@ const ChatList = () => {
   const { messages, addNewMessage } = useMessages(activeChat)
 
   useEffect(() => {
-    socket.on('chatToClient', (msg) => {
+    socket.on('chatToClient', msg => {
       console.log({ msg })
       addNewMessage(msg, user)
     })
@@ -28,10 +28,19 @@ const ChatList = () => {
         {messages?.map((message: any) => (
           <div
             key={message.id}
-            className={`rounded-xl flex justify-end flex-col p-2 shadow-md message relative
-            ${message.senderId === user.id ? 'bg-[#EEFFDE] self-end own' : 'bg-white self-start other'}`}>
+            className={`rounded-xl flex justify-end flex-col p-2 shadow-md message relative text-text-color
+            ${
+              message.senderId === user.id
+                ? 'bg-chat-message-own-color self-end own'
+                : 'bg-chat-message-color self-start other'
+            }`}>
             <div>{message.text}</div>
-            <div className='text-xs text-[#707579] self-end z-50'>{formatTime(message.createdAt)}</div>
+            <div
+              className={`text-xs self-end z-50 ${
+                message.senderId === user.id ? 'text-chat-message-own-meta-color' : 'text-chat-message-meta-color'
+              }`}>
+              {formatTime(message.createdAt)}
+            </div>
           </div>
         ))}
         <div id='bottom'></div>

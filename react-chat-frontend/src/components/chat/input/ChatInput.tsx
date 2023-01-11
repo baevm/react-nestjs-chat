@@ -11,7 +11,6 @@ const ChatInput = ({ activeChat }: any) => {
   const { user, error, isError, isLoading } = useUser()
   const socket = useContext(SocketContext)
 
-
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
     socket.emit('chatToServer', {
@@ -28,13 +27,13 @@ const ChatInput = ({ activeChat }: any) => {
     <div
       id='chat-input'
       className='px-8 w-full md:w-1/2 md:px-0 min-w-[300px] h-12 flex items-end gap-2 absolute bottom-4 z-50'>
-      <div className='w-full h-full flex items-center bg-white rounded-xl'>
+      <div className='w-full h-full flex items-center bg-input-color rounded-xl'>
         <EmojiButton setNewMessage={setNewMessage} />
         <form onSubmit={handleSend} className='w-full'>
           <input
             onChange={e => setNewMessage(e.target.value)}
             value={newMessage}
-            className='h-full w-full outline-none'
+            className='h-full w-full outline-none bg-input-color'
             placeholder='Message'
             autoFocus
           />
@@ -43,7 +42,7 @@ const ChatInput = ({ activeChat }: any) => {
           <AiOutlinePaperClip color='#707579' />
         </ActionIcon>
       </div>
-      <button className='bg-white rounded-full p-3 text-[#707579] hover:bg-blue-500 hover:text-white'>
+      <button className='bg-background-color rounded-full p-3  hover:bg-active-item-color'>
         <BiMicrophone />
       </button>
     </div>

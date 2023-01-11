@@ -19,15 +19,15 @@ const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose
         <div className='modal-wrapper'>
           <div className='modal-container'>
             <div className='modal-header'>
-              <div className='text-lg font-semibold'>New Contact</div>
+              <div className='text-lg font-semibold text-text-color'>New Contact</div>
             </div>
 
             <div className='modal-body'>
               <input
-                onChange={(e) => {
+                onChange={e => {
                   setContactName(e.target.value)
                 }}
-                className='border-[1px] border-gray-300 rounded-md p-2 focus:outline-none focus:border-[#3390ec]'
+                className='border-[1px] border-border-color bg-input-color text-text-color rounded-md p-2 focus:outline-none focus:border-active-item-color'
                 placeholder='Username'
               />
             </div>
@@ -67,7 +67,7 @@ const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose
             width: 300px;
             margin: 0px auto;
             padding: 20px 30px;
-            background-color: #fff;
+            background-color: var(--background-color);
             border-radius: 2px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
             transition: all 0.3s ease;
@@ -85,14 +85,14 @@ const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose
 
           .modal-default-button {
             float: right;
-            color: #3390ec;
+            color: var(--active-item-color);
             font-weight: 500;
             text-transform: uppercase;
             border-radius: 5px;
             padding: 5px;
           }
           .modal-default-button:hover {
-            background-color: #e0e9f3;
+            background-color: var(--icon-hover-color);
           }
 
           .modal-footer {

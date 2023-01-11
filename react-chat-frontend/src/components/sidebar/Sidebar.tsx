@@ -9,13 +9,13 @@ const Sidebar = () => {
 
   const chats = user?.contacts
 
-  const { isChatOpen } = useUiStore((state) => ({
+  const { isChatOpen } = useUiStore(state => ({
     isChatOpen: state.isChatOpen,
   }))
 
   return (
     <div
-      className={`h-full w-full md:w-1/4 md:min-w-[465px] border-r-[1px] border-gray-300 bg-white relative ${
+      className={`h-full w-full md:w-1/4 md:min-w-[465px] border-r-[1px] border-border-color bg-background-color relative ${
         isChatOpen ? '' : 'absolute md:relative'
       }`}>
       <SidebarHeader />

@@ -30,7 +30,7 @@ const FloatingButton = () => {
             <RiPencilFill color='white' />
           </button>
         </Menu.Target>
-        <Menu.Dropdown className='bottom-16 right-4'>
+        <Menu.Dropdown className='bottom-16 right-4 text-text-color'>
           <Menu.Item onClick={() => handleOpen('contact')} icon={<IoPersonOutline size='20' />}>
             New contact
           </Menu.Item>

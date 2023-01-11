@@ -15,14 +15,14 @@ const SidebarHeader = () => {
   return (
     <div
       id='sidebar-header'
-      className='h-24 border-b-[1px] border-gray-300 shadow-sm pt-2 px-4 flex flex-col justify-between'>
+      className='h-24 border-b-[1px] bg-background-color border-border-color shadow-sm pt-2 px-4 flex flex-col justify-between'>
       <div className='flex items-center gap-4'>
         <MenuButton />
         <SearchInput />
       </div>
 
       <div id='sidebar-folders' className='flex gap-4'>
-        {folders.map((folder) => (
+        {folders.map(folder => (
           <div
             key={folder.title}
             className={`border-active-item-color min-w-[3rem] flex gap-2 cursor-pointer font-medium ${
