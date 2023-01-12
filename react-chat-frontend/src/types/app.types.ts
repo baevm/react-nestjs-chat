@@ -1,6 +1,7 @@
 export type Folder = {
-  title: string
-  count: number
+  name: string
+  id: string
+  contacts: Contact[]
 }
 
 type Contact = {
@@ -15,4 +16,5 @@ export type User = {
   avatar: string
   username: string
   contacts: Contact[]
+  folders: Folder[]
 }

@@ -6,6 +6,7 @@ import { IoMoonOutline, IoBookmarkOutline, IoLogOutOutline, IoPersonOutline } fr
 import { useRouter } from 'next/router'
 import Menu from '@components/common/Menu'
 import { useTheme } from '@hooks/useTheme'
+import Switch from '@components/common/Switch'
 
 const MenuButton = () => {
   const router = useRouter()
@@ -49,8 +50,11 @@ const MenuButton = () => {
         <Menu.Dropdown className='text-text-color'>
           <Menu.Item icon={<IoBookmarkOutline size='20' />}>Saved messages</Menu.Item>
           <Menu.Item icon={<IoPersonOutline size='20' />}>Contacts</Menu.Item>
-          <Menu.Item onClick={handleTheme} icon={<IoMoonOutline size='20' />}>
-            Night mode
+          <Menu.Item icon={<IoMoonOutline size='20' />}>
+            <div className='w-full flex items-center justify-between'>
+              Night mode
+              <Switch onChange={handleTheme} checked={theme === 'dark'} />
+            </div>
           </Menu.Item>
           <Menu.Item onClick={handleLogout} icon={<IoLogOutOutline size='20' />}>
             Logout

@@ -24,6 +24,7 @@ const EmojiButton = ({ setNewMessage }: { setNewMessage: (v: any) => void }) => 
             data={emoji_data}
             previewPosition='none'
             onEmojiSelect={(e: any) => setNewMessage((prev: any) => prev + e.native)}
+            skinTonePosition='none'
           />
         </div>
       )}

@@ -2,16 +2,14 @@ import Badge from '@components/common/Badge'
 import { useState } from 'react'
 import SearchInput from './SearchInput'
 import MenuButton from './MenuButton'
-
-const folders = [
-  { title: 'All', count: 10 },
-  { title: 'Unread', count: 6 },
-  { title: 'Trash', count: 0 },
-]
+import useUser from '@hooks/useUser'
+import { createFolder } from '@services/mutations'
 
 const SidebarHeader = () => {
+  const { user, isLoading } = useUser()
   const [activeFolder, setActiveFolder] = useState('All')
 
+  console.log({ user })
   return (
     <div
       id='sidebar-header'
@@ -22,17 +20,17 @@ const SidebarHeader = () => {
       </div>
 
       <div id='sidebar-folders' className='flex gap-4'>
-        {folders.map(folder => (
+        {user?.folders.map(folder => (
           <div
-            key={folder.title}
+            key={folder.id}
             className={`border-active-item-color min-w-[3rem] flex gap-2 cursor-pointer font-medium ${
-              activeFolder === folder.title ? 'border-b-2 text-active-item-color' : 'text-gray-500'
+              activeFolder === folder.name ? 'border-b-2 text-active-item-color' : 'text-gray-500'
             }`}
             onClick={() => {
-              setActiveFolder(folder.title)
+              setActiveFolder(folder.name)
             }}>
-            {folder.title}
-            <Badge>{folder.count}</Badge>
+            {folder.name}
+            <Badge>{folder.contacts.length}</Badge>
           </div>
         ))}
       </div>

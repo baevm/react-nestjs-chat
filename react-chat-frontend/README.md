@@ -1,5 +1,5 @@
 ### TODO:
- - night mode
+ - night mode smooth transition
  - rooms
  - search contacts
  - folders

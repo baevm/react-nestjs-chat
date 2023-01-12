@@ -14,3 +14,8 @@ export const addContact = async (contactName: string) => {
   const res = await axiosFetch.post(`/user/addContact/`, { username: contactName })
   return res.data
 }
+
+export const createFolder = async (folderName: string) => {
+  const res = await axiosFetch.post(`/user/createFolder/`, { folderName })
+  return res.data
+}

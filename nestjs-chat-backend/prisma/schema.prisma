@@ -17,16 +17,16 @@ model User {
   hashedRt String?
 
   avatar           String?
-  updatedAt        DateTime @updatedAt
-  createdAt        DateTime @default(now())
-  contacts         User[]   @relation("contacts")
-  contactsRelation User[]   @relation("contacts")
-  folders          Folder[] @relation("folder_contacts")
+  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime  @default(now())
+  contacts         User[]    @relation("contacts")
+  contactsRelation User[]    @relation("contacts")
+  folders          Folder[]
+  sender           Message[] @relation("sender")
+  receiver         Message[] @relation("receiver")
 
-  sender   Message[] @relation("sender")
-  receiver Message[] @relation("receiver")
-  userId   String?
-  Folder   Folder[]
+  folder_contacts Folder[] @relation("folder_contacts")
+  userId          String?
 }
 
 model Message {
@@ -45,6 +45,6 @@ model Folder {
   name     String
   contacts User[] @relation("folder_contacts")
 
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
 }

@@ -21,10 +21,13 @@
   --badge-color: #ffffff;
   --dropdown-background-color: rgba(255, 255, 255, 0.733333);
   --dropdown-shadow-color: rgba(114, 114, 114, 0.25098);
+  --emoji-picker-bg: 255 255 255;
+  --emoji-picker-color: 51 144 236;
+  --scrollbar-color: rgba(90, 90, 90, 0.3);
 }
 
 body[data-theme='dark'] {
-  --background-color: #212121;
+  --background-color: rgb(33, 33, 33);
   --text-color: #ffffff;
   --active-item-color: #766ac8;
   --icon-color: #aaaaaa;
@@ -42,6 +45,39 @@ body[data-theme='dark'] {
   --badge-color: #ffffff;
   --dropdown-background-color: rgba(33, 33, 33, 0.866667);
   --dropdown-shadow-color: rgba(16, 16, 16, 0.611765);
+  --emoji-picker-bg: 33 33 33;
+  --emoji-picker-color: 118 106 200;
+  --scrollbar-color: rgba(90, 90, 90, 0.3);
+}
+
+em-emoji-picker {
+  --background-rgb: var(--emoji-picker-bg);
+  --category-icon-size: 24px;
+
+  --rgb-accent: var(--emoji-picker-color);
+  --rgb-background: var(--emoji-picker-bg);
+  --rgb-color: 170, 170, 170;
+  --rgb-input: 255, 255, 255;
+
+  height: 50vh;
+  min-height: 400px;
+  max-height: 800px;
+}
+
+*::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
+  outline: none;
+  width: 0.1rem;
+  border-radius: 10px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color) transparent;
 }
 
 @layer utilities {

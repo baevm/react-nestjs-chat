@@ -4,6 +4,7 @@ import React, { createContext, HTMLAttributes, useContext, useRef } from 'react'
 interface ItemProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   icon?: any
+  className?: React.ComponentProps<'div'>['className']
 }
 
 interface MenuProps {
@@ -29,10 +30,7 @@ const MenuContext = createContext({
 
 const Menu = ({ children, isOpen, setIsOpen }: MenuProps) => {
   const menuRef = useRef<HTMLDivElement | null>(null)
-  useClickOutside(menuRef, () => {
-    console.log('CLICK HOOK')
-    setIsOpen(false)
-  })
+  useClickOutside(menuRef, () => setIsOpen(false))
 
   return (
     <MenuContext.Provider value={{ isOpen, setIsOpen }}>
@@ -53,12 +51,12 @@ const MenuDropdown = ({ children, className }: MenuDropdownProps) => {
   )
 }
 
-const MenuItem = ({ children, icon, ...props }: ItemProps) => {
+const MenuItem = ({ children, icon, className, ...props }: ItemProps) => {
   return (
     <div
       {...props}
       id='menu-item'
-      className='p-2 whitespace-nowrap font-medium flex items-center gap-2 text-sm hover:bg-[#00000011] active:scale-[0.98] rounded-lg cursor-pointer'>
+      className={`p-2 w-52 whitespace-nowrap font-medium flex items-center gap-2 text-sm hover:bg-[#00000011] active:scale-[0.98] rounded-lg cursor-pointer ${className}`}>
       {icon} {children}
     </div>
   )

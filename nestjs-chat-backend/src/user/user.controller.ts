@@ -20,4 +20,9 @@ export class UserController {
   addContact(@Body() body: { username: string }, @GetCurrentUserId() userId: string) {
     return this.userService.addContact(userId, body.username)
   }
+
+  @Post('/createFolder')
+  createFolder(@Body() body: { folderName: string }, @GetCurrentUserId() userId: string) {
+    return this.userService.createFolder(userId, body.folderName)
+  }
 }

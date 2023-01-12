@@ -21,6 +21,17 @@ export class UserService {
             id: true,
           },
         },
+        folders: {
+          include: {
+            contacts: {
+              select: {
+                avatar: true,
+                username: true,
+                id: true,
+              },
+            },
+          },
+        },
       },
     })
   }
@@ -46,7 +57,6 @@ export class UserService {
         ],
       },
     })
-
   }
 
   async addContact(userId: string, username: string) {
@@ -72,5 +82,37 @@ export class UserService {
     })
 
     return { message: 'ok' }
+  }
+
+  async createFolder(userId: string, folderName: string) {
+    const folder = await this.prisma.folder.create({
+      data: {
+        name: folderName,
+        User: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    })
+
+    return folder
+  }
+
+  async addToFolder(userId: string, folderId: string, contactId: string) {
+    const folder = await this.prisma.folder.update({
+      where: {
+        id: folderId,
+      },
+      data: {
+        contacts: {
+          connect: {
+            id: contactId,
+          },
+        },
+      },
+    })
+
+    return folder
   }
 }

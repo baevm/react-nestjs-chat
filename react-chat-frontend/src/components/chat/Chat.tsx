@@ -28,7 +28,10 @@ const Chat = () => {
 
   if (!activeChat) {
     return (
-      <div className={`bg-green-100 w-full h-full ${isChatOpen ? 'absolute md:relative' : 'hidden md:block'}`}></div>
+      <div
+        className={`bg-background-color w-full h-full ${
+          isChatOpen ? 'absolute md:relative' : 'hidden md:block'
+        }`}></div>
     )
   }
 
