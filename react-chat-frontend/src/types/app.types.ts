@@ -4,7 +4,7 @@ export type Folder = {
   contacts: Contact[]
 }
 
-type Contact = {
+export type Contact = {
   id: string
   username: string
   avatar: string | null

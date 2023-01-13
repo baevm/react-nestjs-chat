@@ -32,7 +32,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     console.log({ users: this.users })
   }
 
-  afterInit(server: any) {
+  afterInit() {
     this.logger.log('Initialized!')
   }
 
@@ -76,6 +76,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     const receiverOnline = this.users[message.receiverId]
     const senderSocketId = this.users[message.senderId].socketId
 
+    
     this.chatService.saveMessage(formatMessage)
     if (receiverOnline) {
       this.wss.to([receiverOnline.socketId, senderSocketId]).emit('chatToClient', formatMessage)

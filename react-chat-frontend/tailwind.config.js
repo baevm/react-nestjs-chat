@@ -19,7 +19,9 @@ module.exports = {
         'input-color': 'var(--input-color)',
         'input-secondary-color': 'var(--input-secondary-color)',
         'badge-color': 'var(--badge-color)',
-        'badge-background-color': 'var(--badge-background-color)'
+        'badge-background-color': 'var(--badge-background-color)',
+        'patern-color': 'var(--patern-color)',
+        'modal-background': 'var(--modal-background)',
       },
     },
   },

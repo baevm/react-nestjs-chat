@@ -1,6 +1,5 @@
 import Menu from '@components/common/Menu'
-import useClickOutside from '@hooks/useClickOutside'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { IoChatboxEllipsesOutline, IoPeopleOutline, IoPersonOutline } from 'react-icons/io5'
 import { RiPencilFill } from 'react-icons/ri'

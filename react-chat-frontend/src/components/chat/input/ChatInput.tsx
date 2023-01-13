@@ -1,7 +1,8 @@
 import ActionIcon from '@components/common/ActionIcon'
+import useMessages from '@hooks/useMessages'
 import useUser from '@hooks/useUser'
 import { SocketContext } from '@services/socket'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
 import EmojiButton from './EmojiButton'
@@ -22,6 +23,15 @@ const ChatInput = ({ activeChat }: any) => {
     })
     setNewMessage('')
   }
+
+  const { addNewMessage } = useMessages(activeChat.username)
+
+  useEffect(() => {
+    socket.on('chatToClient', msg => {
+      console.log({ msg })
+      addNewMessage(msg, user)
+    })
+  }, [])
 
   return (
     <div

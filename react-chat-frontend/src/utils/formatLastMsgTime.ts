@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-export default function formatLastMsgTime(date: Date) {
+export default function formatLastMsgTime(date: string) {
   let createdAt = dayjs(date)
   let today = dayjs()
 

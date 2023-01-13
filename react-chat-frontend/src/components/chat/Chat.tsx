@@ -4,7 +4,7 @@ import useUser from '@hooks/useUser'
 import useUiStore from '@store/uiStore'
 import ChatHeader from './header/ChatHeader'
 import ChatInput from './input/ChatInput'
-import ChatList from './ChatList'
+import MessagesContainer from './messages/MessagesContainer'
 
 const Chat = () => {
   const router = useRouter()
@@ -44,7 +44,7 @@ const Chat = () => {
       <div
         id='chat-box'
         className='flex flex-col-reverse items-center w-full h-full py-4 px-4 md:px-0 overflow-y-auto max-h-[calc(100%-130px)] '>
-        <ChatList />
+        <MessagesContainer />
         <ChatInput activeChat={activeChat} />
       </div>
     </div>

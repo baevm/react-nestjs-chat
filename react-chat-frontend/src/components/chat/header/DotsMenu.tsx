@@ -12,7 +12,7 @@ const DotsMenu = () => {
           <HiOutlineDotsVertical />
         </ActionIcon>
       </Menu.Target>
-      <Menu.Dropdown className='right-4'>
+      <Menu.Dropdown className='right-4 z-[100]'>
         <Menu.Item>Test</Menu.Item>
       </Menu.Dropdown>
     </Menu>

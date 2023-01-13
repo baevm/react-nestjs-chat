@@ -6,10 +6,11 @@ import { AuthDto } from './dto/auth.dto'
 import * as bcrypt from 'bcrypt'
 import { Tokens } from './types/tokens.type'
 import { JwtService } from '@nestjs/jwt/dist'
+import { UserService } from 'src/user/user.service'
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService, private userService: UserService) {}
 
   async signup(dto: AuthDto): Promise<Tokens> {
     const isExist = await this.prisma.user.findUnique({
@@ -24,12 +25,7 @@ export class AuthService {
 
     const hashedPass = await this.hashData(dto.password)
 
-    const newUser = await this.prisma.user.create({
-      data: {
-        username: dto.username,
-        password: hashedPass,
-      },
-    })
+    const newUser = await this.userService.createUser(dto.username, hashedPass)
 
     // generate refresh and access
     const tokens = await this.generateTokens(newUser.id, newUser.username)
