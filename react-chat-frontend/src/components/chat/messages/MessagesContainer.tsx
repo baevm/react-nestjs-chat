@@ -8,9 +8,8 @@ import MessageItem from './MessageItem'
 
 const MessagesContainer = () => {
   const router = useRouter()
-  const activeChat = router.query.username ? router.query.username[0] : null
-
   const { user, error, isError, isLoading } = useUser()
+  const activeChat = router.query.username ? router.query.username[0] : null
   const { messages } = useMessages(activeChat)
 
   // group messages by date
@@ -27,20 +26,19 @@ const MessagesContainer = () => {
     return result
   }, [messages])
 
+
   return (
-    <>
-      <div id='chat-list' className='w-full md:w-1/2 flex flex-col flex-1 gap-4'>
-        {Object.keys(messageDateGroups).map((group: any, index: number) => (
-          <div key={group} className='w-full flex-col flex'>
-            <GroupDate date={group} />
-            {messageDateGroups[group].map((message: any, index: number) => (
-              <MessageItem message={message} userId={user.id} key={message.id} />
-            ))}
-          </div>
-        ))}
-        <div id='bottom'></div>
-      </div>
-    </>
+    <div id='chat-list' className='w-full md:w-1/2 flex flex-col flex-1 gap-4'>
+      {Object.keys(messageDateGroups).map((group: any, index: number) => (
+        <div key={group} className='w-full flex-col flex'>
+          <GroupDate date={group} />
+          {messageDateGroups[group].map((message: any, index: number) => (
+            <MessageItem message={message} userId={user?.id} key={message.id} />
+          ))}
+        </div>
+      ))}
+      <div id='bottom'></div>
+    </div>
   )
 }
 

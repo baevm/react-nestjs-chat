@@ -3,8 +3,9 @@ import useClickOutside from '@hooks/useClickOutside'
 import React, { useRef } from 'react'
 import { IoClose } from 'react-icons/io5'
 import { BiZoomIn, BiZoomOut } from 'react-icons/bi'
+import Modal from '@components/common/Modal'
 
-const AvatarModal = ({ image, username, setIsModalOpen }: any) => {
+const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
   const imgRef = useRef<HTMLImageElement | null>(null)
   const headerIconsRef = useRef<HTMLDivElement | null>(null)
   useClickOutside(imgRef, e => {
@@ -14,8 +15,12 @@ const AvatarModal = ({ image, username, setIsModalOpen }: any) => {
   })
 
   return (
-    <div className='w-full h-full fixed z-50 top-0 left-0 bg-modal-background'>
-      <div id='avatar-modal-header' className='w-full  text-gray-300 px-4 py-2 flex items-center justify-between'>
+    <Modal
+      isOpened={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      closeOnClickOutside={false}
+      className='w-full h-full'>
+      <div id='avatar-modal-header' className='w-full text-gray-300 px-4 py-2 flex items-center justify-between'>
         <div className='flex gap-2'>
           <img src={image} className='w-11 h-11' />
           <div className='flex flex-col'>
@@ -38,7 +43,7 @@ const AvatarModal = ({ image, username, setIsModalOpen }: any) => {
       <div className='w-full h-full flex items-center justify-center'>
         <img ref={imgRef} src={image} className='w-32 h-32' />
       </div>
-    </div>
+    </Modal>
   )
 }
 

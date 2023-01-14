@@ -42,7 +42,11 @@ const FloatingButton = () => {
         </Menu.Dropdown>
       </Menu>
 
-      {type === 'contact' && createPortal(<NewContactModal isShow={true} handleClose={handleClose} />, document.body)}
+      {type === 'contact' &&
+        createPortal(
+          <NewContactModal isShow={true} handleClose={handleClose} />,
+          document.getElementById('portals') as Element
+        )}
     </div>
   )
 }

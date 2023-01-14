@@ -1,20 +1,20 @@
 import useClickOutside from '@hooks/useClickOutside'
 import React, { createContext, HTMLAttributes, useContext, useRef } from 'react'
 
-interface ItemProps extends HTMLAttributes<HTMLDivElement> {
+interface MenuItemProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   icon?: any
   className?: React.ComponentProps<'div'>['className']
 }
 
-interface MenuProps {
+interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   isOpen: boolean
   setIsOpen: (val: boolean) => void
   className?: React.ComponentProps<'div'>['className']
 }
 
-interface MenuTargetProps extends HTMLAttributes<HTMLDivElement> {
+interface MenuTargetProps extends HTMLAttributes<HTMLSpanElement> {
   children?: React.ReactNode
 }
 
@@ -28,7 +28,7 @@ const MenuContext = createContext({
   setIsOpen: (val: boolean) => {},
 })
 
-const Menu = ({ children, isOpen, setIsOpen }: MenuProps) => {
+const Menu = ({ children, isOpen, setIsOpen, ...props }: MenuProps) => {
   const menuRef = useRef<HTMLDivElement | null>(null)
   useClickOutside(menuRef, () => setIsOpen(false))
 
@@ -51,7 +51,7 @@ const MenuDropdown = ({ children, className }: MenuDropdownProps) => {
   )
 }
 
-const MenuItem = ({ children, icon, className, ...props }: ItemProps) => {
+const MenuItem = ({ children, icon, className, ...props }: MenuItemProps) => {
   return (
     <div
       {...props}

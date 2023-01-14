@@ -41,13 +41,14 @@ const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
       <div id='sidebar-folders' className='flex gap-4'>
         <FolderItem
           activeFolder={activeFolder}
-          contactsLength={user.contacts.length}
+          contactsLength={user?.contacts.length}
           folderName='All'
           setActiveFolder={setActiveFolder}
         />
 
         {user?.folders.map(folder => (
           <FolderItem
+            key={folder.id}
             activeFolder={activeFolder}
             contactsLength={folder.contacts.length}
             folderName={folder.name}

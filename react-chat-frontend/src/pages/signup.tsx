@@ -1,4 +1,6 @@
+import AuthInput from '@components/auth/AuthInput'
 import { GetServerSideProps, NextPageContext } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { NextRequest } from 'next/server'
 import React, { useState } from 'react'
@@ -31,12 +33,21 @@ const SignupPage = () => {
   }
 
   return (
-    <div className='w-screen h-screen bg-gray-200 flex flex-col items-center justify-center'>
-      <h1>Signup page</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
-        <input onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
-        <input onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-        <button type='submit' className='bg-blue-300'>
+    <div className='w-screen h-screen flex flex-col items-center'>
+      <img src='/auth_page_logo.svg' className='w-64 h-64 mt-24 absolute' />
+      <form onSubmit={handleSubmit} className='w-1/3 h-full flex flex-col items-center justify-center gap-2'>
+        <div className='flex flex-col items-start self-start'>
+          <h1 className='font-semibold text-xl'>Create account</h1>
+          <p className='text-icon-color text-sm'>
+            Got an account?{' '}
+            <Link href='/' className='underline text-blue-500'>
+              Log in
+            </Link>
+          </p>
+        </div>
+        <AuthInput onChange={e => setUsername(e.target.value)} placeholder='Username' type='text' />
+        <AuthInput onChange={e => setPassword(e.target.value)} placeholder='Password' type='password' />
+        <button type='submit' className='w-1/2 text-active-item-color hover:bg-[#f4f4f5] rounded-md'>
           Submit
         </button>
       </form>

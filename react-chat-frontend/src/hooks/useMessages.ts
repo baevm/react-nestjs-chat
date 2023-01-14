@@ -9,7 +9,7 @@ export default function useMessages(contactName: string | null) {
     staleTime: Infinity,
   })
 
-  function addNewMessage(msg: any, user: any) {
+  function cacheNewMessage(msg: any, user: any) {
     // decice which user to cache the message for
     let userToCache = msg.senderName === user.username ? msg.receiverName : msg.senderName
 
@@ -20,5 +20,5 @@ export default function useMessages(contactName: string | null) {
     })
   }
 
-  return { messages: data, isError, isLoading, addNewMessage }
+  return { messages: data, isError, isLoading, cacheNewMessage }
 }

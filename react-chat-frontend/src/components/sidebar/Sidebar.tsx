@@ -8,8 +8,10 @@ import { useState } from 'react'
 const Sidebar = () => {
   const { user, error, isError, isLoading } = useUser()
   const [activeFolder, setActiveFolder] = useState('All')
+  const [clickedItem, setClickedItem] = useState('')
 
-  const chats = activeFolder === 'All' ? user.contacts : user.folders.find(folder => folder.name === activeFolder)?.contacts
+  const chats =
+    activeFolder === 'All' ? user?.contacts : user?.folders.find(folder => folder.name === activeFolder)?.contacts
 
   const { isChatOpen } = useUiStore(state => ({
     isChatOpen: state.isChatOpen,
@@ -22,9 +24,9 @@ const Sidebar = () => {
       }`}>
       <SidebarHeader setActiveFolder={setActiveFolder} activeFolder={activeFolder} />
 
-      <div id='sidebar-chats' className='p-2 overflow-y-auto'>
+      <div id='sidebar-chats' className='p-2 overflow-y-auto' onContextMenu={e => e.preventDefault()}>
         {chats?.map((chat: any) => (
-          <ContactItem key={chat.id} chat={chat} />
+          <ContactItem key={chat.id} chat={chat} setClickedItem={setClickedItem} clickedItem={clickedItem} />
         ))}
 
         <FloatingButton />

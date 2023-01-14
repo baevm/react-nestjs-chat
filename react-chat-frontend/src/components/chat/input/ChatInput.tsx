@@ -11,12 +11,13 @@ const ChatInput = ({ activeChat }: any) => {
   const [newMessage, setNewMessage] = useState('')
   const { user, error, isError, isLoading } = useUser()
   const socket = useContext(SocketContext)
+  const { cacheNewMessage } = useMessages(activeChat.username)
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
     socket.emit('chatToServer', {
-      senderId: user.id,
-      senderName: user.username,
+      senderId: user?.id,
+      senderName: user?.username,
       receiverId: activeChat.id,
       receiverName: activeChat.username,
       text: newMessage,
@@ -24,12 +25,10 @@ const ChatInput = ({ activeChat }: any) => {
     setNewMessage('')
   }
 
-  const { addNewMessage } = useMessages(activeChat.username)
-
   useEffect(() => {
     socket.on('chatToClient', msg => {
       console.log({ msg })
-      addNewMessage(msg, user)
+      cacheNewMessage(msg, user)
     })
   }, [])
 
@@ -43,7 +42,7 @@ const ChatInput = ({ activeChat }: any) => {
           <input
             onChange={e => setNewMessage(e.target.value)}
             value={newMessage}
-            className='h-full w-full outline-none bg-input-color'
+            className='h-full w-full outline-none bg-input-color text-text-color'
             placeholder='Message'
             autoFocus
           />

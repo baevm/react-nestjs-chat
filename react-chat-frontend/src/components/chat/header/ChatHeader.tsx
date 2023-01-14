@@ -30,8 +30,13 @@ const ChatHeader = ({ activeChat }: { activeChat: Contact }) => {
       </div>
       {isModalOpen &&
         createPortal(
-          <AvatarModal image={chatAvatar} username={activeChat.username} setIsModalOpen={setIsModalOpen} />,
-          document.body
+          <AvatarModal
+            image={chatAvatar}
+            username={activeChat.username}
+            setIsModalOpen={setIsModalOpen}
+            isModalOpen={isModalOpen}
+          />,
+          document.getElementById('portals') as Element
         )}
     </>
   )

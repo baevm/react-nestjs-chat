@@ -9,6 +9,7 @@ const ChatPage = () => {
         <Sidebar />
         <Chat />
       </div>
+      <div id='portals' />
     </SocketProvider>
   )
 }
