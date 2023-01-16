@@ -19,3 +19,8 @@ export const createFolder = async (folderName: string) => {
   const res = await axiosFetch.post(`/user/createFolder/`, { folderName })
   return res.data
 }
+
+export const createGroup = async (groupName: string) => {
+  const res = await axiosFetch.post(`/group/createGroup/`, { groupName })
+  return res.data
+}

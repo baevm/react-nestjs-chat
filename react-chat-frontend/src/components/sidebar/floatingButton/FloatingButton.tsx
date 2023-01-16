@@ -1,15 +1,21 @@
 import Menu from '@components/common/Menu'
+import useUiStore from '@store/uiStore'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { IoChatboxEllipsesOutline, IoPeopleOutline, IoPersonOutline } from 'react-icons/io5'
 import { RiPencilFill } from 'react-icons/ri'
 import NewContactModal from './NewContactModal'
+import NewGroupModal from './NewGroupModal'
 
 type ButtonOptions = 'contact' | 'group' | 'message' | null
 
 const FloatingButton = () => {
   const [type, setType] = useState<ButtonOptions>(null)
   const [isShow, setIsShow] = useState(false)
+
+  const { isChatOpen } = useUiStore(state => ({
+    isChatOpen: state.isChatOpen,
+  }))
 
   const handleClose = () => {
     setType(null)
@@ -22,7 +28,7 @@ const FloatingButton = () => {
   }
 
   return (
-    <div className='absolute z-50 bottom-4 right-4'>
+    <div className={`absolute z-50 bottom-4 right-4 ${isChatOpen ? 'hidden md:block' : ''}`}>
       <Menu setIsOpen={setIsShow} isOpen={isShow}>
         <Menu.Target>
           <button className='w-14 h-14 relative flex items-center justify-center bg-active-item-color rounded-full active:scale-95'>
@@ -45,6 +51,11 @@ const FloatingButton = () => {
       {type === 'contact' &&
         createPortal(
           <NewContactModal isShow={true} handleClose={handleClose} />,
+          document.getElementById('portals') as Element
+        )}
+        {type === 'group' &&
+        createPortal(
+          <NewGroupModal isShow={true} handleClose={handleClose} />,
           document.getElementById('portals') as Element
         )}
     </div>

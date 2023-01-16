@@ -9,9 +9,10 @@ import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module';
 import { ChatService } from './chat/chat.service';
 import { ChatModule } from './chat/chat.module';
+import { GroupModule } from './group/group.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UserModule, ChatModule],
+  imports: [PrismaModule, AuthModule, UserModule, ChatModule, GroupModule],
   providers: [
     ChatGateway,
     /* AlertGateway, */

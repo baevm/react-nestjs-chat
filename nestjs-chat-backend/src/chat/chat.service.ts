@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common'
-import { Message } from '@prisma/client'
-import { PrismaService } from 'src/prisma/prisma.service'
+import { Prisma } from '@prisma/client'
 import { nanoid } from 'nanoid'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { NewMessage } from './types/newMessage.type'
 
 @Injectable()
 export class ChatService {
   constructor(private prisma: PrismaService) {}
 
-  formatMessage(message: { senderId: string; receiverId: string; text: string }): Message {
+  formatMessage(message: NewMessage): Prisma.MessageCreateArgs['data'] {
     return {
       ...message,
       id: nanoid(11),
@@ -15,7 +16,7 @@ export class ChatService {
     }
   }
 
-  async saveMessage(message: Message) {
+  async saveMessage(message: Prisma.MessageCreateArgs['data']) {
     return this.prisma.message.create({
       data: {
         id: message.id,
@@ -23,6 +24,7 @@ export class ChatService {
         createdAt: message.createdAt,
         receiverId: message.receiverId,
         senderId: message.senderId,
+        groupId: message.groupId,
       },
     })
   }

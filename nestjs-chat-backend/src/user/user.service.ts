@@ -16,8 +16,8 @@ export class UserService {
     return user
   }
 
-  getUser(userId: string) {
-    return this.prisma.user.findUnique({
+  async getUser(userId: string) {
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -30,6 +30,7 @@ export class UserService {
             avatar: true,
             username: true,
             id: true,
+            createdAt: true,
           },
         },
         folders: {
@@ -41,10 +42,35 @@ export class UserService {
                 id: true,
               },
             },
+            groups: {
+              select: {
+                name: true,
+                id: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+        groups: {
+          select: {
+            name: true,
+            id: true,
+            messages: true,
+            avatar: true,
+            createdAt: true,
+            users: {
+              select: {
+                avatar: true,
+                username: true,
+                id: true,
+              },
+            },
           },
         },
       },
     })
+
+    return user
   }
 
   async getMessages(userId: string, contactName: string) {

@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
 import { GetCurrentUserId } from 'src/common/decorators/get-current-userId.decorator'
+import { AtGuard } from 'src/common/guards/at.guard'
 import { UserService } from './user.service'
 
+@UseGuards(AtGuard)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}

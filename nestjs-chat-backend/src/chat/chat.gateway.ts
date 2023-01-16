@@ -4,6 +4,7 @@ import { WebSocketServer } from '@nestjs/websockets/decorators'
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets/interfaces'
 import { Server, Socket } from 'socket.io'
 import { ChatService } from './chat.service'
+import { NewMessage } from './types/newMessage.type'
 
 @WebSocketGateway({ namespace: '/chat' })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -58,7 +59,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
 
   @SubscribeMessage('user:offline')
-  handleUserOffline(client: Socket, user: { id: string; username: string }) {
+  handleUserOffline(client: Socket) {
     for (const key in this.users) {
       if (this.users[key].socketId === client.id) {
         delete this.users[key]
@@ -68,16 +69,13 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
 
   @SubscribeMessage('chatToServer')
-  handleMessage(
-    client: Socket,
-    message: { senderId: string; senderName: string; text: string; receiverId: string; receiverName: string }
-  ) {
+  handleMessage(client: Socket, message: NewMessage) {
     const formatMessage = this.chatService.formatMessage(message)
     const receiverOnline = this.users[message.receiverId]
     const senderSocketId = this.users[message.senderId].socketId
 
-    
     this.chatService.saveMessage(formatMessage)
+
     if (receiverOnline) {
       this.wss.to([receiverOnline.socketId, senderSocketId]).emit('chatToClient', formatMessage)
     } else {

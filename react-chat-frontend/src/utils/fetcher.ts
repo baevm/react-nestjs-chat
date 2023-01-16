@@ -1,4 +1,4 @@
-import axios, { AxiosInterceptorOptions, AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 interface MyAxiosRequestConfig extends Omit<AxiosRequestConfig, 'headers'> {
   headers?: any // this was "any" at v0.21.1 but now broken between 0.21.4 >= 0.27.2

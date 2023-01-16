@@ -8,13 +8,22 @@ import React, { MouseEvent, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import ContextMenu from './ContextMenu'
 
-const ContactItem = ({ chat, setClickedItem, clickedItem }: any) => {
+type Props = {
+  id: string
+  title: string
+  avatar: string | null
+  unreadCount?: number
+  setClickedItem: (id: string | null) => void
+  clickedItem: string | null
+}
+
+const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedItem }: Props) => {
   const router = useRouter()
   const activeChat = router.query.username ? router.query.username[0] : null
   const [isOpen, setIsOpen] = useState(false)
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
 
-  const { messages, isLoading } = useMessages(chat.username)
+  const { messages, isLoading } = useMessages(title)
   const { openChat } = useUiStore(state => ({
     openChat: state.openChat,
   }))
@@ -24,11 +33,16 @@ const ContactItem = ({ chat, setClickedItem, clickedItem }: any) => {
     router.push(`/chat/${username}`, undefined, { shallow: true })
   }
 
-  function handleContextMenu(e: any) {
+  function handleOpenContext(e: any) {
     e.preventDefault()
 
-    setClickedItem(chat.id)
+    setClickedItem(id)
     setPosXY({ x: e.clientX, y: e.clientY })
+  }
+
+  function handleCloseContext() {
+    setClickedItem(null)
+    setPosXY({ x: 0, y: 0 })
   }
 
   function getLastMessage(messages: any) {
@@ -49,33 +63,33 @@ const ContactItem = ({ chat, setClickedItem, clickedItem }: any) => {
   return (
     <>
       <button
-        key={chat.id}
-        onClick={() => handleOpenChat(chat.username)}
-        onContextMenu={e => handleContextMenu(e)}
+        onClick={() => handleOpenChat(title)}
+        onContextMenu={handleOpenContext}
         id='chat-item'
         className={`w-full p-2 rounded-lg cursor-pointer  flex gap-2 ${
-          chat.username === activeChat ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
+          title === activeChat ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
         }`}>
-        <img src={chat.avatar ? chat.avatar : '/user.svg'} className='w-12 h-12' alt={'test'} />
+        <img src={avatar ? avatar : '/user.svg'} className='w-12 h-12' alt={'test'} />
         <div className='w-full'>
           <div className='flex justify-between'>
-            <div className={`font-medium ${chat.username === activeChat ? 'text-white' : 'text-text-color'}`}>
-              {chat.username}
-            </div>
-            <div className={`text-xs  ${chat.username === activeChat ? 'text-white' : 'text-gray-500'}`}>
+            <div className={`font-medium ${title === activeChat ? 'text-white' : 'text-text-color'}`}>{title}</div>
+            <div className={`text-xs  ${title === activeChat ? 'text-white' : 'text-gray-500'}`}>
               {getLastMessageTime(messages)}
             </div>
           </div>
           <div className='flex justify-between'>
-            <div className={`text-left ${chat.username === activeChat ? 'text-white' : 'text-gray-500'}`}>
+            <div className={`text-left ${title === activeChat ? 'text-white' : 'text-gray-500'}`}>
               {getLastMessage(messages)}
             </div>
-            {chat.unreadCount > 0 ? <Badge>{chat.unreadCount}</Badge> : null}
+            {unreadCount && unreadCount > 0 ? <Badge>{unreadCount}</Badge> : null}
           </div>
         </div>
       </button>
-      {clickedItem === chat.id &&
-        createPortal(<ContextMenu xPos={posXY.x} yPos={posXY.y} />, document.getElementById('portals') as Element)}
+      {clickedItem === id &&
+        createPortal(
+          <ContextMenu xPos={posXY.x} yPos={posXY.y} handleCloseContext={handleCloseContext} />,
+          document.getElementById('portals') as Element
+        )}
     </>
   )
 }

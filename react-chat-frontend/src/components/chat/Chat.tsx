@@ -5,18 +5,20 @@ import useUiStore from '@store/uiStore'
 import ChatHeader from './header/ChatHeader'
 import ChatInput from './input/ChatInput'
 import MessagesContainer from './messages/MessagesContainer'
+import { Panel } from 'react-resizable-panels'
 
 const Chat = () => {
   const router = useRouter()
   const { user, error, isError, isLoading } = useUser()
-  const openedChatUser = router.query.username ? router.query.username[0] : null
+  const openedChatQuery = router.query.username ? router.query.username[0] : null
   const { isChatOpen, openChat, closeChat } = useUiStore(state => ({
     isChatOpen: state.isChatOpen,
     openChat: state.openChat,
     closeChat: state.closeChat,
   }))
 
-  const activeChat = user?.contacts.find(chat => chat.username === openedChatUser)
+  console.log({ user })
+  const activeChat = user?.contacts.find(chat => chat.username === openedChatQuery)
 
   useEffect(() => {
     if (!activeChat) return
@@ -28,15 +30,15 @@ const Chat = () => {
 
   if (!activeChat) {
     return (
-      <div
-        className={`bg-background-color w-full h-full ${
+      <Panel
+        className={`w-full h-full flex flex-col bg-chat-box-background-color ${
           isChatOpen ? 'absolute md:relative' : 'hidden md:block'
-        }`}></div>
+        }`}></Panel>
     )
   }
 
   return (
-    <div
+    <Panel
       className={`w-full h-full flex flex-col bg-chat-box-background-color ${
         isChatOpen ? 'absolute md:relative' : 'hidden'
       }`}>
@@ -47,7 +49,7 @@ const Chat = () => {
         <MessagesContainer />
         <ChatInput activeChat={activeChat} />
       </div>
-    </div>
+    </Panel>
   )
 }
 

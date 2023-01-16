@@ -51,7 +51,7 @@ const MenuDropdown = ({ children, className }: MenuDropdownProps) => {
   )
 }
 
-const MenuItem = ({ children, icon, className, ...props }: MenuItemProps) => {
+export const MenuItem = ({ children, icon, className, ...props }: MenuItemProps) => {
   return (
     <div
       {...props}
