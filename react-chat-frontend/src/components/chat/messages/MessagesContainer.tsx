@@ -9,8 +9,8 @@ import MessageItem from './MessageItem'
 const MessagesContainer = () => {
   const router = useRouter()
   const { user, error, isError, isLoading } = useUser()
-  const activeChat = router.query.username ? router.query.username[0] : null
-  const { messages } = useMessages(activeChat)
+  const openedChatId = router.query.id ? router.query.id[0] : null
+  const { messages } = useMessages(openedChatId)
 
   // group messages by date
   const messageDateGroups = useMemo(() => {

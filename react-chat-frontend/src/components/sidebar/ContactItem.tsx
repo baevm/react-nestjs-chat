@@ -19,18 +19,18 @@ type Props = {
 
 const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedItem }: Props) => {
   const router = useRouter()
-  const activeChat = router.query.username ? router.query.username[0] : null
+  const activeChat = router.query.id ? router.query.id[0] : null
   const [isOpen, setIsOpen] = useState(false)
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
 
-  const { messages, isLoading } = useMessages(title)
+  const { messages, isLoading } = useMessages(id)
   const { openChat } = useUiStore(state => ({
     openChat: state.openChat,
   }))
 
-  const handleOpenChat = (username: string) => {
+  const handleOpenChat = (id: string) => {
     openChat()
-    router.push(`/chat/${username}`, undefined, { shallow: true })
+    router.push(`/chat/${id}`, undefined, { shallow: true })
   }
 
   function handleOpenContext(e: any) {
@@ -63,7 +63,7 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
   return (
     <>
       <button
-        onClick={() => handleOpenChat(title)}
+        onClick={() => handleOpenChat(id)}
         onContextMenu={handleOpenContext}
         id='chat-item'
         className={`w-full p-2 rounded-lg cursor-pointer  flex gap-2 ${
@@ -73,12 +73,12 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
         <div className='w-full'>
           <div className='flex justify-between'>
             <div className={`font-medium ${title === activeChat ? 'text-white' : 'text-text-color'}`}>{title}</div>
-            <div className={`text-xs  ${title === activeChat ? 'text-white' : 'text-gray-500'}`}>
+            <div className={`text-xs  ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
               {getLastMessageTime(messages)}
             </div>
           </div>
           <div className='flex justify-between'>
-            <div className={`text-left ${title === activeChat ? 'text-white' : 'text-gray-500'}`}>
+            <div className={`text-left ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
               {getLastMessage(messages)}
             </div>
             {unreadCount && unreadCount > 0 ? <Badge>{unreadCount}</Badge> : null}

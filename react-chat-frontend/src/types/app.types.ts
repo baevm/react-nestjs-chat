@@ -16,8 +16,10 @@ export type Group = {
   id: string
   name: string
   avatar: string
-  users: Pick<User, 'id' | 'username' | 'avatar'>[]
   messages: string[]
+  _count: {
+    users: number
+  }
 }
 
 export type User = {

@@ -7,9 +7,15 @@ import AvatarModal from './AvatarModal'
 import BackButton from './BackButton'
 import DotsMenu from './DotsMenu'
 
-const ChatHeader = ({ activeChat }: { activeChat: Contact }) => {
+type Props = {
+  avatar: string | null
+  title: string
+  subtitle?: string
+}
+
+const ChatHeader = ({ avatar, title, subtitle }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const chatAvatar = activeChat.avatar ? activeChat.avatar : '/user.svg'
+  const chatAvatar = avatar ? avatar : '/user.svg'
 
   return (
     <>
@@ -18,7 +24,10 @@ const ChatHeader = ({ activeChat }: { activeChat: Contact }) => {
           <BackButton />
           <div className='flex gap-2 items-center'>
             <img src={chatAvatar} className='w-8 h-8 cursor-pointer' onClick={() => setIsModalOpen(true)} />
-            <div className='font-medium text-lg'>{activeChat.username}</div>
+            <div className='flex flex-col'>
+              <div className='font-medium text-lg'>{title}</div>
+              {subtitle && <div className='text-text-secondary-color text-sm leading-4'>{subtitle}</div>}
+            </div>
           </div>
         </div>
         <div className='flex gap-2'>
@@ -30,12 +39,7 @@ const ChatHeader = ({ activeChat }: { activeChat: Contact }) => {
       </div>
       {isModalOpen &&
         createPortal(
-          <AvatarModal
-            image={chatAvatar}
-            username={activeChat.username}
-            setIsModalOpen={setIsModalOpen}
-            isModalOpen={isModalOpen}
-          />,
+          <AvatarModal image={chatAvatar} username={title} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />,
           document.getElementById('portals') as Element
         )}
     </>

@@ -1,17 +1,13 @@
 import AuthInput from '@components/auth/AuthInput'
-import { GetServerSideProps, NextPageContext } from 'next'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { NextRequest } from 'next/server'
 import React, { useState } from 'react'
 
 const SignupPage = () => {
-  const router = useRouter()
-
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     const data = {
       username,
       password,
@@ -26,10 +22,6 @@ const SignupPage = () => {
       },
       credentials: 'include',
     })
-
-    if (res.ok) {
-      router.replace(`/chat/${data.username}`)
-    }
   }
 
   return (

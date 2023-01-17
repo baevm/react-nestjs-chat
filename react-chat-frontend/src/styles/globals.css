@@ -5,6 +5,7 @@
 :root {
   --background-color: #ffffff;
   --text-color: #000000;
+  --text-secondary-color: #707579;
   --active-item-color: #3390ec;
   --icon-color: #707579;
   --icon-hover-color: rgba(112, 117, 121, 0.08);
@@ -31,6 +32,7 @@
 body[data-theme='dark'] {
   --background-color: rgb(33, 33, 33);
   --text-color: #ffffff;
+  --text-secondary-color: #aaaaaa;
   --active-item-color: #766ac8;
   --icon-color: #aaaaaa;
   --icon-hover-color: #2c2c2c;

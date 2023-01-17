@@ -28,7 +28,7 @@ export default function Home() {
     })
 
     if (res.ok) {
-      router.replace(`/chat/${data.username}`)
+      router.replace(`/chat`)
     }
   }
 

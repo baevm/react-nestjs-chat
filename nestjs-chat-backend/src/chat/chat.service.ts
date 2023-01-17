@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
-import { nanoid } from 'nanoid'
+import generateId from 'src/common/generateId'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { NewMessage } from './types/newMessage.type'
 
@@ -11,7 +11,7 @@ export class ChatService {
   formatMessage(message: NewMessage): Prisma.MessageCreateArgs['data'] {
     return {
       ...message,
-      id: nanoid(11),
+      id: generateId(),
       createdAt: new Date(),
     }
   }

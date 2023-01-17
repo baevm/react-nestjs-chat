@@ -37,7 +37,7 @@ const Sidebar = () => {
   const [activeFolder, setActiveFolder] = useState('All')
   const [clickedItem, setClickedItem] = useState<string | null>('')
 
-  const contacts = useMemo(() => {
+ /*  const contacts = useMemo(() => {
     if (activeFolder === 'All') {
       return formatContacts(user?.contacts)
     } else {
@@ -56,6 +56,7 @@ const Sidebar = () => {
   }, [user, activeFolder])
 
   const chats = contacts && groups && [...contacts, ...groups]
+ */
 
   return (
     <Panel
@@ -65,7 +66,7 @@ const Sidebar = () => {
       <SidebarHeader setActiveFolder={setActiveFolder} activeFolder={activeFolder} />
 
       <div id='sidebar-chats' className='p-2 overflow-y-auto' onContextMenu={e => e.preventDefault()}>
-        {chats?.map(chat => (
+        {user?.contacts.map(chat => (
           <ContactItem
             key={chat.id}
             id={chat.id}

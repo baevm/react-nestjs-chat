@@ -13,9 +13,9 @@ export class UserController {
     return this.userService.getUser(userId)
   }
 
-  @Get('/messages/:contactName')
-  getMessages(@GetCurrentUserId() userId: string, @Param() params: { contactName: string }) {
-    return this.userService.getMessages(userId, params.contactName)
+  @Get('/messages/:contactId')
+  getMessages(@GetCurrentUserId() userId: string, @Param() params: { contactId: string }) {
+    return this.userService.getMessages(userId, params.contactId)
   }
 
   @Post('/addContact')

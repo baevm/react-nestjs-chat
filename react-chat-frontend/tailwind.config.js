@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         'text-color': 'var(--text-color)',
+        'text-secondary-color': 'var(--text-secondary-color)',
         'background-color': 'var(--background-color)',
         'active-item-color': 'var(--active-item-color)',
         'icon-color': 'var(--icon-color)',

@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import generateId from 'src/common/generateId'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
@@ -8,6 +9,7 @@ export class UserService {
   async createUser(username: string, password: string) {
     const user = await this.prisma.user.create({
       data: {
+        id: generateId('U'),
         username,
         password,
       },
@@ -58,11 +60,9 @@ export class UserService {
             messages: true,
             avatar: true,
             createdAt: true,
-            users: {
+            _count: {
               select: {
-                avatar: true,
-                username: true,
-                id: true,
+                users: true,
               },
             },
           },
@@ -73,10 +73,10 @@ export class UserService {
     return user
   }
 
-  async getMessages(userId: string, contactName: string) {
+  async getMessages(userId: string, contactId: string) {
     const contact = await this.prisma.user.findUnique({
       where: {
-        username: contactName,
+        id: contactId,
       },
     })
 

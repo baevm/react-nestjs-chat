@@ -11,7 +11,7 @@ const ChatInput = ({ activeChat }: any) => {
   const [newMessage, setNewMessage] = useState('')
   const { user, error, isError, isLoading } = useUser()
   const socket = useContext(SocketContext)
-  const { cacheNewMessage } = useMessages(activeChat.username)
+  const { cacheNewMessage } = useMessages(activeChat.id)
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
