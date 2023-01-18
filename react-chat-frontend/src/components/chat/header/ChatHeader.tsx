@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { createPortal } from 'react-dom'
 import { MdOutlineSearch } from 'react-icons/md'
-import { Contact } from 'types/app.types'
-import ActionIcon from '../../common/ActionIcon'
+import { ChatType } from 'types/app.types'
+import ActionIcon from '../../ui-kit/ActionIcon'
+import RightSidebar from '../rightSidebar/RightSidebar'
 import AvatarModal from './AvatarModal'
 import BackButton from './BackButton'
 import DotsMenu from './DotsMenu'
@@ -11,11 +11,21 @@ type Props = {
   avatar: string | null
   title: string
   subtitle?: string
+  type: ChatType
 }
 
-const ChatHeader = ({ avatar, title, subtitle }: Props) => {
+const ChatHeader = ({ avatar, title, subtitle, type }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const chatAvatar = avatar ? avatar : '/user.svg'
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const chatAvatar = avatar ? avatar : '/user.png'
+
+  const handleAvatarClick = () => {
+    if (type === 'contact') {
+      setIsModalOpen(true)
+    } else if (type === 'group') {
+      setIsSidebarOpen(true)
+    }
+  }
 
   return (
     <>
@@ -23,7 +33,7 @@ const ChatHeader = ({ avatar, title, subtitle }: Props) => {
         <div className='flex gap-2 items-center'>
           <BackButton />
           <div className='flex gap-2 items-center'>
-            <img src={chatAvatar} className='w-8 h-8 cursor-pointer' onClick={() => setIsModalOpen(true)} />
+            <img src={chatAvatar} className='w-8 h-8 cursor-pointer rounded-full' onClick={handleAvatarClick} />
             <div className='flex flex-col'>
               <div className='font-medium text-lg'>{title}</div>
               {subtitle && <div className='text-text-secondary-color text-sm leading-4'>{subtitle}</div>}
@@ -37,11 +47,18 @@ const ChatHeader = ({ avatar, title, subtitle }: Props) => {
           <DotsMenu />
         </div>
       </div>
-      {isModalOpen &&
-        createPortal(
-          <AvatarModal image={chatAvatar} username={title} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />,
-          document.getElementById('portals') as Element
-        )}
+      {isModalOpen && (
+        <AvatarModal image={chatAvatar} username={title} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+      )}
+      {isSidebarOpen && (
+        <RightSidebar
+          image={chatAvatar}
+          username={title}
+          setIsSidebarOpen={setIsSidebarOpen}
+          isSidebarOpen={isSidebarOpen}
+          type={type}
+        />
+      )}
     </>
   )
 }

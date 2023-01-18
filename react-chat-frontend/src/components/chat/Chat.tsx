@@ -38,12 +38,13 @@ const Chat = () => {
 
   return (
     <Panel
-      className={`w-full h-full flex flex-col bg-chat-box-background-color ${
+      className={`chat-container w-full h-full flex flex-col bg-chat-box-background-color ${
         isChatOpen ? 'absolute md:relative' : 'hidden'
       }`}>
       <ChatHeader
         avatar={activeChat.avatar}
         title={activeChat.title}
+        type={activeChat._type}
         subtitle={activeChat._type === 'group' && activeChat.members ? `${activeChat.members} members` : ''}
       />
       <div

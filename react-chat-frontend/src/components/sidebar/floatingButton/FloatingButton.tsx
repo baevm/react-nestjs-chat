@@ -1,13 +1,13 @@
-import Menu from '@components/common/Menu'
+import Menu from '@components/ui-kit/Menu'
 import useUiStore from '@store/uiStore'
 import { useState } from 'react'
-import { createPortal } from 'react-dom'
 import { IoChatboxEllipsesOutline, IoPeopleOutline, IoPersonOutline } from 'react-icons/io5'
 import { RiPencilFill } from 'react-icons/ri'
+import { ChatType } from 'types/app.types'
 import NewContactModal from './NewContactModal'
 import NewGroupModal from './NewGroupModal'
 
-type ButtonOptions = 'contact' | 'group' | 'message' | null
+type ButtonOptions = ChatType | 'message' | null
 
 const FloatingButton = () => {
   const [type, setType] = useState<ButtonOptions>(null)
@@ -48,16 +48,8 @@ const FloatingButton = () => {
         </Menu.Dropdown>
       </Menu>
 
-      {type === 'contact' &&
-        createPortal(
-          <NewContactModal isShow={true} handleClose={handleClose} />,
-          document.getElementById('portals') as Element
-        )}
-        {type === 'group' &&
-        createPortal(
-          <NewGroupModal isShow={true} handleClose={handleClose} />,
-          document.getElementById('portals') as Element
-        )}
+      {type === 'contact' && <NewContactModal isShow={true} handleClose={handleClose} />}
+      {type === 'group' && <NewGroupModal isShow={true} handleClose={handleClose} />}
     </div>
   )
 }

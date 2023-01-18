@@ -1,4 +1,4 @@
-import ActionIcon from '@components/common/ActionIcon'
+import ActionIcon from '@components/ui-kit/ActionIcon'
 import useMessages from '@hooks/useMessages'
 import useUser from '@hooks/useUser'
 import { SocketContext } from '@services/socket'

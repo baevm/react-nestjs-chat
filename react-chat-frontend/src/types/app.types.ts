@@ -30,3 +30,5 @@ export type User = {
   folders: Folder[]
   groups: Group[]
 }
+
+export type ChatType = 'contact' | 'group'

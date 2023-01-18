@@ -1,7 +1,6 @@
 import { UserService } from '@services/user.service'
 import { useQuery } from '@tanstack/react-query'
 import { Contact, Group, User } from 'types/app.types'
-import { getUser } from '../services/mutations'
 
 type FormatedContact =
   | {
@@ -48,7 +47,7 @@ export default function useUser() {
       return {
         ...data,
         contacts: [...formatContacts(data.contacts), ...formatGroups(data.groups)],
-      }
+      } as FormatedUser
     },
   })
 

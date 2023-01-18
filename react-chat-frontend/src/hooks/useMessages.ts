@@ -1,4 +1,5 @@
-import { getGroupMessages, getUserMessages } from '@services/mutations'
+import { GroupService } from '@services/group.service'
+import { UserService } from '@services/user.service'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function useMessages(contactId: string | null) {
@@ -8,9 +9,9 @@ export default function useMessages(contactId: string | null) {
     ['messages', contactId],
     () => {
       if (contactId?.startsWith('U')) {
-        return getUserMessages(contactId)
+        return UserService.getMessages(contactId)
       } else if (contactId?.startsWith('G')) {
-        return getGroupMessages(contactId)
+        return GroupService.getMessages(contactId)
       }
     },
     {

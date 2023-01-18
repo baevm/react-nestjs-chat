@@ -12,11 +12,13 @@ export class UserService {
     return res.data
   }
 
-  addContact(contactName: string) {
-    return axiosFetch.post(`/user/addContact/`, { username: contactName })
+  static async addContact(contactName: string) {
+    const res = await axiosFetch.post(`/user/addContact/`, { username: contactName })
+    return res.data
   }
 
-  createFolder(folderName: string) {
-    return axiosFetch.post(`/user/createFolder/`, { folderName })
+  static async createFolder(folderName: string) {
+    const res = await axiosFetch.post(`/user/createFolder/`, { folderName })
+    return res.data
   }
 }

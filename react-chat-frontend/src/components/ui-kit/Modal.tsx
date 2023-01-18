@@ -1,5 +1,6 @@
 import useClickOutside from '@hooks/useClickOutside'
 import React, { useRef } from 'react'
+import Portal from './Portal'
 
 interface ModalProps {
   children: any
@@ -23,14 +24,15 @@ const Modal = ({ children, isOpened, onClose, className, closeOnClickOutside = t
   if (!isOpened) return null
 
   return (
-    <div id='modal-wrapper' className='w-full h-full fixed z-50 top-0 left-0 bg-modal-background'>
-      <div id='modal-body' className={`flex items-center justify-center flex-col ${className ? className : ''}`}>
-        {/* {React.cloneElement(children, { ref: modalBodyRef })} */}
-        {React.Children.map(children, child => {
-          return React.cloneElement(child, { ref: modalBodyRef })
-        })}
+    <Portal>
+      <div id='modal-wrapper' className='w-full h-full fixed z-50 top-0 left-0 bg-modal-background'>
+        <div id='modal-body' className={`flex items-center justify-center flex-col ${className ? className : ''}`}>
+          {React.Children.map(children, child => {
+            return React.cloneElement(child, { ref: modalBodyRef })
+          })}
+        </div>
       </div>
-    </div>
+    </Portal>
   )
 }
 

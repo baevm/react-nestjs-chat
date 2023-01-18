@@ -1,11 +1,9 @@
-import Badge from '@components/common/Badge'
+import Badge from '@components/ui-kit/Badge'
 import useMessages from '@hooks/useMessages'
 import useUiStore from '@store/uiStore'
 import formatLastMsgTime from '@utils/formatLastMsgTime'
-import formatTime from '@utils/formatTime'
 import { useRouter } from 'next/router'
-import React, { MouseEvent, useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useState } from 'react'
 import ContextMenu from './ContextMenu'
 
 type Props = {
@@ -69,7 +67,7 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
         className={`w-full p-2 rounded-lg cursor-pointer  flex gap-2 ${
           title === activeChat ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
         }`}>
-        <img src={avatar ? avatar : '/user.svg'} className='w-12 h-12' alt={'test'} />
+        <img src={avatar ? avatar : '/user.png'} className='w-12 h-12 rounded-full' alt={'test'} />
         <div className='w-full'>
           <div className='flex justify-between'>
             <div className={`font-medium ${title === activeChat ? 'text-white' : 'text-text-color'}`}>{title}</div>
@@ -85,11 +83,7 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
           </div>
         </div>
       </button>
-      {clickedItem === id &&
-        createPortal(
-          <ContextMenu xPos={posXY.x} yPos={posXY.y} handleCloseContext={handleCloseContext} />,
-          document.getElementById('portals') as Element
-        )}
+      {clickedItem === id && <ContextMenu xPos={posXY.x} yPos={posXY.y} handleCloseContext={handleCloseContext} />}
     </>
   )
 }

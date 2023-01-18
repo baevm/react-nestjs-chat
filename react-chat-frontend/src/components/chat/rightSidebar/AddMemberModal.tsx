@@ -1,30 +1,22 @@
 import Modal from '@components/ui-kit/Modal'
-import useAddContact from '@hooks/useAddContact'
 import React, { useState } from 'react'
 
-const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: () => void }) => {
-  const [contactName, setContactName] = useState('')
-  const { isLoading, handleAdd } = useAddContact()
+const AddMemberModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: () => void }) => {
+  const [memberName, setMemberName] = useState('')
 
-  if (!isShow) return null
-
-  const handleAddContact = () => {
-    if (!contactName) return
-
-    handleAdd(contactName)
-  }
+  const handleAddContact = () => {}
 
   return (
     <Modal isOpened={isShow} onClose={handleClose} className='w-full h-full'>
       <div className='bg-background-color p-4 rounded-md'>
         <div className='modal-header'>
-          <div className='text-lg font-semibold text-text-color'>New Contact</div>
+          <div className='text-lg font-semibold text-text-color'>Add member</div>
         </div>
 
         <div className='my-4'>
           <input
             onChange={e => {
-              setContactName(e.target.value)
+              setMemberName(e.target.value)
             }}
             className='border-[1px] border-border-color bg-input-color text-text-color rounded-md p-2 focus:outline-none focus:border-active-item-color'
             placeholder='Username'
@@ -40,8 +32,10 @@ const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose
           <button
             className='modal-default-button text-active-item-color hover:bg-icon-hover-color p-1 rounded-md'
             onClick={handleAddContact}
-            disabled={isLoading}>
-            {!isLoading ? 'Done' : 'Load...'}
+            /* disabled={isLoading} */
+          >
+            {/* {!isLoading ? 'Done' : 'Load...'} */}
+            Done
           </button>
         </div>
       </div>
@@ -49,4 +43,4 @@ const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose
   )
 }
 
-export default NewContactModal
+export default AddMemberModal

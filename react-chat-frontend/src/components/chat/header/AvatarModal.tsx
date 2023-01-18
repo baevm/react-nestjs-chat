@@ -1,9 +1,9 @@
-import ActionIcon from '@components/common/ActionIcon'
+import ActionIcon from '@components/ui-kit/ActionIcon'
 import useClickOutside from '@hooks/useClickOutside'
 import React, { useRef } from 'react'
 import { IoClose } from 'react-icons/io5'
 import { BiZoomIn, BiZoomOut } from 'react-icons/bi'
-import Modal from '@components/common/Modal'
+import Modal from '@components/ui-kit/Modal'
 
 const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
   const imgRef = useRef<HTMLImageElement | null>(null)

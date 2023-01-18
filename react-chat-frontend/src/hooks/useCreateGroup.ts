@@ -1,10 +1,10 @@
-import { createGroup } from '@services/mutations'
+import { GroupService } from '@services/group.service'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export default function useCreateGroup() {
   const queryClient = useQueryClient()
 
-  const { data, isLoading, isError, error, mutate } = useMutation(['createGroup'], createGroup, {
+  const { data, isLoading, isError, error, mutate } = useMutation(['createGroup'], GroupService.createGroup, {
     onSuccess: () => {
       queryClient.invalidateQueries(['user'])
     },

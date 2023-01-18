@@ -1,4 +1,4 @@
-import ActionIcon from '@components/common/ActionIcon'
+import ActionIcon from '@components/ui-kit/ActionIcon'
 import useUiStore from '@store/uiStore'
 import { useRouter } from 'next/router'
 import React from 'react'

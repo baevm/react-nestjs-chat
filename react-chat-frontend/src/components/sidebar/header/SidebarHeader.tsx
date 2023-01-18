@@ -1,4 +1,4 @@
-import Badge from '@components/common/Badge'
+import Badge from '@components/ui-kit/Badge'
 import useUser from '@hooks/useUser'
 import { useState } from 'react'
 import MenuButton from './MenuButton'
@@ -8,7 +8,7 @@ interface FolderProps {
   folderName: string
   activeFolder: string
   setActiveFolder: (folderName: string) => void
-  contactsLength: number
+  contactsLength: number | undefined
 }
 
 const FolderItem = ({ folderName, activeFolder, setActiveFolder, contactsLength }: FolderProps) => {
@@ -41,7 +41,7 @@ const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
       <div id='sidebar-folders' className='flex gap-4'>
         <FolderItem
           activeFolder={activeFolder}
-          contactsLength={user?.contacts.length}
+          contactsLength={user?.contacts ? user.contacts.length : 0}
           folderName='All'
           setActiveFolder={setActiveFolder}
         />

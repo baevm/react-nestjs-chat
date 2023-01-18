@@ -1,4 +1,4 @@
-import Modal from '@components/common/Modal'
+import Modal from '@components/ui-kit/Modal'
 import useCreateGroup from '@hooks/useCreateGroup'
 import { useState } from 'react'
 
