@@ -1,3 +1,4 @@
+import { UserService } from '@services/user.service'
 import { useQuery } from '@tanstack/react-query'
 import { Contact, Group, User } from 'types/app.types'
 import { getUser } from '../services/mutations'
@@ -41,13 +42,13 @@ function formatGroups(groups: Group[]): FormatedContact[] {
 }
 
 export default function useUser() {
-  const { data, isLoading, isError, error } = useQuery(['user'], getUser, {
+  const { data, isLoading, isError, error } = useQuery(['user'], UserService.getUser, {
     staleTime: 5000,
     select: data => {
       return {
         ...data,
         contacts: [...formatContacts(data.contacts), ...formatGroups(data.groups)],
-      } as FormatedUser
+      }
     },
   })
 
