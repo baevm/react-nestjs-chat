@@ -9,4 +9,9 @@ export class GroupService {
     const res = await axiosFetch.post(`/group/createGroup/`, { groupName })
     return res.data
   }
+
+  static async addToGroup(groupId: string, newMemberName: string) {
+    const res = await axiosFetch.post(`/group/invite/`, { groupId, username: newMemberName })
+    return res.data
+  }
 }

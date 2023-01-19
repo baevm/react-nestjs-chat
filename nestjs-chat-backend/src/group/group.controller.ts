@@ -19,7 +19,7 @@ export class GroupController {
   }
 
   @Post('/invite')
-  inviteToGroup(@Body() body: { groupName: string; username: string }) {
-    return this.groupService.inviteToGroup(body.groupName, body.username)
+  inviteToGroup(@Body() body: { groupId: string; username: string }) {
+    return this.groupService.inviteToGroup(body.groupId, body.username)
   }
 }

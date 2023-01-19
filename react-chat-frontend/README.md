@@ -1,7 +1,6 @@
 ### TODO:
- - night mode smooth transition
- - rooms
+ - add to group, chat to group
  - search contacts
- - folders
- - auth form
+ - create folders, add to folder
+ - auth form show errors
  - migrate from react query & zustand to RTK query

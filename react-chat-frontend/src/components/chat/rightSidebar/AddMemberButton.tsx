@@ -5,6 +5,10 @@ import AddMemberModal from './AddMemberModal'
 const AddMemberButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const handleAdd = () =>{
+    
+  }
+
   return (
     <>
       <button

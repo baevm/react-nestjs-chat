@@ -51,10 +51,10 @@ export class GroupService {
     })
   }
 
-  async inviteToGroup(groupName: string, username: string) {
+  async inviteToGroup(groupId: string, username: string) {
     return this.prisma.group.update({
       where: {
-        name: groupName,
+        id: groupId,
       },
       data: {
         users: {
