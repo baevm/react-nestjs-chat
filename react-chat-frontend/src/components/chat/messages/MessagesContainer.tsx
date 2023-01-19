@@ -1,16 +1,16 @@
-import useMessages from '@hooks/useMessages'
-import useUser from '@hooks/useUser'
 import formatDate from '@utils/formatDate'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
+import { useGetUserMessagesQuery, useGetUserQuery } from 'redux/api/userSlice'
 import GroupDate from './GroupDate'
 import MessageItem from './MessageItem'
 
 const MessagesContainer = () => {
   const router = useRouter()
-  const { user, error, isError, isLoading } = useUser()
+  const { data: user, isLoading, isError, error } = useGetUserQuery()
   const openedChatId = router.query.id ? router.query.id[0] : null
-  const { messages } = useMessages(openedChatId)
+
+  const { data: messages } = useGetUserMessagesQuery(openedChatId)
 
   // group messages by date
   const messageDateGroups = useMemo(() => {
@@ -25,7 +25,6 @@ const MessagesContainer = () => {
     })
     return result
   }, [messages])
-
 
   return (
     <div id='chat-list' className='w-full md:w-1/2 flex flex-col flex-1 gap-4'>

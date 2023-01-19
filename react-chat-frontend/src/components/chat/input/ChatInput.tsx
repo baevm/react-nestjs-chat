@@ -1,17 +1,18 @@
 import ActionIcon from '@components/ui-kit/ActionIcon'
-import useMessages from '@hooks/useMessages'
-import useUser from '@hooks/useUser'
 import { SocketContext } from '@services/socket'
 import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
+import { useGetUserMessagesQuery, useGetUserQuery, userApi } from 'redux/api/userSlice'
+import { useAppDispatch } from 'redux/hooks'
 import EmojiButton from './EmojiButton'
 
 const ChatInput = ({ activeChat }: any) => {
   const [newMessage, setNewMessage] = useState('')
-  const { user, error, isError, isLoading } = useUser()
+  const dispatch = useAppDispatch()
+  const { data: user, isLoading, isError, error } = useGetUserQuery()
   const socket = useContext(SocketContext)
-  const { cacheNewMessage } = useMessages(activeChat.id)
+  const {} = useGetUserMessagesQuery(activeChat.id)
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,9 +27,17 @@ const ChatInput = ({ activeChat }: any) => {
   }
 
   useEffect(() => {
-    socket.on('chatToClient', msg => {
+    socket.on('chatToClient', (msg) => {
       console.log({ msg })
-      cacheNewMessage(msg, user)
+
+      let userToCache = msg.senderId === user?.id ? msg.receiverId : msg.senderId
+
+      dispatch(
+        userApi.util.updateQueryData('getUserMessages', userToCache, (data) => {
+          return [...data, msg]
+        })
+      )
+      /* cacheNewMessage(msg, user) */
     })
   }, [])
 
@@ -40,7 +49,7 @@ const ChatInput = ({ activeChat }: any) => {
         <EmojiButton setNewMessage={setNewMessage} />
         <form onSubmit={handleSend} className='w-full'>
           <input
-            onChange={e => setNewMessage(e.target.value)}
+            onChange={(e) => setNewMessage(e.target.value)}
             value={newMessage}
             className='h-full w-full outline-none bg-input-color text-text-color'
             placeholder='Message'

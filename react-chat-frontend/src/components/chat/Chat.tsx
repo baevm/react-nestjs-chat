@@ -1,30 +1,30 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import useUser from '@hooks/useUser'
-import useUiStore from '@store/uiStore'
+import { Panel } from 'react-resizable-panels'
+import { useGetUserQuery } from 'redux/api/userSlice'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { closeChat, openChat } from 'redux/slices/uiSlice'
 import ChatHeader from './header/ChatHeader'
 import ChatInput from './input/ChatInput'
 import MessagesContainer from './messages/MessagesContainer'
-import { Panel } from 'react-resizable-panels'
 
 const Chat = () => {
   const router = useRouter()
-  const { user, error, isError, isLoading } = useUser()
+  const {data: user, isLoading, isError, error} = useGetUserQuery()
   const openedChatQuery = router.query.id ? router.query.id[0] : null
-  const { isChatOpen, openChat, closeChat } = useUiStore(state => ({
-    isChatOpen: state.isChatOpen,
-    openChat: state.openChat,
-    closeChat: state.closeChat,
-  }))
+  const isChatOpen = useAppSelector(state => state.ui.isChatOpen)
+  const dispatch = useAppDispatch()
 
   const activeChat = user?.contacts.find(chat => chat.id === openedChatQuery)
 
   useEffect(() => {
     if (!activeChat) return
 
-    openChat()
+    dispatch(openChat())
 
-    return () => closeChat()
+    return () => {
+      dispatch(closeChat())
+    }
   }, [activeChat])
 
   if (!activeChat) {

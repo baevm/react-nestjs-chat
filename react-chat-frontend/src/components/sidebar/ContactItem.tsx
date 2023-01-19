@@ -1,9 +1,10 @@
 import Badge from '@components/ui-kit/Badge'
-import useMessages from '@hooks/useMessages'
-import useUiStore from '@store/uiStore'
 import formatLastMsgTime from '@utils/formatLastMsgTime'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useGetUserMessagesQuery } from 'redux/api/userSlice'
+import { useAppDispatch } from 'redux/hooks'
+import { openChat } from 'redux/slices/uiSlice'
 import ContextMenu from './ContextMenu'
 
 type Props = {
@@ -17,17 +18,14 @@ type Props = {
 
 const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedItem }: Props) => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
+  const { data: messages } = useGetUserMessagesQuery(id)
   const activeChat = router.query.id ? router.query.id[0] : null
   const [isOpen, setIsOpen] = useState(false)
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
 
-  const { messages, isLoading } = useMessages(id)
-  const { openChat } = useUiStore(state => ({
-    openChat: state.openChat,
-  }))
-
   const handleOpenChat = (id: string) => {
-    openChat()
+    dispatch(openChat())
     router.push(`/chat/${id}`, undefined, { shallow: true })
   }
 

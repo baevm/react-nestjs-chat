@@ -1,17 +1,15 @@
 import ActionIcon from '@components/ui-kit/ActionIcon'
-import useUiStore from '@store/uiStore'
+import { useAppDispatch } from 'redux/hooks'
+import { closeChat } from 'redux/slices/uiSlice'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 
 const BackButton = () => {
   const router = useRouter()
-  const { closeChat } = useUiStore(state => ({
-    closeChat: state.closeChat,
-  }))
+  const dispatch = useAppDispatch()
 
   const handleBack = () => {
-    closeChat()
+    dispatch(closeChat())
     router.push('/chat')
   }
 

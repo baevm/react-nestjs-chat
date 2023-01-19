@@ -1,6 +1,6 @@
-import useUser from '@hooks/useUser'
 import { isServer } from '@utils/isServer'
-import React, { createContext, useEffect } from 'react'
+import { createContext, useEffect } from 'react'
+import { useGetUserQuery } from 'redux/api/userSlice'
 import { io, Socket } from 'socket.io-client'
 
 const socket = io('http://localhost:5000/chat', {
@@ -12,7 +12,7 @@ const SocketContext = createContext<Socket>(socket)
 /* socket.on('connect', () => console.log('connected to socket'))
  */
 const SocketProvider = ({ children }: any) => {
-  const { user, error, isError, isLoading } = useUser()
+  const {data: user, isLoading, isError, error} = useGetUserQuery()
 
   useEffect(() => {
     if (user && !isServer) {
@@ -33,3 +33,4 @@ const SocketProvider = ({ children }: any) => {
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
 }
 export { SocketContext, SocketProvider }
+

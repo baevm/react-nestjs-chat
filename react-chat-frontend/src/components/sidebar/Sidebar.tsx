@@ -1,13 +1,13 @@
-import useUser from '@hooks/useUser'
 import { useState } from 'react'
 import { Panel } from 'react-resizable-panels'
+import { useGetUserQuery } from 'redux/api/userSlice'
 import ContactItem from './ContactItem'
 import FloatingButton from './floatingButton/FloatingButton'
 import SidebarHeader from './header/SidebarHeader'
 import ResizeHandle from './ResizeHandle'
 
 const Sidebar = () => {
-  const { user, error, isError, isLoading } = useUser()
+  const {data: user, isLoading, isError, error} = useGetUserQuery()
   const [activeFolder, setActiveFolder] = useState('All')
   const [clickedItem, setClickedItem] = useState<string | null>('')
 

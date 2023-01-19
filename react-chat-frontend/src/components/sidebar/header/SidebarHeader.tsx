@@ -1,6 +1,5 @@
 import Badge from '@components/ui-kit/Badge'
-import useUser from '@hooks/useUser'
-import { useState } from 'react'
+import { useGetUserQuery } from 'redux/api/userSlice'
 import MenuButton from './MenuButton'
 import SearchInput from './SearchInput'
 
@@ -27,7 +26,7 @@ const FolderItem = ({ folderName, activeFolder, setActiveFolder, contactsLength 
 }
 
 const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
-  const { user, isLoading } = useUser()
+  const {data: user, isLoading, isError, error} = useGetUserQuery()
 
   return (
     <div
