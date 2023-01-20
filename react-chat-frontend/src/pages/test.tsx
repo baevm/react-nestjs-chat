@@ -1,4 +1,4 @@
-import { useGetUserQuery } from 'redux/api/userSlice'
+import { useGetUserQuery } from 'redux/api/user/userSlice'
 
 const TestPage = () => {
   const { data, isLoading } = useGetUserQuery()

@@ -1,10 +1,17 @@
 import Modal from '@components/ui-kit/Modal'
-import React, { useState } from 'react'
+import { useAddToGroupMutation } from '@redux/api/group/groupSlice'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 const AddMemberModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: () => void }) => {
+  const router = useRouter()
   const [memberName, setMemberName] = useState('')
+  const [handleAdd, { isLoading }] = useAddToGroupMutation()
+  const groupId = router.query.id![0]
 
-  const handleAddContact = () => {}
+  const handleAddContact = () => {
+    handleAdd({ contactName: memberName, groupId })
+  }
 
   return (
     <Modal isOpened={isShow} onClose={handleClose} className='w-full h-full'>
@@ -15,7 +22,7 @@ const AddMemberModal = ({ isShow, handleClose }: { isShow: boolean; handleClose:
 
         <div className='my-4'>
           <input
-            onChange={e => {
+            onChange={(e) => {
               setMemberName(e.target.value)
             }}
             className='border-[1px] border-border-color bg-input-color text-text-color rounded-md p-2 focus:outline-none focus:border-active-item-color'
@@ -32,10 +39,8 @@ const AddMemberModal = ({ isShow, handleClose }: { isShow: boolean; handleClose:
           <button
             className='modal-default-button text-active-item-color hover:bg-icon-hover-color p-1 rounded-md'
             onClick={handleAddContact}
-            /* disabled={isLoading} */
-          >
-            {/* {!isLoading ? 'Done' : 'Load...'} */}
-            Done
+            disabled={isLoading}>
+            {!isLoading ? 'Done' : 'Load...'}
           </button>
         </div>
       </div>

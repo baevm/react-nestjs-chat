@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Panel } from 'react-resizable-panels'
-import { useGetUserQuery } from 'redux/api/userSlice'
+import { useGetUserQuery } from 'redux/api/user/userSlice'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { closeChat, openChat } from 'redux/slices/uiSlice'
 import ChatHeader from './header/ChatHeader'

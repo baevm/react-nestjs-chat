@@ -1,43 +1,7 @@
-import { Contact, Group, User } from 'types/app.types'
-import { apiSlice } from './apiSlice'
+import { FormatedUser } from 'types/app.types'
+import { apiSlice } from '../apiSlice'
+import { formatContacts, formatGroups } from './utils'
 
-type FormatedContact =
-  | {
-      id: string
-      avatar: string | null
-      title: string
-      _type: 'group'
-      members: number
-    }
-  | {
-      id: string
-      avatar: string | null
-      title: string
-      _type: 'contact'
-    }
-
-interface FormatedUser extends Omit<User, 'contacts'> {
-  contacts: FormatedContact[]
-}
-
-function formatContacts(contacts: Contact[]): FormatedContact[] {
-  return contacts?.map((contact) => ({
-    id: contact.id,
-    title: contact.username,
-    avatar: contact.avatar,
-    _type: 'contact',
-  }))
-}
-
-function formatGroups(groups: Group[]): FormatedContact[] {
-  return groups?.map((group) => ({
-    id: group.id,
-    title: group.name,
-    avatar: group.avatar,
-    _type: 'group',
-    members: group._count.users,
-  }))
-}
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -49,9 +13,10 @@ export const userApi = apiSlice.injectEndpoints({
           contacts: [...formatContacts(res.contacts), ...formatGroups(res.groups)],
         } as FormatedUser
       },
+      providesTags: ['User'],
     }),
 
-    getUserMessages: builder.query<any, string | null>({
+    getMessages: builder.query<any, string | null>({
       query: (contactId) => {
         if (contactId?.startsWith('U')) {
           return `/user/messages/${contactId}`
@@ -67,7 +32,9 @@ export const userApi = apiSlice.injectEndpoints({
       query: (contactName) => ({
         url: `/user/addContact/`,
         body: { username: contactName },
+        method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     createFolder: builder.mutation<any, string>({
@@ -79,4 +46,4 @@ export const userApi = apiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetUserQuery, useGetUserMessagesQuery } = userApi
+export const { useGetUserQuery, useGetMessagesQuery, useAddContactMutation } = userApi

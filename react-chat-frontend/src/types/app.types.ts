@@ -31,4 +31,23 @@ export type User = {
   groups: Group[]
 }
 
+export type FormatedContact =
+  | {
+      id: string
+      avatar: string | null
+      title: string
+      _type: 'group'
+      members: number
+    }
+  | {
+      id: string
+      avatar: string | null
+      title: string
+      _type: 'contact'
+    }
+
+export interface FormatedUser extends Omit<User, 'contacts'> {
+  contacts: FormatedContact[]
+}
+
 export type ChatType = 'contact' | 'group'

@@ -3,8 +3,8 @@ import { SocketContext } from '@services/socket'
 import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
-import { useGetUserMessagesQuery, useGetUserQuery, userApi } from 'redux/api/userSlice'
-import { useAppDispatch } from 'redux/hooks'
+import { useGetUserQuery, userApi } from 'redux/api/user/userSlice'
+import { useAppDispatch } from '@redux/hooks'
 import EmojiButton from './EmojiButton'
 
 const ChatInput = ({ activeChat }: any) => {
@@ -12,7 +12,6 @@ const ChatInput = ({ activeChat }: any) => {
   const dispatch = useAppDispatch()
   const { data: user, isLoading, isError, error } = useGetUserQuery()
   const socket = useContext(SocketContext)
-  const {} = useGetUserMessagesQuery(activeChat.id)
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()

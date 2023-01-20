@@ -1,9 +1,7 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import type { AppProps } from 'next/app'
-import '../styles/globals.css'
 import { Roboto } from '@next/font/google'
+import type { AppProps } from 'next/app'
 import { IconContext } from 'react-icons'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import '../styles/globals.css'
 import { Provider } from 'react-redux'
 import { store } from 'redux/store'
 
@@ -12,14 +10,6 @@ const roboto = Roboto({
   subsets: ['latin'],
 })
 
-/* const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-    },
-  },
-}) */
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -30,8 +20,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </main>
       </IconContext.Provider>
     </Provider>
-    /* <QueryClientProvider client={queryClient}> */
-
-    /*  </QueryClientProvider> */
   )
 }

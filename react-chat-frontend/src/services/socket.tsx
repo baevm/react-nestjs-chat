@@ -1,6 +1,6 @@
 import { isServer } from '@utils/isServer'
 import { createContext, useEffect } from 'react'
-import { useGetUserQuery } from 'redux/api/userSlice'
+import { useGetUserQuery } from 'redux/api/user/userSlice'
 import { io, Socket } from 'socket.io-client'
 
 const socket = io('http://localhost:5000/chat', {

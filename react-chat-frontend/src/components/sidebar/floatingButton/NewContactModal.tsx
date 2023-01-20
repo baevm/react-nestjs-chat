@@ -1,10 +1,10 @@
 import Modal from '@components/ui-kit/Modal'
-import useAddContact from '@hooks/useAddContact'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useAddContactMutation } from 'redux/api/user/userSlice'
 
 const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: () => void }) => {
   const [contactName, setContactName] = useState('')
-  const { isLoading, handleAdd } = useAddContact()
+  const [handleAdd, { isLoading, isError }] = useAddContactMutation()
 
   if (!isShow) return null
 
@@ -23,7 +23,7 @@ const NewContactModal = ({ isShow, handleClose }: { isShow: boolean; handleClose
 
         <div className='my-4'>
           <input
-            onChange={e => {
+            onChange={(e) => {
               setContactName(e.target.value)
             }}
             className='border-[1px] border-border-color bg-input-color text-text-color rounded-md p-2 focus:outline-none focus:border-active-item-color'

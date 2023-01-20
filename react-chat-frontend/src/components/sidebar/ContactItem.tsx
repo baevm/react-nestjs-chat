@@ -2,7 +2,7 @@ import Badge from '@components/ui-kit/Badge'
 import formatLastMsgTime from '@utils/formatLastMsgTime'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useGetUserMessagesQuery } from 'redux/api/userSlice'
+import { useGetMessagesQuery } from 'redux/api/user/userSlice'
 import { useAppDispatch } from 'redux/hooks'
 import { openChat } from 'redux/slices/uiSlice'
 import ContextMenu from './ContextMenu'
@@ -19,7 +19,7 @@ type Props = {
 const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedItem }: Props) => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { data: messages } = useGetUserMessagesQuery(id)
+  const { data: messages } = useGetMessagesQuery(id)
   const activeChat = router.query.id ? router.query.id[0] : null
   const [isOpen, setIsOpen] = useState(false)
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
