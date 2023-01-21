@@ -1,8 +1,6 @@
 import Badge from '@components/ui-kit/Badge'
-import formatLastMsgTime from '@utils/formatLastMsgTime'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useGetMessagesQuery } from 'redux/api/user/userSlice'
 import { useAppDispatch } from 'redux/hooks'
 import { openChat } from 'redux/slices/uiSlice'
 import ContextMenu from './ContextMenu'
@@ -12,16 +10,25 @@ type Props = {
   title: string
   avatar: string | null
   unreadCount?: number
+  lastMessageTime: string
+  lastMessage: string
   setClickedItem: (id: string | null) => void
   clickedItem: string | null
 }
 
-const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedItem }: Props) => {
+const ContactItem = ({
+  id,
+  title,
+  avatar,
+  unreadCount,
+  lastMessage,
+  lastMessageTime,
+  setClickedItem,
+  clickedItem,
+}: Props) => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { data: messages } = useGetMessagesQuery(id)
   const activeChat = router.query.id ? router.query.id[0] : null
-  const [isOpen, setIsOpen] = useState(false)
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
 
   const handleOpenChat = (id: string) => {
@@ -41,21 +48,6 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
     setPosXY({ x: 0, y: 0 })
   }
 
-  function getLastMessage(messages: any) {
-    if (messages?.length > 0) {
-      return messages[messages.length - 1].text
-    }
-    return ''
-  }
-
-  function getLastMessageTime(messages: any) {
-    if (messages?.length > 0) {
-      let time = messages[messages.length - 1].createdAt
-      return formatLastMsgTime(time)
-    }
-    return ''
-  }
-
   return (
     <>
       <button
@@ -70,12 +62,12 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
           <div className='flex justify-between'>
             <div className={`font-medium ${title === activeChat ? 'text-white' : 'text-text-color'}`}>{title}</div>
             <div className={`text-xs  ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
-              {getLastMessageTime(messages)}
+              {lastMessageTime}
             </div>
           </div>
           <div className='flex justify-between'>
             <div className={`text-left ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
-              {getLastMessage(messages)}
+              {lastMessage}
             </div>
             {unreadCount && unreadCount > 0 ? <Badge>{unreadCount}</Badge> : null}
           </div>

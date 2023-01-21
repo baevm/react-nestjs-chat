@@ -1,7 +1,5 @@
 import { FormatedUser } from 'types/app.types'
 import { apiSlice } from '../apiSlice'
-import { formatContacts, formatGroups } from './utils'
-
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,9 +7,9 @@ export const userApi = apiSlice.injectEndpoints({
       query: () => '/user',
       transformResponse: (res: any) => {
         return {
-          ...res,
-          contacts: [...formatContacts(res.contacts), ...formatGroups(res.groups)],
-        } as FormatedUser
+          ...res.user,
+          chats: res.chats,
+        }
       },
       providesTags: ['User'],
     }),

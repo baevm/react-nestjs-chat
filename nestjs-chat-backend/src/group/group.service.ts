@@ -6,6 +6,37 @@ import { PrismaService } from 'src/prisma/prisma.service'
 export class GroupService {
   constructor(private prisma: PrismaService) {}
 
+  async createGroup(userId: string, groupName: string) {
+    /* return this.prisma.group.create({
+      data: {
+        id: generateId('G'),
+        name: groupName,
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    }) */
+
+    const group = await this.prisma.chat.create({
+      data: {
+        id: generateId('G'),
+        title: groupName,
+        type: 'group',
+      },
+    })
+
+    const participants = await this.prisma.participants.create({
+      data: {
+        chatId: group.id,
+        userId,
+      },
+    })
+
+    return group
+  }
+
   async getGroup(groupId: string) {
     return this.prisma.group.findUnique({
       where: {
@@ -33,20 +64,6 @@ export class GroupService {
         text: true,
         senderId: true,
         createdAt: true,
-      },
-    })
-  }
-
-  async createGroup(userId: string, groupName: string) {
-    return this.prisma.group.create({
-      data: {
-        id: generateId('G'),
-        name: groupName,
-        users: {
-          connect: {
-            id: userId,
-          },
-        },
       },
     })
   }

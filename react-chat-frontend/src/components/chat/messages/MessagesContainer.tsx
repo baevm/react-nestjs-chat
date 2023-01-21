@@ -1,18 +1,14 @@
 import formatDate from '@utils/formatDate'
-import { useRouter } from 'next/router'
 import { useMemo } from 'react'
-import { useGetMessagesQuery, useGetUserQuery } from 'redux/api/user/userSlice'
+import { useGetUserQuery } from 'redux/api/user/userSlice'
 import GroupDate from './GroupDate'
 import MessageItem from './MessageItem'
 
-const MessagesContainer = () => {
-  const router = useRouter()
+const MessagesContainer = ({messages}: any) => {
   const { data: user, isLoading, isError, error } = useGetUserQuery()
-  const openedChatId = router.query.id ? router.query.id[0] : null
 
-  const { data: messages } = useGetMessagesQuery(openedChatId)
 
-  // group messages by date
+  //group messages by date
   const messageDateGroups = useMemo(() => {
     let result: any = {}
     messages?.forEach((message: any) => {

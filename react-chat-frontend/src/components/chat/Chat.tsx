@@ -1,3 +1,4 @@
+import { getContact } from '@utils/getContact'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Panel } from 'react-resizable-panels'
@@ -10,12 +11,12 @@ import MessagesContainer from './messages/MessagesContainer'
 
 const Chat = () => {
   const router = useRouter()
-  const {data: user, isLoading, isError, error} = useGetUserQuery()
+  const { data: user, isLoading, isError, error } = useGetUserQuery()
   const openedChatQuery = router.query.id ? router.query.id[0] : null
-  const isChatOpen = useAppSelector(state => state.ui.isChatOpen)
+  const isChatOpen = useAppSelector((state) => state.ui.isChatOpen)
   const dispatch = useAppDispatch()
 
-  const activeChat = user?.contacts.find(chat => chat.id === openedChatQuery)
+  const activeChat = user?.chats?.find((chat) => chat.id === openedChatQuery)
 
   useEffect(() => {
     if (!activeChat) return
@@ -36,21 +37,25 @@ const Chat = () => {
     )
   }
 
+  console.log({ activeChat })
+
   return (
     <Panel
       className={`chat-container w-full h-full flex flex-col bg-chat-box-background-color ${
         isChatOpen ? 'absolute md:relative' : 'hidden'
       }`}>
       <ChatHeader
-        avatar={activeChat.avatar}
-        title={activeChat.title}
-        type={activeChat._type}
-        subtitle={activeChat._type === 'group' && activeChat.members ? `${activeChat.members} members` : ''}
+        avatar={activeChat.type === 'contact' ? getContact(activeChat.participants, user?.id).avatar : null}
+        title={
+          activeChat.type === 'contact' ? getContact(activeChat.participants, user?.id).username : activeChat.title
+        }
+        type={activeChat.type}
+        subtitle={activeChat.type === 'group' ? `${activeChat.participants.length} members` : ''}
       />
       <div
         id='chat-box'
         className='flex flex-col-reverse items-center w-full h-full py-4 px-4 md:px-0 overflow-y-auto max-h-[calc(100%-130px)] '>
-        <MessagesContainer />
+        <MessagesContainer messages={activeChat.messages} />
         <ChatInput activeChat={activeChat} />
       </div>
     </Panel>

@@ -45,7 +45,7 @@ const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
           setActiveFolder={setActiveFolder}
         />
 
-        {user?.folders.map(folder => (
+        {/* {user?.folders.map(folder => (
           <FolderItem
             key={folder.id}
             activeFolder={activeFolder}
@@ -53,7 +53,7 @@ const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
             folderName={folder.name}
             setActiveFolder={setActiveFolder}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   )
