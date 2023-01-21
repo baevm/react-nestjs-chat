@@ -28,7 +28,7 @@ const ContactItem = ({
 }: Props) => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const activeChat = router.query.id ? router.query.id[0] : null
+  const openedChatId = router.query.id ? router.query.id[0] : null
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
 
   const handleOpenChat = (id: string) => {
@@ -55,18 +55,18 @@ const ContactItem = ({
         onContextMenu={handleOpenContext}
         id='chat-item'
         className={`w-full p-2 rounded-lg cursor-pointer  flex gap-2 ${
-          title === activeChat ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
+          id === openedChatId ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
         }`}>
-        <img src={avatar ? avatar : '/user.png'} className='w-12 h-12 rounded-full' alt={'test'} />
+        <img src={avatar ? avatar : '/user.png'} className='w-12 h-12 rounded-full' alt={`${title} avatar`} />
         <div className='w-full'>
           <div className='flex justify-between'>
-            <div className={`font-medium ${title === activeChat ? 'text-white' : 'text-text-color'}`}>{title}</div>
-            <div className={`text-xs  ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
+            <div className={`font-medium ${id === openedChatId ? 'text-white' : 'text-text-color'}`}>{title}</div>
+            <div className={`text-xs  ${id === openedChatId ? 'text-white' : 'text-text-secondary-color'}`}>
               {lastMessageTime}
             </div>
           </div>
           <div className='flex justify-between'>
-            <div className={`text-left ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
+            <div className={`text-left ${id === openedChatId ? 'text-white' : 'text-text-secondary-color'}`}>
               {lastMessage}
             </div>
             {unreadCount && unreadCount > 0 ? <Badge>{unreadCount}</Badge> : null}

@@ -10,7 +10,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(request.nextUrl)
   }
 
-  console.log(path)
 }
 
 export const config = {

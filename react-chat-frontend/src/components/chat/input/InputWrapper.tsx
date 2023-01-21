@@ -1,13 +1,15 @@
 import ActionIcon from '@components/ui-kit/ActionIcon'
+import { useAppDispatch } from '@redux/hooks'
 import { SocketContext } from '@services/socket'
+import { getContact } from '@utils/getContact'
+import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
 import { useGetUserQuery, userApi } from 'redux/api/user/userSlice'
-import { useAppDispatch } from '@redux/hooks'
 import EmojiButton from './EmojiButton'
 
-const ChatInput = ({ activeChat }: any) => {
+const InputWrapper = ({ activeChat }: any) => {
   const [newMessage, setNewMessage] = useState('')
   const dispatch = useAppDispatch()
   const { data: user, isLoading, isError, error } = useGetUserQuery()
@@ -15,12 +17,14 @@ const ChatInput = ({ activeChat }: any) => {
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
+
+    const contact = activeChat.type === 'contact' ? getContact(activeChat.participants, user?.id) : activeChat
+
     socket.emit('chatToServer', {
-      senderId: user?.id,
-      senderName: user?.username,
-      receiverId: activeChat.id,
-      receiverName: activeChat.username,
+      userId: user?.id,
+      receiverId: contact.id,
       text: newMessage,
+      chatId: activeChat.id,
     })
     setNewMessage('')
   }
@@ -29,14 +33,14 @@ const ChatInput = ({ activeChat }: any) => {
     socket.on('chatToClient', (msg) => {
       console.log({ msg })
 
-      let userToCache = msg.senderId === user?.id ? msg.receiverId : msg.senderId
-
       dispatch(
-        userApi.util.updateQueryData('getUserMessages', userToCache, (data) => {
-          return [...data, msg]
+        userApi.util.updateQueryData('getChats', undefined, (data) => {
+          let chat = data.find((chat: any) => chat.id === msg.chatId)
+          chat.messages.push(msg)
+
+          return data
         })
       )
-      /* cacheNewMessage(msg, user) */
     })
   }, [])
 
@@ -66,4 +70,4 @@ const ChatInput = ({ activeChat }: any) => {
   )
 }
 
-export default ChatInput
+export default InputWrapper

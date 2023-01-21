@@ -1,10 +1,8 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
 import { CurrUser, GetCurrentUser } from 'src/common/decorators/get-current-user.decorator'
 import { GetCurrentUserId } from 'src/common/decorators/get-current-userId.decorator'
 import { AtGuard } from 'src/common/guards/at.guard'
 import { UserService } from './user.service'
-
-
 
 @UseGuards(AtGuard)
 @Controller('user')
@@ -12,14 +10,13 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
-  getUser(@GetCurrentUserId() userId: string, @GetCurrentUser() currUser) {
-    console.log({ currUser })
+  getUser(@GetCurrentUserId() userId: string) {
     return this.userService.getUser(userId)
   }
 
-  @Get('/messages/:contactId')
-  getMessages(@GetCurrentUserId() userId: string, @Param() params: { contactId: string }) {
-    return this.userService.getMessages(userId, params.contactId)
+  @Get('/chats')
+  getChats(@GetCurrentUserId() userId: string) {
+    return this.userService.getChats(userId)
   }
 
   @Post('/addContact')

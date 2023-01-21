@@ -1,12 +1,12 @@
 import formatDate from '@utils/formatDate'
+import formatTime from '@utils/formatTime'
 import { useMemo } from 'react'
 import { useGetUserQuery } from 'redux/api/user/userSlice'
 import GroupDate from './GroupDate'
 import MessageItem from './MessageItem'
 
-const MessagesContainer = ({messages}: any) => {
+const MessagesContainer = ({ messages }: any) => {
   const { data: user, isLoading, isError, error } = useGetUserQuery()
-
 
   //group messages by date
   const messageDateGroups = useMemo(() => {
@@ -28,7 +28,12 @@ const MessagesContainer = ({messages}: any) => {
         <div key={group} className='w-full flex-col flex'>
           <GroupDate date={group} />
           {messageDateGroups[group].map((message: any, index: number) => (
-            <MessageItem message={message} userId={user?.id} key={message.id} />
+            <MessageItem
+              key={message.id}
+              isOwn={message.userId === user.id}
+              createdAt={formatTime(message.createdAt)}
+              text={message.text}
+            />
           ))}
         </div>
       ))}

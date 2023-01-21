@@ -31,6 +31,10 @@ export class UserService {
       },
     })
 
+    return user
+  }
+
+  async getChats(userId: string) {
     const chats = await this.prisma.chat.findMany({
       where: {
         participants: {
@@ -55,68 +59,7 @@ export class UserService {
       },
     })
 
-    /* const chats = await this.prisma.participants.findMany({
-      where: {
-        userId,
-      },
-      select: {
-        chat: {
-          include: {
-            messages: true,
-            participants: {
-              select: {
-                user: {
-                  select: {
-                    avatar: true,
-                    username: true,
-                    id: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    }) */
-
-    return { user, chats }
-  }
-
-  async getMessages(userId: string, chatId: string) {
-    /*  const contact = await this.prisma.user.findUnique({
-      where: {
-        id: contactId,
-      },
-    })
-
-    return this.prisma.message.findMany({
-      where: {
-        OR: [
-          {
-            senderId: userId,
-            receiverId: contact.id,
-          },
-          {
-            receiverId: userId,
-            senderId: contact.id,
-          },
-        ],
-      },
-    }) */
-
-    const contact = await this.prisma.chat.findUnique({
-      where: {
-        id: chatId,
-      },
-      select: {
-        id: true,
-        title: true,
-        messages: true,
-        type: true,
-      },
-    })
-
-    return contact
+    return chats
   }
 
   async addContact(currUser: CurrUser, username: string) {
@@ -130,19 +73,11 @@ export class UserService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND)
     }
 
-    // is it working ???
-    const isExists = await this.prisma.participants.findMany({
-      where: {
-        AND: [{ userId: currUser.sub }, { userId: newContact.id }],
-      },
-    })
-
-    if (isExists) {
-      throw new HttpException('Already exists', HttpStatus.NOT_FOUND)
-    }
+    // check if chat already exists
 
     const chat = await this.prisma.chat.create({
       data: {
+        id: generateId('C'),
         title: `${currUser.username}-${newContact.username}`,
         type: 'contact',
       },

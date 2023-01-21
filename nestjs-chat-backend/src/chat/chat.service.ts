@@ -8,24 +8,37 @@ import { NewMessage } from './types/newMessage.type'
 export class ChatService {
   constructor(private prisma: PrismaService) {}
 
-  formatMessage(message: NewMessage): Prisma.MessageCreateArgs['data'] {
-    return {
-      ...message,
-      id: generateId(),
-      createdAt: new Date(),
-    }
+  async getChatIdsByUserId(userId: string) {
+    const chats = await this.prisma.participants.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        chatId: true,
+      },
+    })
+    const chatIds = chats.map((chat) => chat.chatId)
+
+    return chatIds
   }
 
-  async saveMessage(message: Prisma.MessageCreateArgs['data']) {
+  async saveMessage(message) {
     return this.prisma.message.create({
       data: {
         id: message.id,
         text: message.text,
         createdAt: message.createdAt,
-        receiverId: message.receiverId,
-        senderId: message.senderId,
-        groupId: message.groupId,
+        chatId: message.chatId,
+        userId: message.userId,
       },
     })
+  }
+
+  formatMessage(message: NewMessage) {
+    return {
+      ...message,
+      id: generateId(),
+      createdAt: new Date(),
+    }
   }
 }

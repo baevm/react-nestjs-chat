@@ -8,11 +8,6 @@ import { GroupService } from './group.service'
 export class GroupController {
   constructor(private groupService: GroupService) {}
 
-  @Get('/messages/:groupId')
-  getGroupMessages(@Param() params: { groupId: string }) {
-    return this.groupService.getGroupMessages(params.groupId)
-  }
-
   @Post('/createGroup')
   createGroup(@Body() body: { groupName: string }, @GetCurrentUserId() userId: string) {
     return this.groupService.createGroup(userId, body.groupName)

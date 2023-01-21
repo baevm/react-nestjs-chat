@@ -26,13 +26,13 @@ const FolderItem = ({ folderName, activeFolder, setActiveFolder, contactsLength 
 }
 
 const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
-  const {data: user, isLoading, isError, error} = useGetUserQuery()
+  const { data: user, isLoading, isError, error } = useGetUserQuery()
 
   return (
     <div
       id='sidebar-header'
-      className='h-24 border-b-[1px] bg-background-color border-border-color shadow-sm pt-2 px-4 flex flex-col justify-between'>
-      <div className='flex items-center gap-4'>
+      className='h-24 w-full border-b-[1px] bg-background-color border-border-color shadow-sm pt-2 px-4 flex flex-col justify-between'>
+      <div className='w-full flex items-center gap-4'>
         <MenuButton />
         <SearchInput />
       </div>
@@ -40,7 +40,7 @@ const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
       <div id='sidebar-folders' className='flex gap-4'>
         <FolderItem
           activeFolder={activeFolder}
-          contactsLength={user?.contacts ? user.contacts.length : 0}
+          contactsLength={user?.participants ? user.participants.length : 0}
           folderName='All'
           setActiveFolder={setActiveFolder}
         />

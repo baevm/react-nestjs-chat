@@ -8,7 +8,7 @@ export const groupSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { groupName },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Chats'],
     }),
 
     addToGroup: builder.mutation<any, { groupId: string; contactName: string }>({
