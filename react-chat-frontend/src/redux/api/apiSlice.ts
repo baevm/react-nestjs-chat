@@ -1,7 +1,8 @@
-import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 
-const url = 'http://localhost:5000'
+const serverUrl =
+  process.env.NODE_ENV === 'production' ? 'https://chat-backend-3prh.onrender.com' : 'http://localhost:5000'
 
 interface CustomError {
   data: {
@@ -12,7 +13,7 @@ interface CustomError {
 }
 
 const mutex = new Mutex()
-const baseQuery = fetchBaseQuery({ baseUrl: url, credentials: 'include' }) as BaseQueryFn<
+const baseQuery = fetchBaseQuery({ baseUrl: serverUrl, credentials: 'include' }) as BaseQueryFn<
   string | FetchArgs,
   unknown,
   CustomError

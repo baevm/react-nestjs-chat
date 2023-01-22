@@ -4,16 +4,6 @@ import { useLoginMutation } from '@redux/api/auth/authSlice'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { BiSearch } from 'react-icons/bi'
-
-const test1 = {
-  qweqwe: 'qweqweqw',
-  qweqweqwe: 'qweqwe12312',
-  qweqweqweqwqweqw: '123123asxzczxc',
-  vbnvbnfhdfg: 123213,
-}
-
-const { vbnvbnfhdfg, ...newObject } = test1
 
 export default function Home() {
   const router = useRouter()

@@ -5,6 +5,8 @@ import * as cookieParser from 'cookie-parser'
 import { AppModule } from './app.module'
 
 const port = process.env.PORT || 5000
+const fe_origin =
+  process.env.NODE_ENV === 'production' ? 'https://react-nestjs-chat.up.railway.app' : 'http://localhost:3000'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -12,13 +14,13 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
   /*  app.useGlobalGuards(new AtGuard()) */
 
-  /*   app.useStaticAssets(join(__dirname, '..', 'static'))
-   */
   app.use(cookieParser())
+
+  console.log(fe_origin)
 
   app.enableCors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: fe_origin,
   })
 
   await app.listen(port)
