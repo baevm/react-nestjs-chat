@@ -1,16 +1,24 @@
-import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError, } from '@reduxjs/toolkit/query/react'
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 
 const url = 'http://localhost:5000'
 
-const mutex = new Mutex()
-const baseQuery = fetchBaseQuery({ baseUrl: url, credentials: 'include' })
+interface CustomError {
+  data: {
+    message: string
+    statusCode: number
+  }
+  status: number
+}
 
-const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, any> = async (
-  args,
-  api,
-  extraOptions
-) => {
+const mutex = new Mutex()
+const baseQuery = fetchBaseQuery({ baseUrl: url, credentials: 'include' }) as BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  CustomError
+>
+
+const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (args, api, extraOptions) => {
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
   if (result.error && result.error.status === 401) {
