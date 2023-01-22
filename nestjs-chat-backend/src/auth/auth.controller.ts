@@ -25,8 +25,12 @@ export class AuthController {
   async login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response): Promise<Tokens> {
     const tokens = await this.authService.login(dto)
 
-    res.cookie('ACCESS_TOKEN', tokens.access_token, { secure: true, maxAge: 60 * 15 * 1000 })
-    res.cookie('REFRESH_TOKEN', tokens.refresh_token, { secure: true, maxAge: 60 * 60 * 24 * 7 * 1000 })
+    res.cookie('ACCESS_TOKEN', tokens.access_token, { secure: true, maxAge: 60 * 15 * 1000, sameSite: 'none' })
+    res.cookie('REFRESH_TOKEN', tokens.refresh_token, {
+      secure: true,
+      maxAge: 60 * 60 * 24 * 7 * 1000,
+      sameSite: 'none',
+    })
 
     return tokens
   }
@@ -35,8 +39,8 @@ export class AuthController {
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
   async logout(@GetCurrentUserId() userId: string, @Res({ passthrough: true }) res: Response) {
-    res.cookie('ACCESS_TOKEN', '', { secure: true, maxAge: 1 })
-    res.cookie('REFRESH_TOKEN', '', { secure: true, maxAge: 1 })
+    res.cookie('ACCESS_TOKEN', '', { secure: true, maxAge: 1, sameSite: 'none' })
+    res.cookie('REFRESH_TOKEN', '', { secure: true, maxAge: 1, sameSite: 'none' })
 
     return this.authService.logout(userId)
   }
@@ -54,8 +58,12 @@ export class AuthController {
 
     console.log({ tokens })
 
-    res.cookie('ACCESS_TOKEN', tokens.access_token, { secure: true, maxAge: 60 * 15 * 1000 })
-    res.cookie('REFRESH_TOKEN', tokens.refresh_token, { secure: true, maxAge: 60 * 60 * 24 * 7 * 1000 })
+    res.cookie('ACCESS_TOKEN', tokens.access_token, { secure: true, maxAge: 60 * 15 * 1000, sameSite: 'none' })
+    res.cookie('REFRESH_TOKEN', tokens.refresh_token, {
+      secure: true,
+      maxAge: 60 * 60 * 24 * 7 * 1000,
+      sameSite: 'none',
+    })
 
     return tokens
   }
