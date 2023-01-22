@@ -14,7 +14,7 @@ const AddMemberModal = ({ isShow, handleClose }: { isShow: boolean; handleClose:
   }
 
   return (
-    <Modal isOpened={isShow} onClose={handleClose} className='w-full h-full'>
+    <Modal isOpened={isShow} onClose={handleClose}>
       <div className='bg-background-color p-4 rounded-md'>
         <div className='modal-header'>
           <div className='text-lg font-semibold text-text-color'>Add member</div>

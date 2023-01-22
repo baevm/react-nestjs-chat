@@ -58,7 +58,7 @@ const Chat = () => {
       <div
         id='chat-box'
         className='flex flex-col-reverse items-center w-full h-full py-4 px-4 md:px-0 overflow-y-auto max-h-[calc(100%-130px)] '>
-        <MessagesContainer messages={activeChat?.messages} />
+        <MessagesContainer activeChat={activeChat} />
         <InputWrapper activeChat={activeChat} />
       </div>
     </Panel>

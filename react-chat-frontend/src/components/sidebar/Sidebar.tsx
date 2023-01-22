@@ -29,7 +29,6 @@ const Sidebar = () => {
     return ''
   }
 
-  console.log({ chats })
 
   return (
     <Panel

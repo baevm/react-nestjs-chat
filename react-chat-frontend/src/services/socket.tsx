@@ -19,14 +19,13 @@ const SocketProvider = ({ children }: any) => {
     if (user && !isServer) {
       socket.connect()
       socket.on('connect', () => {
-        socket.emit('user:online', { username: user.username, id: user.id })
+        socket.emit('user-online', { username: user.username, id: user.id })
       })
     }
 
     return () => {
       if (user) {
         socket.disconnect()
-        socket.emit('user:offline', { username: user.username, id: user.id })
       }
     }
   }, [user])

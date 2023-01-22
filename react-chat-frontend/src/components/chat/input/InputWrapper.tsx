@@ -20,7 +20,7 @@ const InputWrapper = ({ activeChat }: any) => {
 
     const contact = activeChat.type === 'contact' ? getContact(activeChat.participants, user?.id) : activeChat
 
-    socket.emit('chatToServer', {
+    socket.emit('send-message-to-server', {
       userId: user?.id,
       receiverId: contact.id,
       text: newMessage,
@@ -30,7 +30,7 @@ const InputWrapper = ({ activeChat }: any) => {
   }
 
   useEffect(() => {
-    socket.on('chatToClient', (msg) => {
+    socket.on('send-message-to-chat', (msg) => {
       console.log({ msg })
 
       dispatch(

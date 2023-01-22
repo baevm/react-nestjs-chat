@@ -5,8 +5,9 @@ import { useGetUserQuery } from 'redux/api/user/userSlice'
 import GroupDate from './GroupDate'
 import MessageItem from './MessageItem'
 
-const MessagesContainer = ({ messages }: any) => {
+const MessagesContainer = ({ activeChat }: any) => {
   const { data: user, isLoading, isError, error } = useGetUserQuery()
+  const messages = activeChat?.messages
 
   //group messages by date
   const messageDateGroups = useMemo(() => {
@@ -22,6 +23,15 @@ const MessagesContainer = ({ messages }: any) => {
     return result
   }, [messages])
 
+  function getMessageUser(participants: any[], userId: string) {
+    const contact = participants.find(({ user }) => user.id === userId)
+    return contact.user
+  }
+
+  console.log({ messageDateGroups })
+
+  // first map by groups
+  // then map messages of that group
   return (
     <div id='chat-list' className='w-full md:w-1/2 flex flex-col flex-1 gap-4'>
       {Object.keys(messageDateGroups).map((group: any, index: number) => (
@@ -33,6 +43,10 @@ const MessagesContainer = ({ messages }: any) => {
               isOwn={message.userId === user.id}
               createdAt={formatTime(message.createdAt)}
               text={message.text}
+              username={
+                activeChat.type === 'group' ? getMessageUser(activeChat.participants, message.userId).username : ''
+              }
+              avatar={activeChat.type === 'group' ? getMessageUser(activeChat.participants, message.userId).avatar : ''}
             />
           ))}
         </div>
