@@ -1,5 +1,5 @@
 import Menu from '@components/ui-kit/Menu'
-import useUiStore from '@store/uiStore'
+import { useAppSelector } from 'redux/hooks'
 import { useState } from 'react'
 import { IoChatboxEllipsesOutline, IoPeopleOutline, IoPersonOutline } from 'react-icons/io5'
 import { RiPencilFill } from 'react-icons/ri'
@@ -13,9 +13,7 @@ const FloatingButton = () => {
   const [type, setType] = useState<ButtonOptions>(null)
   const [isShow, setIsShow] = useState(false)
 
-  const { isChatOpen } = useUiStore(state => ({
-    isChatOpen: state.isChatOpen,
-  }))
+  const isChatOpen = useAppSelector(state => state.ui.isChatOpen)
 
   const handleClose = () => {
     setType(null)

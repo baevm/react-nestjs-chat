@@ -1,10 +1,23 @@
 import AuthInput from '@components/auth/AuthInput'
+import Button from '@components/ui-kit/Button'
+import { useLoginMutation } from '@redux/api/auth/authSlice'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { BiSearch } from 'react-icons/bi'
+
+const test1 = {
+  qweqwe: 'qweqweqw',
+  qweqweqwe: 'qweqwe12312',
+  qweqweqweqwqweqw: '123123asxzczxc',
+  vbnvbnfhdfg: 123213,
+}
+
+const { vbnvbnfhdfg, ...newObject } = test1
 
 export default function Home() {
   const router = useRouter()
+  const [login, { isLoading, isSuccess, error }] = useLoginMutation()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -17,40 +30,34 @@ export default function Home() {
       password,
     }
 
-    const res = await fetch('http://localhost:5000/auth/login', {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    })
-
-    if (res.ok) {
-      router.replace(`/chat`)
-    }
+    await login(data)
+      .unwrap()
+      .then(() => router.replace(`/chat`))
+      .catch((error: any) => console.error(error))
   }
 
   return (
     <div className='w-screen h-screen flex flex-col items-center'>
       <img src='/auth_page_logo.svg' className='w-64 h-64 mt-24 absolute' />
-      <form onSubmit={handleSubmit} className='w-1/3 h-full flex flex-col items-center justify-center gap-2'>
+      <div className='w-1/3 h-full flex flex-col items-center justify-center gap-2'>
         <div className='flex flex-col items-start self-start'>
           <h1 className='font-semibold text-xl'>Welcome Back!</h1>
           <p className='text-icon-color text-sm'>
             Login to continue or{' '}
             <Link href='/signup' className='underline text-blue-500'>
-              Create new account
+              create new account
             </Link>
           </p>
         </div>
-        <AuthInput onChange={e => setUsername(e.target.value)} placeholder='Username' type='text' />
-        <AuthInput onChange={e => setPassword(e.target.value)} placeholder='Password' type='password' />
-        <button type='submit' className='w-1/2 text-active-item-color hover:bg-[#f4f4f5] rounded-md'>
-          Submit
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} className='w-full flex flex-col gap-2 items-center'>
+          <AuthInput onChange={(e) => setUsername(e.target.value)} placeholder='Username' type='text' />
+          {error && 'data' in error && <div className='text-red-500 text-sm self-start'>{error.data.message}</div>}
+          <AuthInput onChange={(e) => setPassword(e.target.value)} placeholder='Password' type='password' />
+          <Button type='submit' variant='subtle' isLoading={isLoading}>
+            Submit
+          </Button>
+        </form>
+      </div>
     </div>
   )
 }

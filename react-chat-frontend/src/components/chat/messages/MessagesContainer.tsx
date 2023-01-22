@@ -1,18 +1,15 @@
-import useMessages from '@hooks/useMessages'
-import useUser from '@hooks/useUser'
 import formatDate from '@utils/formatDate'
-import { useRouter } from 'next/router'
+import formatTime from '@utils/formatTime'
 import { useMemo } from 'react'
+import { useGetUserQuery } from 'redux/api/user/userSlice'
 import GroupDate from './GroupDate'
 import MessageItem from './MessageItem'
 
-const MessagesContainer = () => {
-  const router = useRouter()
-  const { user, error, isError, isLoading } = useUser()
-  const openedChatId = router.query.id ? router.query.id[0] : null
-  const { messages } = useMessages(openedChatId)
+const MessagesContainer = ({ activeChat }: any) => {
+  const { data: user, isLoading, isError, error } = useGetUserQuery()
+  const messages = activeChat?.messages
 
-  // group messages by date
+  //group messages by date
   const messageDateGroups = useMemo(() => {
     let result: any = {}
     messages?.forEach((message: any) => {
@@ -26,14 +23,31 @@ const MessagesContainer = () => {
     return result
   }, [messages])
 
+  function getMessageUser(participants: any[], userId: string) {
+    const contact = participants.find(({ user }) => user.id === userId)
+    return contact.user
+  }
 
+  console.log({ messageDateGroups })
+
+  // first map by groups
+  // then map messages of that group
   return (
     <div id='chat-list' className='w-full md:w-1/2 flex flex-col flex-1 gap-4'>
       {Object.keys(messageDateGroups).map((group: any, index: number) => (
         <div key={group} className='w-full flex-col flex'>
           <GroupDate date={group} />
           {messageDateGroups[group].map((message: any, index: number) => (
-            <MessageItem message={message} userId={user?.id} key={message.id} />
+            <MessageItem
+              key={message.id}
+              isOwn={message.userId === user.id}
+              createdAt={formatTime(message.createdAt)}
+              text={message.text}
+              username={
+                activeChat.type === 'group' ? getMessageUser(activeChat.participants, message.userId).username : ''
+              }
+              avatar={activeChat.type === 'group' ? getMessageUser(activeChat.participants, message.userId).avatar : ''}
+            />
           ))}
         </div>
       ))}

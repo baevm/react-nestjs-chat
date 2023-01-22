@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { CurrUser } from 'src/common/decorators/get-current-user.decorator'
 import generateId from 'src/common/generateId'
 import { PrismaService } from 'src/prisma/prisma.service'
 
@@ -25,78 +26,43 @@ export class UserService {
       },
       select: {
         id: true,
-        avatar: true,
         username: true,
-        contacts: {
-          select: {
-            avatar: true,
-            username: true,
-            id: true,
-            createdAt: true,
-          },
-        },
-        folders: {
-          include: {
-            contacts: {
-              select: {
-                avatar: true,
-                username: true,
-                id: true,
-              },
-            },
-            groups: {
-              select: {
-                name: true,
-                id: true,
-                avatar: true,
-              },
-            },
-          },
-        },
-        groups: {
-          select: {
-            name: true,
-            id: true,
-            messages: true,
-            avatar: true,
-            createdAt: true,
-            _count: {
-              select: {
-                users: true,
-              },
-            },
-          },
-        },
+        avatar: true,
       },
     })
 
     return user
   }
 
-  async getMessages(userId: string, contactId: string) {
-    const contact = await this.prisma.user.findUnique({
+  async getChats(userId: string) {
+    const chats = await this.prisma.chat.findMany({
       where: {
-        id: contactId,
+        participants: {
+          some: {
+            userId,
+          },
+        },
+      },
+      include: {
+        messages: true,
+        participants: {
+          select: {
+            user: {
+              select: {
+                avatar: true,
+                username: true,
+                id: true,
+              },
+            },
+          },
+        },
       },
     })
 
-    return this.prisma.message.findMany({
-      where: {
-        OR: [
-          {
-            senderId: userId,
-            receiverId: contact.id,
-          },
-          {
-            receiverId: userId,
-            senderId: contact.id,
-          },
-        ],
-      },
-    })
+    return chats
   }
 
-  async addContact(userId: string, username: string) {
+  async addContact(currUser: CurrUser, username: string) {
     const newContact = await this.prisma.user.findUnique({
       where: {
         username,
@@ -107,27 +73,33 @@ export class UserService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND)
     }
 
-    const added = await this.prisma.user.update({
-      where: { id: userId },
+    // check if chat already exists
+
+    const chat = await this.prisma.chat.create({
       data: {
-        contacts: {
-          connect: {
-            username,
-          },
-        },
+        id: generateId('C'),
+        title: `${currUser.username}-${newContact.username}`,
+        type: 'contact',
       },
+    })
+
+    const participants = await this.prisma.participants.createMany({
+      data: [
+        { chatId: chat.id, userId: currUser.sub },
+        { chatId: chat.id, userId: newContact.id },
+      ],
     })
 
     return { message: 'ok' }
   }
 
-  async createFolder(userId: string, folderName: string) {
+  async createFolder(currUserId: string, folderName: string) {
     const folder = await this.prisma.folder.create({
       data: {
         name: folderName,
-        User: {
+        user: {
           connect: {
-            id: userId,
+            id: currUserId,
           },
         },
       },
@@ -137,19 +109,16 @@ export class UserService {
   }
 
   async addToFolder(userId: string, folderId: string, contactId: string) {
-    const folder = await this.prisma.folder.update({
+    /* const folder = await this.prisma.folder.update({
       where: {
         id: folderId,
       },
       data: {
-        contacts: {
-          connect: {
-            id: contactId,
-          },
-        },
+       
       },
     })
 
-    return folder
+    return folder */
+    return { message: 'not implenemnted' }
   }
 }

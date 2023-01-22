@@ -1,9 +1,8 @@
 import Badge from '@components/ui-kit/Badge'
-import useMessages from '@hooks/useMessages'
-import useUiStore from '@store/uiStore'
-import formatLastMsgTime from '@utils/formatLastMsgTime'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useAppDispatch } from 'redux/hooks'
+import { openChat } from 'redux/slices/uiSlice'
 import ContextMenu from './ContextMenu'
 
 type Props = {
@@ -11,23 +10,29 @@ type Props = {
   title: string
   avatar: string | null
   unreadCount?: number
+  lastMessageTime: string
+  lastMessage: string
   setClickedItem: (id: string | null) => void
   clickedItem: string | null
 }
 
-const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedItem }: Props) => {
+const ContactItem = ({
+  id,
+  title,
+  avatar,
+  unreadCount,
+  lastMessage,
+  lastMessageTime,
+  setClickedItem,
+  clickedItem,
+}: Props) => {
   const router = useRouter()
-  const activeChat = router.query.id ? router.query.id[0] : null
-  const [isOpen, setIsOpen] = useState(false)
+  const dispatch = useAppDispatch()
+  const openedChatId = router.query.id ? router.query.id[0] : null
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
 
-  const { messages, isLoading } = useMessages(id)
-  const { openChat } = useUiStore(state => ({
-    openChat: state.openChat,
-  }))
-
   const handleOpenChat = (id: string) => {
-    openChat()
+    dispatch(openChat())
     router.push(`/chat/${id}`, undefined, { shallow: true })
   }
 
@@ -43,21 +48,6 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
     setPosXY({ x: 0, y: 0 })
   }
 
-  function getLastMessage(messages: any) {
-    if (messages?.length > 0) {
-      return messages[messages.length - 1].text
-    }
-    return ''
-  }
-
-  function getLastMessageTime(messages: any) {
-    if (messages?.length > 0) {
-      let time = messages[messages.length - 1].createdAt
-      return formatLastMsgTime(time)
-    }
-    return ''
-  }
-
   return (
     <>
       <button
@@ -65,19 +55,19 @@ const ContactItem = ({ id, title, avatar, unreadCount, setClickedItem, clickedIt
         onContextMenu={handleOpenContext}
         id='chat-item'
         className={`w-full p-2 rounded-lg cursor-pointer  flex gap-2 ${
-          title === activeChat ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
+          id === openedChatId ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
         }`}>
-        <img src={avatar ? avatar : '/user.png'} className='w-12 h-12 rounded-full' alt={'test'} />
+        <img src={avatar ? avatar : '/user.png'} className='w-12 h-12 rounded-full' alt={`${title} avatar`} />
         <div className='w-full'>
           <div className='flex justify-between'>
-            <div className={`font-medium ${title === activeChat ? 'text-white' : 'text-text-color'}`}>{title}</div>
-            <div className={`text-xs  ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
-              {getLastMessageTime(messages)}
+            <div className={`font-medium ${id === openedChatId ? 'text-white' : 'text-text-color'}`}>{title}</div>
+            <div className={`text-xs  ${id === openedChatId ? 'text-white' : 'text-text-secondary-color'}`}>
+              {lastMessageTime}
             </div>
           </div>
           <div className='flex justify-between'>
-            <div className={`text-left ${title === activeChat ? 'text-white' : 'text-text-secondary-color'}`}>
-              {getLastMessage(messages)}
+            <div className={`text-left ${id === openedChatId ? 'text-white' : 'text-text-secondary-color'}`}>
+              {lastMessage}
             </div>
             {unreadCount && unreadCount > 0 ? <Badge>{unreadCount}</Badge> : null}
           </div>

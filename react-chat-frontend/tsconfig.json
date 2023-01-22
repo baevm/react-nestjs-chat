@@ -19,7 +19,7 @@
     "paths": {
       "@services/*": ["services/*"],
       "@components/*": ["components/*"],
-      "@store/*": ["store/*"],
+      "@redux/*": ["redux/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
       "types/*": ["types/*"],

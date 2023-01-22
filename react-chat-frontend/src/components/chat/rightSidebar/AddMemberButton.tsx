@@ -1,13 +1,12 @@
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { IoPersonAddOutline } from 'react-icons/io5'
 import AddMemberModal from './AddMemberModal'
 
 const AddMemberButton = () => {
+  const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const handleAdd = () =>{
-    
-  }
+ 
 
   return (
     <>

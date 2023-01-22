@@ -1,34 +1,30 @@
 export type Folder = {
   name: string
   id: string
-  contacts: Contact[]
-  groups: Group[]
-}
-
-export type Contact = {
-  id: string
-  username: string
-  avatar: string | null
-  messages: string[]
-}
-
-export type Group = {
-  id: string
-  name: string
-  avatar: string
-  messages: string[]
-  _count: {
-    users: number
-  }
 }
 
 export type User = {
   id: string
   avatar: string
   username: string
-  contacts: Contact[]
+  chats: Chat[]
   folders: Folder[]
-  groups: Group[]
 }
+
+export type Participant = {
+  id: string
+  username: string
+  avatar: string | null
+}
+
+export type Chat = {
+  id: string
+  title: string
+  type: ChatType
+  messages: string[]
+  participants: Participant[]
+}
+
+
 
 export type ChatType = 'contact' | 'group'

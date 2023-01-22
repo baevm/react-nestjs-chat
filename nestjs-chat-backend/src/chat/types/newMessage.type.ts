@@ -1,8 +1,7 @@
 export type NewMessage = {
-  senderId: string
-  senderName: string
+  userId: string
   text: string
-  receiverId: string
-  receiverName: string
+  receiverId?: string
   groupId?: string
+  chatId: string
 }

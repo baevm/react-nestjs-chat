@@ -37,8 +37,8 @@ const RightSidebar = ({ type, image, username, setIsSidebarOpen, isSidebarOpen }
           <div className='absolute bottom-0 px-4 text-lg text-black'>{username}</div>
         </div>
         <div className='px-4 flex gap-2 border-border-color border-b-[1px]'>
-          {TABS.map(tab => (
-            <TabItem tab={tab} setActiveTab={setActiveTab} activeTab={activeTab} />
+          {TABS.map((tab) => (
+            <TabItem key={tab} tab={tab} setActiveTab={setActiveTab} activeTab={activeTab} />
           ))}
         </div>
         {type === 'group' ? <AddMemberButton /> : null}

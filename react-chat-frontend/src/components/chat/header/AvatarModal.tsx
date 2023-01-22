@@ -8,18 +8,14 @@ import Modal from '@components/ui-kit/Modal'
 const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
   const imgRef = useRef<HTMLImageElement | null>(null)
   const headerIconsRef = useRef<HTMLDivElement | null>(null)
-  useClickOutside(imgRef, e => {
+  useClickOutside(imgRef, (e) => {
     if (!headerIconsRef.current?.contains(e.target)) {
       setIsModalOpen(false)
     }
   })
 
   return (
-    <Modal
-      isOpened={isModalOpen}
-      onClose={() => setIsModalOpen(false)}
-      closeOnClickOutside={false}
-      className='w-full h-full'>
+    <Modal isOpened={isModalOpen} onClose={() => setIsModalOpen(false)} closeOnClickOutside={false}>
       <div id='avatar-modal-header' className='w-full text-gray-300 px-4 py-2 flex items-center justify-between'>
         <div className='flex gap-2'>
           <img src={image} className='w-11 h-11' />

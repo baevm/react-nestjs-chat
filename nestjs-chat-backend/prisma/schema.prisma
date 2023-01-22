@@ -13,57 +13,142 @@ datasource db {
 model User {
   id       String  @id @unique
   username String  @unique
+  avatar   String?
   password String
   hashedRt String?
 
-  avatar           String?
-  updatedAt        DateTime  @updatedAt
-  createdAt        DateTime  @default(now())
-  contacts         User[]    @relation("contacts")
-  contactsRelation User[]    @relation("contacts")
-  folders          Folder[]
-  sender           Message[] @relation("sender")
-  receiver         Message[] @relation("receiver")
+  messages Message[]
+  folders  Folder[]
+  chats    Participants[]
 
-  folder_contacts Folder[] @relation("folder_contacts")
-  userId          String?
-  groups          Group[]
-  groupId         String?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id       String    @id @unique @default(cuid())
+  title    String
+  type     String
+  messages Message[]
+
+  participants Participants[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Participants {
+  id     String @id @unique @default(cuid())
+  userId String
+  chatId String
+
+  chat Chat @relation(fields: [chatId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }
 
 model Message {
-  id        String   @id @unique
-  text      String
-  createdAt DateTime @default(now())
-  sender    User     @relation(name: "sender", fields: [senderId], references: [id])
-  receiver  User?    @relation(name: "receiver", fields: [receiverId], references: [id])
+  id     String @id @unique
+  text   String
+  userId String
+  chatId String
 
-  senderId   String
-  receiverId String?
-  Group      Group?  @relation(fields: [groupId], references: [id])
-  groupId    String?
-}
+  chat Chat @relation(fields: [chatId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
-model Group {
-  id       String    @id @unique
-  name     String    @unique
-  avatar   String?
-  users    User[]
-  messages Message[]
-
-  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  folder_relation Folder[]
-  folderId        String?
+  createdAt DateTime @default(now())
 }
 
 model Folder {
-  id       String  @id @unique @default(cuid())
-  name     String
-  contacts User[]  @relation("folder_contacts")
-  groups   Group[]
+  id   String @id @unique @default(cuid())
+  name String
 
-  User   User   @relation(fields: [userId], references: [id])
   userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }
+
+// model User {
+//   id       String  @id @unique
+//   username String  @unique
+//   password String
+//   hashedRt String?
+
+//   avatar    String?
+//   updatedAt DateTime        @updatedAt
+//   createdAt DateTime        @default(now())
+//   folders   Folder[]
+//   contacts  User_Contacts[] @relation("contact")
+//   sender    Message[]       @relation("sender")
+//   receiver  Message[]       @relation("receiver")
+
+//   folder_contacts Folder[] @relation("folder_contacts")
+//   userId          String?
+
+//   groupId String?
+
+//   userContacts User_Contacts[] @relation("user")
+//   groups       User_Groups[]
+
+// }
+
+// model User_Contacts {
+//   id        String @id @unique @default(cuid())
+//   userId    String
+//   contactId String
+
+//   contact User @relation(name: "contact", fields: [contactId], references: [id])
+//   user    User @relation(name: "user", fields: [userId], references: [id])
+// }
+
+// model User_Groups {
+//   id      String @id @unique @default(cuid())
+//   userId  String
+//   groupId String
+
+//   user  User  @relation(fields: [userId], references: [id])
+//   group Group @relation(fields: [groupId], references: [id])
+// }
+
+// model Group {
+//   id       String    @id @unique
+//   name     String    @unique
+//   avatar   String?
+//   users    User[]
+//   messages Message[]
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   folder_relation Folder[]
+//   folderId        String?
+//   User_Groups     User_Groups[]
+// }
+
+// model Message {
+//   id        String   @id @unique
+//   text      String
+//   createdAt DateTime @default(now())
+//   sender    User     @relation(name: "sender", fields: [senderId], references: [id])
+//   receiver  User?    @relation(name: "receiver", fields: [receiverId], references: [id])
+
+//   senderId   String
+//   receiverId String?
+//   Group      Group?  @relation(fields: [groupId], references: [id])
+//   groupId    String?
+// }
+
+// model Folder {
+//   id       String  @id @unique @default(cuid())
+//   name     String
+//   contacts User[]  @relation("folder_contacts")
+//   groups   Group[]
+
+//   User   User   @relation(fields: [userId], references: [id])
+//   userId String
+// }

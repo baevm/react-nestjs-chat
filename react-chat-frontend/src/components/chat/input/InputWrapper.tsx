@@ -1,36 +1,29 @@
 import ActionIcon from '@components/ui-kit/ActionIcon'
-import useMessages from '@hooks/useMessages'
-import useUser from '@hooks/useUser'
-import { SocketContext } from '@services/socket'
-import React, { useContext, useEffect, useState } from 'react'
+import { getContact } from '@utils/getContact'
+import React, { useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
+import { useGetUserQuery, useSendMessageMutation } from 'redux/api/user/userSlice'
 import EmojiButton from './EmojiButton'
 
-const ChatInput = ({ activeChat }: any) => {
+const InputWrapper = ({ activeChat }: any) => {
   const [newMessage, setNewMessage] = useState('')
-  const { user, error, isError, isLoading } = useUser()
-  const socket = useContext(SocketContext)
-  const { cacheNewMessage } = useMessages(activeChat.id)
+  const { data: user, isLoading, isError, error } = useGetUserQuery()
+  const [sendMessage, { isLoading: isSending }] = useSendMessageMutation()
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
-    socket.emit('chatToServer', {
-      senderId: user?.id,
-      senderName: user?.username,
-      receiverId: activeChat.id,
-      receiverName: activeChat.username,
+
+    const contact = activeChat.type === 'contact' ? getContact(activeChat.participants, user?.id) : activeChat
+    const message = {
+      userId: user?.id,
+      receiverId: contact.id,
       text: newMessage,
-    })
+      chatId: activeChat.id,
+    }
+    sendMessage(message)
     setNewMessage('')
   }
-
-  useEffect(() => {
-    socket.on('chatToClient', msg => {
-      console.log({ msg })
-      cacheNewMessage(msg, user)
-    })
-  }, [])
 
   return (
     <div
@@ -40,7 +33,7 @@ const ChatInput = ({ activeChat }: any) => {
         <EmojiButton setNewMessage={setNewMessage} />
         <form onSubmit={handleSend} className='w-full'>
           <input
-            onChange={e => setNewMessage(e.target.value)}
+            onChange={(e) => setNewMessage(e.target.value)}
             value={newMessage}
             className='h-full w-full outline-none bg-input-color text-text-color'
             placeholder='Message'
@@ -58,4 +51,4 @@ const ChatInput = ({ activeChat }: any) => {
   )
 }
 
-export default ChatInput
+export default InputWrapper

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import generateId from 'src/common/generateId'
 import { PrismaService } from 'src/prisma/prisma.service'
 
@@ -6,75 +6,59 @@ import { PrismaService } from 'src/prisma/prisma.service'
 export class GroupService {
   constructor(private prisma: PrismaService) {}
 
-  async getGroup(groupId: string) {
-    return this.prisma.group.findUnique({
-      where: {
-        id: groupId,
-      },
-      include: {
-        users: {
-          select: {
-            username: true,
-            id: true,
-            avatar: true,
-          },
-        },
-      },
-    })
-  }
-
-  async getGroupMessages(groupId: string) {
-    return this.prisma.message.findMany({
-      where: {
-        groupId,
-      },
-      select: {
-        id: true,
-        text: true,
-        senderId: true,
-        createdAt: true,
-      },
-    })
-  }
-
   async createGroup(userId: string, groupName: string) {
-    return this.prisma.group.create({
+    const group = await this.prisma.chat.create({
       data: {
         id: generateId('G'),
-        name: groupName,
-        users: {
-          connect: {
-            id: userId,
-          },
-        },
+        title: groupName,
+        type: 'group',
       },
     })
+
+    const participants = await this.prisma.participants.create({
+      data: {
+        chatId: group.id,
+        userId,
+      },
+    })
+
+    return group
   }
 
   async inviteToGroup(groupId: string, username: string) {
-    return this.prisma.group.update({
+    const newUser = await this.prisma.user.findUnique({
       where: {
-        id: groupId,
+        username,
       },
+    })
+
+    if (!newUser) {
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST)
+    }
+
+    return this.prisma.participants.create({
       data: {
-        users: {
-          connect: {
-            username,
-          },
-        },
+        userId: newUser.id,
+        chatId: groupId,
       },
     })
   }
 
-  async removeFromGroup(groupName: string, username: string) {
-    return this.prisma.group.update({
+  async removeFromGroup(groupId: string, username: string) {
+    const removeUser = await this.prisma.user.findUnique({
       where: {
-        name: groupName,
+        username,
+      },
+    })
+
+    return this.prisma.chat.update({
+      where: {
+        id: groupId,
       },
       data: {
-        users: {
+        participants: {
           disconnect: {
-            username,
+            id: removeUser.id,
           },
         },
       },
