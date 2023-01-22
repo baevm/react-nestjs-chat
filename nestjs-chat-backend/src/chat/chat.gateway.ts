@@ -38,7 +38,6 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     chatIds.forEach((id) => client.join(id))
   }
 
-
   @SubscribeMessage('send-message-to-server')
   handleMessage(client: Socket, message: NewMessage) {
     const formatMessage = this.chatService.formatMessage(message)
@@ -46,6 +45,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.chatService.saveMessage(formatMessage)
 
     this.wss.to(message.chatId).emit('send-message-to-chat', formatMessage)
+
+    return 'ok'
   }
 
   @SubscribeMessage('join-group')

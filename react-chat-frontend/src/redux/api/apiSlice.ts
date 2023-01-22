@@ -1,4 +1,4 @@
-import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError, } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 
 const url = 'http://localhost:5000'
@@ -6,7 +6,7 @@ const url = 'http://localhost:5000'
 const mutex = new Mutex()
 const baseQuery = fetchBaseQuery({ baseUrl: url, credentials: 'include' })
 
-const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, any> = async (
   args,
   api,
   extraOptions

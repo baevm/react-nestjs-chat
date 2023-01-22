@@ -1,48 +1,29 @@
 import ActionIcon from '@components/ui-kit/ActionIcon'
-import { useAppDispatch } from '@redux/hooks'
-import { SocketContext } from '@services/socket'
 import { getContact } from '@utils/getContact'
-import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
-import { useGetUserQuery, userApi } from 'redux/api/user/userSlice'
+import { useGetUserQuery, useSendMessageMutation } from 'redux/api/user/userSlice'
 import EmojiButton from './EmojiButton'
 
 const InputWrapper = ({ activeChat }: any) => {
   const [newMessage, setNewMessage] = useState('')
-  const dispatch = useAppDispatch()
   const { data: user, isLoading, isError, error } = useGetUserQuery()
-  const socket = useContext(SocketContext)
+  const [sendMessage, { isLoading: isSending }] = useSendMessageMutation()
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
 
     const contact = activeChat.type === 'contact' ? getContact(activeChat.participants, user?.id) : activeChat
-
-    socket.emit('send-message-to-server', {
+    const message = {
       userId: user?.id,
       receiverId: contact.id,
       text: newMessage,
       chatId: activeChat.id,
-    })
+    }
+    sendMessage(message)
     setNewMessage('')
   }
-
-  useEffect(() => {
-    socket.on('send-message-to-chat', (msg) => {
-      console.log({ msg })
-
-      dispatch(
-        userApi.util.updateQueryData('getChats', undefined, (data) => {
-          let chat = data.find((chat: any) => chat.id === msg.chatId)
-          chat.messages.push(msg)
-
-          return data
-        })
-      )
-    })
-  }, [])
 
   return (
     <div
