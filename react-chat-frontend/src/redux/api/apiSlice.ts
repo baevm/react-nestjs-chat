@@ -1,8 +1,7 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 
-const serverUrl =
-  process.env.NODE_ENV === 'production' ? 'https://chat-backend-3prh.onrender.com' : 'http://localhost:5000'
+const serverUrl = process.env.NODE_ENV === 'production' ? 'https://chat.dezzerlol.tech' : 'http://localhost:5000'
 
 interface CustomError {
   data: {

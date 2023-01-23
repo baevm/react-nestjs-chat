@@ -8,7 +8,7 @@ import { AuthService } from './auth.service'
 import { AuthDto } from './dto/auth.dto'
 import { Tokens } from './types/tokens.type'
 
-const cookieDomain = '.railway.app'
+const cookieDomain = '.dezzerlol.tech'
 
 @Controller('auth')
 export class AuthController {
