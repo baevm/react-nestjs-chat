@@ -8,6 +8,8 @@ import { AuthService } from './auth.service'
 import { AuthDto } from './dto/auth.dto'
 import { Tokens } from './types/tokens.type'
 
+const cookieDomain = '.railway.app'
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -29,13 +31,13 @@ export class AuthController {
       secure: true,
       maxAge: 60 * 15 * 1000,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? 'dezzerlol.tech' : null,
+      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
     })
     res.cookie('REFRESH_TOKEN', tokens.refresh_token, {
       secure: true,
       maxAge: 60 * 60 * 24 * 7 * 1000,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? 'dezzerlol.tech' : null,
+      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
     })
 
     return tokens
@@ -49,13 +51,13 @@ export class AuthController {
       secure: true,
       maxAge: 1,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? 'dezzerlol.tech' : null,
+      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
     })
     res.cookie('REFRESH_TOKEN', '', {
       secure: true,
       maxAge: 1,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? 'dezzerlol.tech' : null,
+      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
     })
 
     return this.authService.logout(userId)
@@ -78,13 +80,13 @@ export class AuthController {
       secure: true,
       maxAge: 60 * 15 * 1000,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? 'dezzerlol.tech' : null,
+      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
     })
     res.cookie('REFRESH_TOKEN', tokens.refresh_token, {
       secure: true,
       maxAge: 60 * 60 * 24 * 7 * 1000,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? 'dezzerlol.tech' : null,
+      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
     })
 
     return tokens
