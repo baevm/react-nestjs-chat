@@ -1,7 +1,8 @@
-import Modal from '@components/ui-kit/Modal'
+import { Modal } from '@components/ui-kit'
 import { useAddToGroupMutation } from '@redux/api/group/groupSlice'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+
 
 const AddMemberModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: () => void }) => {
   const router = useRouter()

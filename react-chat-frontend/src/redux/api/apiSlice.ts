@@ -6,6 +6,7 @@ interface CustomError {
   data: {
     message: string
     statusCode: number
+    type?: string
   }
   status: number
 }

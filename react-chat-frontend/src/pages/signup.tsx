@@ -1,31 +1,44 @@
 import AuthInput from '@components/auth/AuthInput'
-import Button from '@components/ui-kit/Button'
+import ErrorText from '@components/auth/ErrorText'
+import { Button, useToast } from '@components/ui-kit'
 import { useSignupMutation } from '@redux/api/auth/authSlice'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+type Inputs = {
+  username: string
+  password: string
+}
 
 const SignupPage = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [signup, { isLoading }] = useSignupMutation()
+  const [signup, { isLoading, error: apiError }] = useSignupMutation()
+  const toast = useToast()
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors },
+  } = useForm<Inputs>()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const data = {
-      username,
-      password,
-    }
-
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await signup(data)
       .unwrap()
-      .then(() => console.log('success'))
+      .then(() =>
+        toast.show({
+          type: 'success',
+          title: 'Success!',
+          text: 'Account created. You can login now.',
+          position: 'bottom-right',
+        })
+      )
       .catch((error: any) => console.error(error))
   }
 
   return (
     <div className='w-screen h-screen flex flex-col items-center'>
       <img src='/auth_page_logo.svg' className='w-64 h-64 mt-24 absolute' />
-      <div className='w-1/3 h-full flex flex-col items-center justify-center gap-2'>
+      <div className='md:w-1/4 h-full flex flex-col items-center justify-center gap-2'>
         <div className='flex flex-col items-start self-start'>
           <h1 className='font-semibold text-xl'>Create account</h1>
           <p className='text-icon-color text-sm'>
@@ -35,9 +48,19 @@ const SignupPage = () => {
             </Link>
           </p>
         </div>
-        <form onSubmit={handleSubmit} className='w-full flex flex-col gap-2 items-center'>
-          <AuthInput onChange={(e) => setUsername(e.target.value)} placeholder='Username' type='text' />
-          <AuthInput onChange={(e) => setPassword(e.target.value)} placeholder='Password' type='password' />
+        <form onSubmit={handleSubmit(onSubmit)} className='w-full flex flex-col gap-2 items-center'>
+          <AuthInput {...register('username', { required: true })} placeholder='Username' type='text' />
+          {apiError && 'data' in apiError && apiError.data.type === 'username' && (
+            <ErrorText>{apiError.data.message}</ErrorText>
+          )}
+          {errors.username?.type === 'required' && <ErrorText>Username is required</ErrorText>}
+
+          <AuthInput {...register('password', { required: true })} placeholder='Password' type='password' />
+          {apiError && 'data' in apiError && apiError.data.type === 'password' && (
+            <ErrorText>{apiError.data.message}</ErrorText>
+          )}
+          {errors.password?.type === 'required' && <ErrorText>Password is required</ErrorText>}
+
           <Button type='submit' variant='subtle' isLoading={isLoading}>
             Submit
           </Button>

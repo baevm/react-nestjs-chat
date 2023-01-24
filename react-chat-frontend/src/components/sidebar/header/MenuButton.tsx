@@ -1,12 +1,10 @@
-import ActionIcon from '@components/ui-kit/ActionIcon'
 import useClickOutside from '@hooks/useClickOutside'
 import React, { HTMLAttributes, useRef, useState } from 'react'
 import { MdOutlineMenu } from 'react-icons/md'
 import { IoMoonOutline, IoBookmarkOutline, IoLogOutOutline, IoPersonOutline } from 'react-icons/io5'
 import { useRouter } from 'next/router'
-import Menu from '@components/ui-kit/Menu'
 import { useTheme } from '@hooks/useTheme'
-import Switch from '@components/ui-kit/Switch'
+import { ActionIcon, Menu, Switch } from '@components/ui-kit'
 
 const MenuButton = () => {
   const router = useRouter()

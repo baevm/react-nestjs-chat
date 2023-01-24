@@ -5,7 +5,7 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   className?: React.ComponentProps<'button'>['className']
 }
 
-const ActionIcon = ({ children, className, ...props }: ButtonProps) => {
+export const ActionIcon = ({ children, className, ...props }: ButtonProps) => {
   return (
     <button
       {...props}
@@ -14,5 +14,3 @@ const ActionIcon = ({ children, className, ...props }: ButtonProps) => {
     </button>
   )
 }
-
-export default ActionIcon

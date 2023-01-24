@@ -1,6 +1,6 @@
 import useClickOutside from '@hooks/useClickOutside'
 import React, { useRef } from 'react'
-import Portal from './Portal'
+import { Portal } from '../Portal'
 
 interface ModalProps {
   children: any
@@ -10,7 +10,7 @@ interface ModalProps {
   closeOnClickOutside?: boolean
 }
 
-const Modal = ({ children, isOpened, onClose, className, closeOnClickOutside = true }: ModalProps) => {
+export const Modal = ({ children, isOpened, onClose, className, closeOnClickOutside = true }: ModalProps) => {
   const modalBodyRef = useRef<HTMLDivElement | null>(null)
 
   useClickOutside(modalBodyRef, (e) => {
@@ -37,5 +37,3 @@ const Modal = ({ children, isOpened, onClose, className, closeOnClickOutside = t
     </Portal>
   )
 }
-
-export default Modal

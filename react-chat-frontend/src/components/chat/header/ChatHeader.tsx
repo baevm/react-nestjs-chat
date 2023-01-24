@@ -1,7 +1,7 @@
+import { ActionIcon } from '@components/ui-kit'
 import { useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
 import { ChatType } from 'types/app.types'
-import ActionIcon from '../../ui-kit/ActionIcon'
 import RightSidebar from '../rightSidebar/RightSidebar'
 import AvatarModal from './AvatarModal'
 import BackButton from './BackButton'

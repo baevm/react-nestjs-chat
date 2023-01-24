@@ -1,25 +1,29 @@
 import AuthInput from '@components/auth/AuthInput'
-import Button from '@components/ui-kit/Button'
+import ErrorText from '@components/auth/ErrorText'
+import { Button } from '@components/ui-kit'
 import { useLoginMutation } from '@redux/api/auth/authSlice'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form/dist/types'
+
+type Inputs = {
+  username: string
+  password: string
+}
 
 export default function Home() {
   const router = useRouter()
-  const [login, { isLoading, isSuccess, error }] = useLoginMutation()
+  const [login, { isLoading, isSuccess, error: apiError }] = useLoginMutation()
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors },
+  } = useForm<Inputs>()
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const data = {
-      username,
-      password,
-    }
-
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await login(data)
       .unwrap()
       .then(() => router.replace(`/chat`))
@@ -29,7 +33,7 @@ export default function Home() {
   return (
     <div className='w-screen h-screen flex flex-col items-center'>
       <img src='/auth_page_logo.svg' className='w-64 h-64 mt-24 absolute' />
-      <div className='w-1/3 h-full flex flex-col items-center justify-center gap-2'>
+      <div className='md:w-1/4 h-full flex flex-col items-center justify-center gap-2'>
         <div className='flex flex-col items-start self-start'>
           <h1 className='font-semibold text-xl'>Welcome Back!</h1>
           <p className='text-icon-color text-sm'>
@@ -39,10 +43,19 @@ export default function Home() {
             </Link>
           </p>
         </div>
-        <form onSubmit={handleSubmit} className='w-full flex flex-col gap-2 items-center'>
-          <AuthInput onChange={(e) => setUsername(e.target.value)} placeholder='Username' type='text' />
-          {error && 'data' in error && <div className='text-red-500 text-sm self-start'>{error.data.message}</div>}
-          <AuthInput onChange={(e) => setPassword(e.target.value)} placeholder='Password' type='password' />
+        <form onSubmit={handleSubmit(onSubmit)} className='w-full flex flex-col gap-2 items-center'>
+          <AuthInput {...register('username', { required: true })} placeholder='Username' type='text' />
+          {apiError && 'data' in apiError && apiError.data.type === 'username' && (
+            <ErrorText>{apiError.data.message}</ErrorText>
+          )}
+          {errors.username?.type === 'required' && <ErrorText>Username is required</ErrorText>}
+
+          <AuthInput {...register('password', { required: true })} placeholder='Password' type='password' />
+          {apiError && 'data' in apiError && apiError.data.type === 'password' && (
+            <ErrorText>{apiError.data.message}</ErrorText>
+          )}
+          {errors.password?.type === 'required' && <ErrorText>Password is required</ErrorText>}
+
           <Button type='submit' variant='subtle' isLoading={isLoading}>
             Submit
           </Button>

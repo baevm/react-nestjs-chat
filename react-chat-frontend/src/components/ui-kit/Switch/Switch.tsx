@@ -4,7 +4,7 @@ interface SwitchProps extends HTMLAttributes<HTMLInputElement> {
   checked: boolean
 }
 
-const Switch = ({ checked, ...props }: SwitchProps) => {
+export const Switch = ({ checked, ...props }: SwitchProps) => {
   return (
     <label className='relative inline-flex items-center cursor-pointer'>
       <input {...props} type='checkbox' checked={checked} className='sr-only peer' />
@@ -17,5 +17,3 @@ const Switch = ({ checked, ...props }: SwitchProps) => {
     </label>
   )
 }
-
-export default Switch

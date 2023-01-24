@@ -11,7 +11,7 @@ const sizes = {
   md: 30,
 }
 
-const Loader = ({ size = 'xs', color = 'var(--active-item-color)' }: LoaderProps) => {
+export const Loader = ({ size = 'xs', color = 'var(--active-item-color)' }: LoaderProps) => {
   return (
     <div>
       <svg
@@ -39,5 +39,3 @@ const Loader = ({ size = 'xs', color = 'var(--active-item-color)' }: LoaderProps
     </div>
   )
 }
-
-export default Loader

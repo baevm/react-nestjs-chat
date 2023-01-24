@@ -1,4 +1,4 @@
-import Badge from '@components/ui-kit/Badge'
+import { Badge } from '@components/ui-kit'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useAppDispatch } from 'redux/hooks'

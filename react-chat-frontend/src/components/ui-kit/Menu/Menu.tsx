@@ -28,7 +28,7 @@ const MenuContext = createContext({
   setIsOpen: (val: boolean) => {},
 })
 
-const Menu = ({ children, isOpen, setIsOpen, ...props }: MenuProps) => {
+export const Menu = ({ children, isOpen, setIsOpen, ...props }: MenuProps) => {
   const menuRef = useRef<HTMLDivElement | null>(null)
   useClickOutside(menuRef, () => setIsOpen(false))
 
@@ -75,4 +75,3 @@ Menu.Item = MenuItem
 Menu.Target = MenuTarget
 Menu.Dropdown = MenuDropdown
 
-export default Menu

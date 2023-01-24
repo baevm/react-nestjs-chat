@@ -6,10 +6,8 @@ interface PortalProps {
   target?: Element | DocumentFragment
 }
 
-const Portal = ({ children, target }: PortalProps) => {
+export const Portal = ({ children, target }: PortalProps) => {
   let container = target ? target : (document.getElementById('portals') as Element)
 
   return <>{createPortal(children, container)}</>
 }
-
-export default Portal

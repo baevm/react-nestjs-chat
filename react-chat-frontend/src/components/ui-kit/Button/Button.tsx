@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, HTMLAttributes } from 'react'
-import Loader from './Loader/Loader'
+import { Loader } from '../Loader/'
 
 type ButtonVariants = 'filled' | 'light' | 'subtle'
 
@@ -23,7 +23,7 @@ const loaderColors = {
   subtle: 'var(--active-item-color)',
 }
 
-const Button = ({ children, isLoading, className, icon, variant = 'subtle', ...props }: ButtonProps) => {
+export const Button = ({ children, isLoading, className, icon, variant = 'subtle', ...props }: ButtonProps) => {
   const style: React.HTMLProps<HTMLElement>['className'] = `${className} relative flex items-center py-2 px-2 rounded-md cursor-pointer ${variantStyles[variant]}`
   const color = loaderColors[variant]
 
@@ -39,5 +39,3 @@ const Button = ({ children, isLoading, className, icon, variant = 'subtle', ...p
     </button>
   )
 }
-
-export default Button

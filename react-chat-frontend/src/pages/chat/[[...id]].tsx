@@ -7,15 +7,12 @@ const Sidebar = dynamic(() => import('@components/sidebar/Sidebar'), { ssr: fals
 
 const ChatPage = () => {
   return (
-    <>
-      <div className='w-screen h-screen flex' id='chat-container'>
-        <PanelGroup direction='horizontal' autoSaveId='persistence' className='flex w-full h-full'>
-          <Sidebar />
-          <Chat />
-        </PanelGroup>
-      </div>
-      <div id='portals' />
-    </>
+    <div className='w-screen h-screen flex' id='chat-container'>
+      <PanelGroup direction='horizontal' autoSaveId='persistence' className='flex w-full h-full'>
+        <Sidebar />
+        <Chat />
+      </PanelGroup>
+    </div>
   )
 }
 

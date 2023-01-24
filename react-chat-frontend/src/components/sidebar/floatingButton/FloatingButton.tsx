@@ -1,4 +1,3 @@
-import Menu from '@components/ui-kit/Menu'
 import { useAppSelector } from 'redux/hooks'
 import { useState } from 'react'
 import { IoChatboxEllipsesOutline, IoPeopleOutline, IoPersonOutline } from 'react-icons/io5'
@@ -6,6 +5,7 @@ import { RiPencilFill } from 'react-icons/ri'
 import { ChatType } from 'types/app.types'
 import NewContactModal from './NewContactModal'
 import NewGroupModal from './NewGroupModal'
+import { Menu } from '@components/ui-kit'
 
 type ButtonOptions = ChatType | 'message' | null
 

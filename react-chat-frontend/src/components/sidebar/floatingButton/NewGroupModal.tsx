@@ -1,4 +1,4 @@
-import Modal from '@components/ui-kit/Modal'
+import { Modal } from '@components/ui-kit';
 import { useCreateGroupMutation } from '@redux/api/group/groupSlice'
 import { useState } from 'react'
 

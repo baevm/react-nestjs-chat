@@ -1,5 +1,5 @@
-import { MenuItem } from '@components/ui-kit/Menu'
-import Portal from '@components/ui-kit/Portal'
+import { Portal } from '@components/ui-kit'
+import { MenuItem } from '@components/ui-kit/Menu/Menu'
 import useClickOutside from '@hooks/useClickOutside'
 import React, { useRef } from 'react'
 import { IoFolderOpenOutline, IoTrashBinOutline } from 'react-icons/io5'

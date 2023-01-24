@@ -1,5 +1,4 @@
-import ActionIcon from '@components/ui-kit/ActionIcon'
-import Menu from '@components/ui-kit/Menu'
+import { ActionIcon, Menu } from '@components/ui-kit'
 import React, { useState } from 'react'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 
