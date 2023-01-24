@@ -20,7 +20,7 @@ export class AuthService {
     })
 
     if (isExist) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST)
+      throw new HttpException({ message: 'User already exists', type: 'username' }, HttpStatus.BAD_REQUEST)
     }
 
     const hashedPass = await this.hashData(dto.password)
@@ -44,13 +44,13 @@ export class AuthService {
     })
 
     if (!user) {
-      throw new HttpException('This username does not exist.', HttpStatus.BAD_REQUEST)
+      throw new HttpException({ message: 'This username does not exist.', type: 'username' }, HttpStatus.BAD_REQUEST)
     }
 
     const isPassMatches = await bcrypt.compare(dto.password, user.password)
 
     if (!isPassMatches) {
-      throw new HttpException('Incorrect password.', HttpStatus.FORBIDDEN)
+      throw new HttpException({ message: 'Incorrect password.', type: 'password' }, HttpStatus.BAD_REQUEST)
     }
 
     const tokens = await this.generateTokens(user.id, user.username)

@@ -1,5 +1,6 @@
 # Chat app
 ### Made with react.js and nest.js
+<b> Deployed at: https://chat-client.dezzerlol.tech/ </b>
 
 ### Features:
 - [x] Auth with JWT refresh and access tokens
@@ -7,9 +8,11 @@
 - [x] Group chats between multiple users
 - [x] Responsive design
 - [x] Dark mode 
+- [ ] Custom ui-kit with storybook
 - [ ] Attach files to message
 - [ ] Reply to messages
 - [ ] Animations
+- [ ] Tests
 
 ## Run client locally
 
