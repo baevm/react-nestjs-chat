@@ -13,7 +13,7 @@ const sizes = {
 
 export const Loader = ({ size = 'xs', color = 'var(--active-item-color)' }: LoaderProps) => {
   return (
-    <div>
+    <div id='loading-spinner'>
       <svg
         width={`${sizes[size]}px`}
         height={`${sizes[size]}px`}

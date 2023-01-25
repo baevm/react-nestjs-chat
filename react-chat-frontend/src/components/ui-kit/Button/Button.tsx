@@ -23,12 +23,12 @@ const loaderColors = {
   subtle: 'var(--active-item-color)',
 }
 
-export const Button = ({ children, isLoading, className, icon, variant = 'subtle', ...props }: ButtonProps) => {
+export const Button = ({ children, isLoading, className = '', icon, variant = 'subtle', ...props }: ButtonProps) => {
   const style: React.HTMLProps<HTMLElement>['className'] = `${className} relative flex items-center py-2 px-2 rounded-md cursor-pointer ${variantStyles[variant]}`
   const color = loaderColors[variant]
 
   return (
-    <button {...props} className={style} disabled={isLoading}>
+    <button {...props} className={style} disabled={isLoading} data-loading={isLoading || undefined}>
       {icon && <span className='mr-2'>{icon}</span>}
       {isLoading && (
         <span className='mr-2'>

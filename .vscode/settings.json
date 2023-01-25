@@ -1,0 +1,4 @@
+// Fix for "Parsing error: Cannot find module 'next/babel'"
+{
+  "eslint.workingDirectories": ["./nestjs-chat-backend", "./react-chat-frontend"]
+}

@@ -12,4 +12,6 @@ const AuthInput = React.forwardRef<HTMLInputElement, AuthInputProps>(({ ...props
   )
 })
 
+AuthInput.displayName = 'AuthInput'
+
 export default AuthInput
