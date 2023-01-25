@@ -29,7 +29,6 @@ const Sidebar = () => {
     return ''
   }
 
-
   return (
     <Panel
       className={`h-full w-full border-r-[1px] flex flex-col border-border-color bg-background-color relative`}
