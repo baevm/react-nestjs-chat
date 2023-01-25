@@ -1,4 +1,4 @@
-import { Badge } from '@components/ui-kit'
+import { Badge } from '@ui-kit'
 import { useGetUserQuery } from 'redux/api/user/userSlice'
 import MenuButton from './MenuButton'
 import SearchInput from './SearchInput'

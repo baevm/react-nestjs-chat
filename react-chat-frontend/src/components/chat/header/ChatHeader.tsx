@@ -1,4 +1,4 @@
-import { ActionIcon } from '@components/ui-kit'
+import { ActionIcon } from '@ui-kit'
 import { useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
 import { ChatType } from 'types/app.types'

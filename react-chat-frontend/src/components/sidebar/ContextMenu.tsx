@@ -1,9 +1,9 @@
-import { Portal } from '@components/ui-kit'
-import { MenuItem } from '@components/ui-kit/Menu/Menu'
+import { Portal } from '@ui-kit'
 import useClickOutside from '@hooks/useClickOutside'
 import React, { useRef } from 'react'
 import { IoFolderOpenOutline, IoTrashBinOutline } from 'react-icons/io5'
 import { MdOutlineMarkEmailRead } from 'react-icons/md'
+import { MenuItem } from 'ui-kit/Menu/Menu'
 
 const ContextMenu = ({
   xPos,

@@ -1,4 +1,4 @@
-import { ActionIcon } from '@components/ui-kit'
+import { ActionIcon } from '@ui-kit'
 import { getContact } from '@utils/getContact'
 import React, { useState } from 'react'
 import { AiOutlinePaperClip } from 'react-icons/ai'

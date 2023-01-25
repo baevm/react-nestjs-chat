@@ -1,6 +1,6 @@
 import AuthInput from '@components/auth/AuthInput'
 import ErrorText from '@components/auth/ErrorText'
-import { Button } from '@components/ui-kit'
+import { Button } from '@ui-kit'
 import { useLoginMutation } from '@redux/api/auth/authSlice'
 import Link from 'next/link'
 import { useRouter } from 'next/router'

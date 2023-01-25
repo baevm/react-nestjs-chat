@@ -22,8 +22,9 @@
       "@redux/*": ["redux/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
+      "@ui-kit": ["ui-kit"],
       "types/*": ["types/*"],
-      
+
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.config.js"],

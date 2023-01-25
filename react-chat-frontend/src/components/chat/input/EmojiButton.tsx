@@ -1,4 +1,4 @@
-import { ActionIcon } from '@components/ui-kit'
+import { ActionIcon } from '@ui-kit'
 import emoji_data from '@emoji-mart/data'
 import useClickOutside from '@hooks/useClickOutside'
 import dynamic from 'next/dynamic'

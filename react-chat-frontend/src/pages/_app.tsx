@@ -4,7 +4,7 @@ import { IconContext } from 'react-icons'
 import '../styles/globals.css'
 import { Provider } from 'react-redux'
 import { store } from 'redux/store'
-import { ToastProvider } from '@components/ui-kit/Toast'
+import { ToastProvider } from '@ui-kit'
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],

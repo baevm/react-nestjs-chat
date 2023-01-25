@@ -1,4 +1,4 @@
-import { Modal } from '@components/ui-kit';
+import { Modal } from '@ui-kit'
 import { useState } from 'react'
 import { useAddContactMutation } from 'redux/api/user/userSlice'
 

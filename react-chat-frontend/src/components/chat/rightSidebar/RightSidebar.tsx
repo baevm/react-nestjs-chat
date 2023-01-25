@@ -1,4 +1,4 @@
-import { ActionIcon, Portal } from '@components/ui-kit'
+import { ActionIcon, Portal } from '@ui-kit'
 import { useState } from 'react'
 import { IoClose, IoPersonAddOutline } from 'react-icons/io5'
 import AddMemberButton from './AddMemberButton'

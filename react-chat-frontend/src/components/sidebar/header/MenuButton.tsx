@@ -4,7 +4,7 @@ import { MdOutlineMenu } from 'react-icons/md'
 import { IoMoonOutline, IoBookmarkOutline, IoLogOutOutline, IoPersonOutline } from 'react-icons/io5'
 import { useRouter } from 'next/router'
 import { useTheme } from '@hooks/useTheme'
-import { ActionIcon, Menu, Switch } from '@components/ui-kit'
+import { ActionIcon, Menu, Switch } from '@ui-kit'
 
 const MenuButton = () => {
   const router = useRouter()

@@ -5,7 +5,7 @@ import { RiPencilFill } from 'react-icons/ri'
 import { ChatType } from 'types/app.types'
 import NewContactModal from './NewContactModal'
 import NewGroupModal from './NewGroupModal'
-import { Menu } from '@components/ui-kit'
+import { Menu } from '@ui-kit'
 
 type ButtonOptions = ChatType | 'message' | null
 

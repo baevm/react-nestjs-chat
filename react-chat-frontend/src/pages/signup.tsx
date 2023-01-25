@@ -1,6 +1,6 @@
 import AuthInput from '@components/auth/AuthInput'
 import ErrorText from '@components/auth/ErrorText'
-import { Button, useToast } from '@components/ui-kit'
+import { Button, useToast } from '@ui-kit'
 import { useSignupMutation } from '@redux/api/auth/authSlice'
 import Link from 'next/link'
 import { SubmitHandler, useForm } from 'react-hook-form'

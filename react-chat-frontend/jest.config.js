@@ -26,6 +26,7 @@ const customJestConfig = {
     '@redux/*': ['redux/*'],
     '@hooks/*': ['hooks/*'],
     '@utils/*': ['utils/*'],
+    '@ui-kit/*': ['ui-kit/*'],
   },
   testEnvironment: 'jest-environment-jsdom',
 }
