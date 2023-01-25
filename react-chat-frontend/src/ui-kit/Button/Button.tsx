@@ -24,7 +24,7 @@ const loaderColors = {
 }
 
 export const Button = ({ children, isLoading, className = '', icon, variant = 'subtle', ...props }: ButtonProps) => {
-  const style: React.HTMLProps<HTMLElement>['className'] = `${className} relative flex items-center py-2 px-2 rounded-md cursor-pointer ${variantStyles[variant]}`
+  const style: React.HTMLProps<HTMLElement>['className'] = `${className} relative flex items-center py-2 px-2 rounded-md cursor-pointer active:top-[1px] ${variantStyles[variant]}`
   const color = loaderColors[variant]
 
   return (
