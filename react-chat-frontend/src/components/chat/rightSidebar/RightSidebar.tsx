@@ -1,6 +1,6 @@
 import { ActionIcon, Portal } from '@ui-kit'
 import { useState } from 'react'
-import { IoClose, IoPersonAddOutline } from 'react-icons/io5'
+import { IoClose } from 'react-icons/io5'
 import AddMemberButton from './AddMemberButton'
 
 const TABS = ['Members', 'Media', 'Files', 'Links']
@@ -20,11 +20,9 @@ const TabItem = ({ tab, activeTab, setActiveTab }: any) => {
 const RightSidebar = ({ type, image, username, setIsSidebarOpen, isSidebarOpen }: any) => {
   const [activeTab, setActiveTab] = useState<typeof TABS[number]>('Members')
 
-  const target = document.getElementById('chat-container') as Element
-
   return (
-    <Portal target={target}>
-      <div className='w-full border-border-color border-l-[1px] absolute right-0 top-0 md:max-w-sm z-50 lg:relative bg-background-color text-text-color h-full flex flex-col'>
+    <Portal>
+      <div className='w-full border-border-color border-l-[1px] absolute right-0 top-0 md:max-w-sm z-50 bg-background-color text-text-color h-full flex flex-col'>
         <div className='flex gap-2 items-center h-14 p-2'>
           <ActionIcon onClick={() => setIsSidebarOpen(false)}>
             <IoClose size='26' />

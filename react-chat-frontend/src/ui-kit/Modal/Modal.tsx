@@ -32,6 +32,7 @@ export const Modal = ({ children, isOpened, onClose, className, closeOnClickOuts
           {React.Children.map(children, (child) => {
             return React.cloneElement(child, { ref: modalBodyRef })
           })}
+          {/*  {children} */}
         </div>
       </div>
     </Portal>

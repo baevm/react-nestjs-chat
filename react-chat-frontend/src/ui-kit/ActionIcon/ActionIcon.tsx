@@ -10,6 +10,8 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
 export const ActionIcon = ({ children, className, isLoading, ...props }: ButtonProps) => {
   return (
     <button
+      disabled={isLoading}
+      data-loading={isLoading || undefined}
       {...props}
       className={`cursor-pointer border-0 rounded-full p-2 transition-all hover:bg-icon-hover-color active:scale-90 ${className}`}>
       {isLoading ? <Loader /> : children}
