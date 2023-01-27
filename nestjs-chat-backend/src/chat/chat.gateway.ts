@@ -3,6 +3,7 @@ import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets'
 import { WebSocketServer } from '@nestjs/websockets/decorators'
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets/interfaces'
 import { Server, Socket } from 'socket.io'
+import { UserService } from 'src/user/user.service'
 import { ChatService } from './chat.service'
 import { NewMessage } from './types/newMessage.type'
 
@@ -12,12 +13,6 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @WebSocketServer() wss: Server
   private logger: Logger = new Logger('ChatGateway')
-
-  // private users = {
-  //   update: function (id, propertiesObject) {
-  //     this[id] = { ...this[id], ...propertiesObject }
-  //   },
-  // }
 
   handleConnection(client: Socket) {
     this.logger.log(`client connected: ${client.id}`)
@@ -34,8 +29,9 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   @SubscribeMessage('user-online')
   async handleUserOnline(client: Socket, user: { id: string; username: string }) {
     const chatIds = await this.chatService.getChatIdsByUserId(user.id)
-
     chatIds.forEach((id) => client.join(id))
+
+    
   }
 
   @SubscribeMessage('send-message-to-server')

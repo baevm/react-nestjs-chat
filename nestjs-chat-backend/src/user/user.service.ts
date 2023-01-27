@@ -122,4 +122,15 @@ export class UserService {
     return folder */
     return { message: 'not implenemnted' }
   }
+
+  async updateLastSeen(userId: string) {
+    return this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        lastSeen: new Date(),
+      },
+    })
+  }
 }

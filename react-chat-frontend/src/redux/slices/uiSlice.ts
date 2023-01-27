@@ -12,10 +12,10 @@ export const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    openChat: state => {
+    openChat: (state) => {
       state.isChatOpen = true
     },
-    closeChat: state => {
+    closeChat: (state) => {
       state.isChatOpen = false
     },
   },

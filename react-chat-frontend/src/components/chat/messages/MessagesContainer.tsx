@@ -1,6 +1,6 @@
 import formatDate from '@utils/formatDate'
 import formatTime from '@utils/formatTime'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useGetUserQuery } from 'redux/api/user/userSlice'
 import GroupDate from './GroupDate'
 import MessageItem from './MessageItem'
@@ -28,7 +28,6 @@ const MessagesContainer = ({ activeChat }: any) => {
     return contact.user
   }
 
-  console.log({ messageDateGroups })
 
   // first map by groups
   // then map messages of that group
