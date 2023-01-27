@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id       String  @id @unique
-  username String  @unique
+  id       String    @id @unique
+  username String    @unique
   avatar   String?
   password String
   hashedRt String?
+  lastSeen DateTime?
 
   messages Message[]
   folders  Folder[]
@@ -26,11 +27,10 @@ model User {
 }
 
 model Chat {
-  id       String    @id @unique @default(cuid())
-  title    String
-  type     String
-  messages Message[]
-
+  id           String         @id @unique @default(cuid())
+  title        String
+  type         String
+  messages     Message[]
   participants Participants[]
 
   updatedAt DateTime @updatedAt
@@ -38,22 +38,25 @@ model Chat {
 }
 
 model Participants {
-  id     String @id @unique @default(cuid())
-  userId String
-  chatId String
+  id          String @id @unique @default(cuid())
+  userId      String
+  chatId      String
+  unreadCount Int    @default(0)
 
   chat Chat @relation(fields: [chatId], references: [id])
   user User @relation(fields: [userId], references: [id])
 
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
+  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime  @default(now())
+  read_messages Message[]
 }
 
 model Message {
-  id     String @id @unique
+  id     String         @id @unique
   text   String
   userId String
   chatId String
+  readBy Participants[]
 
   chat Chat @relation(fields: [chatId], references: [id])
   user User @relation(fields: [userId], references: [id])
@@ -72,83 +75,3 @@ model Folder {
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
-
-// model User {
-//   id       String  @id @unique
-//   username String  @unique
-//   password String
-//   hashedRt String?
-
-//   avatar    String?
-//   updatedAt DateTime        @updatedAt
-//   createdAt DateTime        @default(now())
-//   folders   Folder[]
-//   contacts  User_Contacts[] @relation("contact")
-//   sender    Message[]       @relation("sender")
-//   receiver  Message[]       @relation("receiver")
-
-//   folder_contacts Folder[] @relation("folder_contacts")
-//   userId          String?
-
-//   groupId String?
-
-//   userContacts User_Contacts[] @relation("user")
-//   groups       User_Groups[]
-
-// }
-
-// model User_Contacts {
-//   id        String @id @unique @default(cuid())
-//   userId    String
-//   contactId String
-
-//   contact User @relation(name: "contact", fields: [contactId], references: [id])
-//   user    User @relation(name: "user", fields: [userId], references: [id])
-// }
-
-// model User_Groups {
-//   id      String @id @unique @default(cuid())
-//   userId  String
-//   groupId String
-
-//   user  User  @relation(fields: [userId], references: [id])
-//   group Group @relation(fields: [groupId], references: [id])
-// }
-
-// model Group {
-//   id       String    @id @unique
-//   name     String    @unique
-//   avatar   String?
-//   users    User[]
-//   messages Message[]
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   folder_relation Folder[]
-//   folderId        String?
-//   User_Groups     User_Groups[]
-// }
-
-// model Message {
-//   id        String   @id @unique
-//   text      String
-//   createdAt DateTime @default(now())
-//   sender    User     @relation(name: "sender", fields: [senderId], references: [id])
-//   receiver  User?    @relation(name: "receiver", fields: [receiverId], references: [id])
-
-//   senderId   String
-//   receiverId String?
-//   Group      Group?  @relation(fields: [groupId], references: [id])
-//   groupId    String?
-// }
-
-// model Folder {
-//   id       String  @id @unique @default(cuid())
-//   name     String
-//   contacts User[]  @relation("folder_contacts")
-//   groups   Group[]
-
-//   User   User   @relation(fields: [userId], references: [id])
-//   userId String
-// }

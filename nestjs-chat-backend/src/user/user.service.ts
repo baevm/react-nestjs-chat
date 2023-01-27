@@ -47,6 +47,7 @@ export class UserService {
         messages: true,
         participants: {
           select: {
+            unreadCount: true,
             user: {
               select: {
                 avatar: true,

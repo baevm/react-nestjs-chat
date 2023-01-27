@@ -23,15 +23,35 @@ export class ChatService {
   }
 
   async saveMessage(message) {
-    return this.prisma.message.create({
+    const newMessage = await this.prisma.message.create({
       data: {
         id: message.id,
         text: message.text,
         createdAt: message.createdAt,
         chatId: message.chatId,
         userId: message.userId,
+
+        readBy: {
+          connect: {
+            id: message.userId,
+          },
+        },
       },
     })
+
+    const participants = await this.prisma.participants.updateMany({
+      where: {
+        chatId: message.chatId,
+        NOT: {
+          userId: message.userId,
+        },
+      },
+      data: {
+        unreadCount: { increment: 1 },
+      },
+    })
+
+    return newMessage
   }
 
   formatMessage(message: NewMessage) {
