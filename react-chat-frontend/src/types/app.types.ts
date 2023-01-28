@@ -17,14 +17,23 @@ export type Participant = {
   avatar: string | null
 }
 
-export type Chat = {
+export type Message = {
+  chatId: string
+  createdAt: string
   id: string
-  title: string
-  type: ChatType
-  messages: string[]
-  participants: Participant[]
+  text: string
+  updatedAt?: string
+  userId: string
 }
 
-
+export type Chat = {
+  id: string
+  chatId: string
+  title: string
+  unreadCount: number
+  type: ChatType
+  messages: Message[]
+  participants: [user: Participant]
+}
 
 export type ChatType = 'contact' | 'group'

@@ -35,7 +35,7 @@ export class UserService {
   }
 
   async getChats(userId: string) {
-    const chats = await this.prisma.chat.findMany({
+    /* const chats = await this.prisma.chat.findMany({
       where: {
         participants: {
           some: {
@@ -53,6 +53,35 @@ export class UserService {
                 avatar: true,
                 username: true,
                 id: true,
+              },
+            },
+          },
+        },
+      },
+    }) */
+
+    const chats = await this.prisma.participants.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        id: true,
+        unreadCount: true,
+        chatId: true,
+        chat: {
+          select: {
+            type: true,
+            messages: true,
+            title: true,
+            participants: {
+              select: {
+                user: {
+                  select: {
+                    avatar: true,
+                    username: true,
+                    id: true,
+                  },
+                },
               },
             },
           },
@@ -110,16 +139,7 @@ export class UserService {
   }
 
   async addToFolder(userId: string, folderId: string, contactId: string) {
-    /* const folder = await this.prisma.folder.update({
-      where: {
-        id: folderId,
-      },
-      data: {
-       
-      },
-    })
 
-    return folder */
     return { message: 'not implenemnted' }
   }
 

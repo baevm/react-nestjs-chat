@@ -29,6 +29,7 @@ const Sidebar = () => {
     return ''
   }
 
+
   return (
     <Panel
       className={`h-full w-full border-r-[1px] flex flex-col border-border-color bg-background-color relative`}
@@ -38,16 +39,19 @@ const Sidebar = () => {
       <SidebarHeader setActiveFolder={setActiveFolder} activeFolder={activeFolder} />
 
       <div id='sidebar-chats' className='p-2 overflow-y-auto' onContextMenu={(e) => e.preventDefault()}>
-        {chats?.map((chat: any) => (
+        {chats?.map((item: any) => (
           <ContactItem
-            key={chat.id}
-            id={chat.id}
-            title={chat.type === 'contact' ? getContact(chat.participants, user?.id).username : chat.title}
-            avatar={chat.type === 'contact' ? getContact(chat.participants, user?.id).avatar : null}
-            lastMessage={getLastMessage(chat.messages)}
-            lastMessageTime={getLastMessageTime(chat.messages)}
+            key={item.id}
+            id={item.chatId}
+            title={
+              item.type === 'contact' ? getContact(item.participants, user?.id).username : item.title
+            }
+            avatar={item.type === 'contact' ? getContact(item.participants, user?.id).avatar : null}
+            lastMessage={getLastMessage(item.messages)}
+            lastMessageTime={getLastMessageTime(item.messages)}
             setClickedItem={setClickedItem}
             clickedItem={clickedItem}
+            unreadCount={item?.unreadCount}
           />
         ))}
       </div>

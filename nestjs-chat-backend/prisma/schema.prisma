@@ -46,23 +46,32 @@ model Participants {
   chat Chat @relation(fields: [chatId], references: [id])
   user User @relation(fields: [userId], references: [id])
 
-  updatedAt     DateTime  @updatedAt
-  createdAt     DateTime  @default(now())
-  read_messages Message[]
+  updatedAt      DateTime         @updatedAt
+  createdAt      DateTime         @default(now())
+  UnreadMessages UnreadMessages[]
 }
 
 model Message {
-  id     String         @id @unique
+  id     String @id @unique
   text   String
   userId String
   chatId String
-  readBy Participants[]
 
   chat Chat @relation(fields: [chatId], references: [id])
   user User @relation(fields: [userId], references: [id])
 
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
+  updatedAt DateTime         @updatedAt
+  createdAt DateTime         @default(now())
+  unreadBy  UnreadMessages[]
+}
+
+model UnreadMessages {
+  id            String @id @unique @default(cuid())
+  messageId     String
+  participantId String
+
+  participant Participants @relation(fields: [participantId], references: [id])
+  message     Message      @relation(fields: [messageId], references: [id])
 }
 
 model Folder {

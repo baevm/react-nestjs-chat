@@ -12,15 +12,17 @@ interface CustomError {
 }
 
 const mutex = new Mutex()
-const baseQuery = fetchBaseQuery({ baseUrl: serverUrl, credentials: 'include' }) as BaseQueryFn<
-  string | FetchArgs,
-  unknown,
-  CustomError
->
+const baseQuery = fetchBaseQuery({
+  baseUrl: serverUrl,
+  credentials: 'include',
+}) as BaseQueryFn<string | FetchArgs, unknown, CustomError>
 
 const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (args, api, extraOptions) => {
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
+
+  // if api resolves with 401 error (no access token)
+  // refresh token, but block all other requests while refreshing
   if (result.error && result.error.status === 401) {
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {

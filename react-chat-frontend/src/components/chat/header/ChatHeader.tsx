@@ -11,7 +11,7 @@ type Props = {
   avatar: string | null
   title: string
   subtitle?: string
-  type: ChatType
+  type: ChatType | undefined
 }
 
 const ChatHeader = ({ avatar, title, subtitle, type }: Props) => {
@@ -33,7 +33,12 @@ const ChatHeader = ({ avatar, title, subtitle, type }: Props) => {
         <div className='flex gap-2 items-center'>
           <BackButton />
           <div className='flex gap-2 items-center'>
-            <img src={chatAvatar} className='w-8 h-8 cursor-pointer rounded-full' onClick={handleAvatarClick} />
+            <img
+              src={chatAvatar}
+              className='w-8 h-8 cursor-pointer rounded-full'
+              onClick={handleAvatarClick}
+              alt={`${title} avatar`}
+            />
             <div className='flex flex-col'>
               <div className='font-medium text-lg'>{title}</div>
               {subtitle && <div className='text-text-secondary-color text-sm leading-4'>{subtitle}</div>}

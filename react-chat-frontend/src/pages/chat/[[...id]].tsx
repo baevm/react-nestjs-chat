@@ -6,6 +6,8 @@ import { PanelGroup } from 'react-resizable-panels'
 const Sidebar = dynamic(() => import('@components/sidebar/Sidebar'), { ssr: false })
 
 const ChatPage = () => {
+
+
   return (
     <div className='w-screen h-screen flex' id='chat-container'>
       <PanelGroup direction='horizontal' autoSaveId='persistence' className='flex w-full h-full'>

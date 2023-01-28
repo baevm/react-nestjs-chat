@@ -1,8 +1,8 @@
+import { useUpdateUnreadCountMutation } from '@redux/api/user/userSlice'
 import { Badge } from '@ui-kit'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useAppDispatch } from 'redux/hooks'
-import { openChat } from 'redux/slices/uiSlice'
 import ContextMenu from './ContextMenu'
 
 type Props = {
@@ -30,10 +30,13 @@ const ContactItem = ({
   const dispatch = useAppDispatch()
   const openedChatId = router.query.id ? router.query.id[0] : null
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
+  const [handleUpdate, { isLoading }] = useUpdateUnreadCountMutation()
 
   const handleOpenChat = (id: string) => {
-    dispatch(openChat())
+ 
     router.push(`/chat/${id}`, undefined, { shallow: true })
+
+    handleUpdate(id)
   }
 
   function handleOpenContext(e: any) {

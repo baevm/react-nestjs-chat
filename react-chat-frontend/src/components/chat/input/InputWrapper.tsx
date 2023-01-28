@@ -19,7 +19,7 @@ const InputWrapper = ({ activeChat }: any) => {
       userId: user?.id,
       receiverId: contact.id,
       text: newMessage,
-      chatId: activeChat.id,
+      chatId: activeChat.chatId,
     }
     sendMessage(message)
     setNewMessage('')

@@ -39,7 +39,7 @@ const MessagesContainer = ({ activeChat }: any) => {
           {messageDateGroups[group].map((message: any, index: number) => (
             <MessageItem
               key={message.id}
-              isOwn={message.userId === user.id}
+              isOwn={message.userId === user?.id}
               createdAt={formatTime(message.createdAt)}
               text={message.text}
               username={

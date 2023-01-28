@@ -5,6 +5,7 @@ import uiReducer from './slices/uiSlice'
 export const store = configureStore({
   reducer: {
     ui: uiReducer,
+
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),

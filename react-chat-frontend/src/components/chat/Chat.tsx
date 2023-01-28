@@ -11,18 +11,18 @@ import MessagesContainer from './messages/MessagesContainer'
 
 const Chat = () => {
   const router = useRouter()
-  const { data: user, isLoading, isError, error } = useGetUserQuery()
+  const { data: user, isLoading } = useGetUserQuery()
   const { data: chats } = useGetChatsQuery()
   const openedChatId = router.query.id ? router.query.id[0] : null
   const isChatOpen = useAppSelector((state) => state.ui.isChatOpen)
   const dispatch = useAppDispatch()
 
-  const activeChat = chats?.find((chat: any) => chat.id === openedChatId)
+  const activeChat = chats?.find((chat) => chat.chatId === openedChatId)
 
   useEffect(() => {
     if (!activeChat) return
 
-    dispatch(openChat())
+    dispatch(openChat(activeChat.chatId))
 
     return () => {
       dispatch(closeChat())

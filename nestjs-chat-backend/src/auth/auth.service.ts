@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt'
 import { Tokens } from './types/tokens.type'
 import { JwtService } from '@nestjs/jwt/dist'
 import { UserService } from 'src/user/user.service'
+import { parse } from 'cookie'
 
 @Injectable()
 export class AuthService {
@@ -110,10 +111,6 @@ export class AuthService {
     })
   }
 
-  hashData(data: string) {
-    return bcrypt.hash(data, 10)
-  }
-
   async generateTokens(userId: string, username: string): Promise<Tokens> {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync({ sub: userId, username }, { secret: 'at-secret', expiresIn: '15m' }),
@@ -124,5 +121,16 @@ export class AuthService {
       access_token: at,
       refresh_token: rt,
     }
+  }
+
+  hashData(data: string) {
+    return bcrypt.hash(data, 10)
+  }
+
+  parseCookies(cookie: string) {
+    const cookies = parse(cookie)
+    const user = this.jwtService.decode(cookies.REFRESH_TOKEN) 
+
+    return { cookies, user }
   }
 }

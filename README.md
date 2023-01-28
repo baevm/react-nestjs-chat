@@ -32,5 +32,6 @@ cd nestjs-chat-backend
  - JWT_SECRET_KEY:
 
 ```bash
+yarn prisma db push
 yarn start:dev
 ```

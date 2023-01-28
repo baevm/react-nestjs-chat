@@ -19,6 +19,9 @@ export class UserController {
     return this.userService.getChats(userId)
   }
 
+  @Post('/updateUnreadCount')
+  
+
   @Post('/addContact')
   addContact(@Body() body: { username: string }, @GetCurrentUser() user: CurrUser) {
     return this.userService.addContact(user, body.username)

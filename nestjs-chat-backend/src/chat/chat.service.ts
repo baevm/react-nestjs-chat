@@ -16,9 +16,8 @@ export class ChatService {
         chatId: true,
       },
     })
-    const chatIds = chats.map((chat) => chat.chatId)
 
-    return chatIds
+    return chats.map((chat) => chat.chatId)
   }
 
   async saveMessage(message) {
@@ -29,21 +28,19 @@ export class ChatService {
         createdAt: message.createdAt,
         chatId: message.chatId,
         userId: message.userId,
-
-        readBy: {
-          connect: {
-            id: message.userId,
-          },
-        },
       },
     })
 
-    const participants = await this.prisma.participants.updateMany({
+    await this.prisma.participants.updateMany({
       where: {
-        chatId: message.chatId,
-        NOT: {
-          userId: message.userId,
-        },
+        AND: [
+          { chatId: message.chatId },
+          {
+            NOT: {
+              userId: message.userId,
+            },
+          },
+        ],
       },
       data: {
         unreadCount: { increment: 1 },
@@ -51,6 +48,23 @@ export class ChatService {
     })
 
     return newMessage
+  }
+
+  async updateUnreadCount(userId: string, chatId: string) {
+    const participant = await this.prisma.participants.findFirst({
+      where: {
+        AND: [{ chatId }, { userId }],
+      },
+    })
+
+    console.log({ participant })
+
+    return this.prisma.participants.update({
+      where: { id: participant.id },
+      data: {
+        unreadCount: 0,
+      },
+    })
   }
 
   formatMessage(message: NewMessage) {

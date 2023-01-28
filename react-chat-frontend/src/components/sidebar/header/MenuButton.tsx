@@ -1,31 +1,25 @@
 import useClickOutside from '@hooks/useClickOutside'
-import React, { HTMLAttributes, useRef, useState } from 'react'
-import { MdOutlineMenu } from 'react-icons/md'
-import { IoMoonOutline, IoBookmarkOutline, IoLogOutOutline, IoPersonOutline } from 'react-icons/io5'
-import { useRouter } from 'next/router'
 import { useTheme } from '@hooks/useTheme'
+import { useLogoutMutation } from '@redux/api/auth/authSlice'
 import { ActionIcon, Menu, Switch } from '@ui-kit'
+import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
+import { IoBookmarkOutline, IoLogOutOutline, IoMoonOutline, IoPersonOutline } from 'react-icons/io5'
+import { MdOutlineMenu } from 'react-icons/md'
 
 const MenuButton = () => {
   const router = useRouter()
   const { theme, changeTheme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<null | HTMLDivElement>(null)
+  const [logout] = useLogoutMutation()
   useClickOutside(menuRef, () => setIsOpen(false))
 
   const handleLogout = async () => {
-    const res = await fetch('http://localhost:5000/auth/logout', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    })
-
-    if (res.ok) {
-      router.replace('/')
-    }
+    await logout()
+      .unwrap()
+      .then(() => router.replace(`/`))
+      .catch((error: any) => console.error(error))
   }
 
   const handleTheme = () => {
