@@ -1,23 +1,25 @@
+import { useGetUserQuery } from '@redux/api/user/userSlice'
+import { useAppSelector } from '@redux/hooks'
 import { ActionIcon } from '@ui-kit'
+import { getContact } from '@utils/getContact'
 import { useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
-import { ChatType } from 'types/app.types'
+import { Avatar } from 'ui-kit/Avatar'
 import RightSidebar from '../rightSidebar/RightSidebar'
 import AvatarModal from './AvatarModal'
 import BackButton from './BackButton'
 import DotsMenu from './DotsMenu'
 
-type Props = {
-  avatar: string | null
-  title: string
-  subtitle?: string
-  type: ChatType | undefined
-}
-
-const ChatHeader = ({ avatar, title, subtitle, type }: Props) => {
+const ChatHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const chatAvatar = avatar ? avatar : '/user.png'
+  const activeChat = useAppSelector((state) => state.ui.openedChat)
+  const { data: user, isLoading } = useGetUserQuery()
+
+  const type = activeChat?.type
+  const avatar = type === 'contact' ? getContact(activeChat?.participants, user?.id).avatar : null
+  const title = type === 'contact' ? getContact(activeChat?.participants, user?.id).username : activeChat?.title
+  const subtitle = type === 'group' ? `${activeChat?.participants.length} members` : ''
 
   const handleAvatarClick = () => {
     if (type === 'contact') {
@@ -33,11 +35,12 @@ const ChatHeader = ({ avatar, title, subtitle, type }: Props) => {
         <div className='flex gap-2 items-center'>
           <BackButton />
           <div className='flex gap-2 items-center'>
-            <img
-              src={chatAvatar}
-              className='w-8 h-8 cursor-pointer rounded-full'
+            <Avatar
+              src={avatar}
+              size='sm'
               onClick={handleAvatarClick}
               alt={`${title} avatar`}
+              className='cursor-pointer'
             />
             <div className='flex flex-col'>
               <div className='font-medium text-lg'>{title}</div>
@@ -53,17 +56,9 @@ const ChatHeader = ({ avatar, title, subtitle, type }: Props) => {
         </div>
       </div>
       {isModalOpen && (
-        <AvatarModal image={chatAvatar} username={title} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+        <AvatarModal image={avatar} username={title} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
       )}
-      {isSidebarOpen && (
-        <RightSidebar
-          image={chatAvatar}
-          username={title}
-          setIsSidebarOpen={setIsSidebarOpen}
-          isSidebarOpen={isSidebarOpen}
-          type={type}
-        />
-      )}
+      {isSidebarOpen && <RightSidebar setIsSidebarOpen={setIsSidebarOpen} />}
     </>
   )
 }

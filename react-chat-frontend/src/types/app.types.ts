@@ -33,7 +33,7 @@ export type Chat = {
   unreadCount: number
   type: ChatType
   messages: Message[]
-  participants: [user: Participant]
+  participants: [{ user: Participant }]
 }
 
 export type ChatType = 'contact' | 'group'

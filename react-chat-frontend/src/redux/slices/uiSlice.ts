@@ -1,26 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Chat } from 'types/app.types'
 
 export interface UiState {
   isChatOpen: boolean
-  openedChatId: string | null
+  openedChat: Chat | null
 }
 
 const initialState: UiState = {
   isChatOpen: false,
-  openedChatId: null,
+  openedChat: null,
 }
 
 export const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    openChat: (state, action: PayloadAction<string>) => {
+    openChat: (state, action: PayloadAction<Chat>) => {
       state.isChatOpen = true
-      state.openedChatId = action.payload
+      state.openedChat = action.payload
     },
     closeChat: (state) => {
       state.isChatOpen = false
-      state.openedChatId = null
+      state.openedChat = null
     },
   },
 })

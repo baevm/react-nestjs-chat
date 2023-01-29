@@ -60,7 +60,7 @@ export const userApi = apiSlice.injectEndpoints({
           // check if opened chat id from store is equal to chatId from message
           // if equal emit message read to server
           socket.on('unread-message', (msg) => {
-            const openedChatId = (getState() as RootState).ui.openedChatId
+            const openedChatId = (getState() as RootState).ui.openedChat?.chatId
 
             if (openedChatId === msg.chatId) {
               socket.emit('message-read', { userId: currentUser.id, chatId: msg.chatId })
@@ -71,7 +71,7 @@ export const userApi = apiSlice.injectEndpoints({
           // if opened chat id from store not equal to chatId from message
           // update unread count
           socket.on('send-message-to-chat', (msg: MessageFromServer) => {
-            const openedChatId = (getState() as RootState).ui.openedChatId
+            const openedChatId = (getState() as RootState).ui.openedChat?.chatId
 
             updateCachedData((draft) => {
               let chat = draft.find((chat) => chat.chatId === msg.chatId) as Chat

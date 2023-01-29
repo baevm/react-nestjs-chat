@@ -1,4 +1,8 @@
+import ContactItem from '@components/common/ContactItem'
+import { useGetUserQuery } from '@redux/api/user/userSlice'
+import { useAppSelector } from '@redux/hooks'
 import { ActionIcon, Portal } from '@ui-kit'
+import { getContact } from '@utils/getContact'
 import { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import AddMemberButton from './AddMemberButton'
@@ -17,8 +21,16 @@ const TabItem = ({ tab, activeTab, setActiveTab }: any) => {
   )
 }
 
-const RightSidebar = ({ type, image, username, setIsSidebarOpen, isSidebarOpen }: any) => {
-  const [activeTab, setActiveTab] = useState<typeof TABS[number]>('Members')
+const RightSidebar = ({ setIsSidebarOpen }: { setIsSidebarOpen: (val: boolean) => void }) => {
+  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>('Members')
+
+  const activeChat = useAppSelector((state) => state.ui.openedChat)
+  const { data: currentUser, isLoading } = useGetUserQuery()
+
+  const type = activeChat?.type
+  const avatar =
+    type === 'contact' ? getContact(activeChat?.participants, currentUser?.id).avatar ?? '/user.png' : '/user.png'
+  const title = type === 'contact' ? getContact(activeChat?.participants, currentUser?.id).username : activeChat?.title
 
   return (
     <Portal>
@@ -30,12 +42,22 @@ const RightSidebar = ({ type, image, username, setIsSidebarOpen, isSidebarOpen }
           <h1 className='font-semibold text-lg'>User info</h1>
         </div>
         <div className='w-full relative'>
-          <img src={image} className='w-full' />
-          <div className='absolute bottom-0 px-4 text-lg text-black'>{username}</div>
+          <img src={avatar} className='w-full' alt={`${title} sidebar avatar`} />
+          <div className='absolute bottom-0 px-4 text-lg text-black'>{title}</div>
         </div>
         <div className='px-4 flex gap-2 border-border-color border-b-[1px]'>
           {TABS.map((tab) => (
             <TabItem key={tab} tab={tab} setActiveTab={setActiveTab} activeTab={activeTab} />
+          ))}
+        </div>
+        <div className='px-4 py-2 flex flex-col'>
+          {activeChat?.participants.map(({ user }) => (
+            <ContactItem
+              key={user.id}
+              avatar={user.avatar}
+              title={user.username}
+              subtitle={currentUser.id === user.id ? 'Owner' : ''}
+            />
           ))}
         </div>
         {type === 'group' ? <AddMemberButton /> : null}

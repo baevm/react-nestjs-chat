@@ -1,3 +1,4 @@
+import { useAppSelector } from '@redux/hooks'
 import { ActionIcon } from '@ui-kit'
 import { getContact } from '@utils/getContact'
 import React, { useState } from 'react'
@@ -6,20 +7,21 @@ import { BiMicrophone } from 'react-icons/bi'
 import { useGetUserQuery, useSendMessageMutation } from 'redux/api/user/userSlice'
 import EmojiButton from './EmojiButton'
 
-const InputWrapper = ({ activeChat }: any) => {
+const InputWrapper = () => {
   const [newMessage, setNewMessage] = useState('')
   const { data: user, isLoading, isError, error } = useGetUserQuery()
   const [sendMessage, { isLoading: isSending }] = useSendMessageMutation()
+  const activeChat = useAppSelector((state) => state.ui.openedChat)
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault()
 
-    const contact = activeChat.type === 'contact' ? getContact(activeChat.participants, user?.id) : activeChat
+    const contact = activeChat!.type === 'contact' ? getContact(activeChat!.participants, user?.id) : activeChat
     const message = {
       userId: user?.id,
       receiverId: contact.id,
       text: newMessage,
-      chatId: activeChat.chatId,
+      chatId: activeChat!.chatId,
     }
     sendMessage(message)
     setNewMessage('')

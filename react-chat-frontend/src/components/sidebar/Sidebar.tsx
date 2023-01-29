@@ -3,7 +3,7 @@ import { getContact } from '@utils/getContact'
 import { useState } from 'react'
 import { Panel } from 'react-resizable-panels'
 import { useGetChatsQuery, useGetUserQuery } from 'redux/api/user/userSlice'
-import ContactItem from './ContactItem'
+import ClickableContact from './ClickableContact'
 import FloatingButton from './floatingButton/FloatingButton'
 import SidebarHeader from './header/SidebarHeader'
 import ResizeHandle from './ResizeHandle'
@@ -12,7 +12,7 @@ const Sidebar = () => {
   const { data: user, isLoading, isError, error } = useGetUserQuery()
   const { data: chats, isLoading: chatsLoading } = useGetChatsQuery()
   const [activeFolder, setActiveFolder] = useState('All')
-  const [clickedItem, setClickedItem] = useState<string | null>('')
+  const [contextMenuId, setContextMenuId] = useState<string | null>('')
 
   function getLastMessage(messages: any) {
     if (messages?.length > 0) {
@@ -40,17 +40,15 @@ const Sidebar = () => {
 
       <div id='sidebar-chats' className='p-2 overflow-y-auto' onContextMenu={(e) => e.preventDefault()}>
         {chats?.map((item: any) => (
-          <ContactItem
+          <ClickableContact
             key={item.id}
             id={item.chatId}
-            title={
-              item.type === 'contact' ? getContact(item.participants, user?.id).username : item.title
-            }
+            title={item.type === 'contact' ? getContact(item.participants, user?.id).username : item.title}
             avatar={item.type === 'contact' ? getContact(item.participants, user?.id).avatar : null}
             lastMessage={getLastMessage(item.messages)}
             lastMessageTime={getLastMessageTime(item.messages)}
-            setClickedItem={setClickedItem}
-            clickedItem={clickedItem}
+            setContextMenuId={setContextMenuId}
+            contextMenuId={contextMenuId}
             unreadCount={item?.unreadCount}
           />
         ))}
