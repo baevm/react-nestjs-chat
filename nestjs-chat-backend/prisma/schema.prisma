@@ -43,8 +43,8 @@ model Participants {
   chatId      String
   unreadCount Int    @default(0)
 
-  chat Chat @relation(fields: [chatId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   updatedAt      DateTime         @updatedAt
   createdAt      DateTime         @default(now())
@@ -57,8 +57,8 @@ model Message {
   userId String
   chatId String
 
-  chat Chat @relation(fields: [chatId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   updatedAt DateTime         @updatedAt
   createdAt DateTime         @default(now())
@@ -70,8 +70,8 @@ model UnreadMessages {
   messageId     String
   participantId String
 
-  participant Participants @relation(fields: [participantId], references: [id])
-  message     Message      @relation(fields: [messageId], references: [id])
+  participant Participants @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  message     Message      @relation(fields: [messageId], references: [id], onDelete: Cascade)
 }
 
 model Folder {
@@ -79,7 +79,7 @@ model Folder {
   name String
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())

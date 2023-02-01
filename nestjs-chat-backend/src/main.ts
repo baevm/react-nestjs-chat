@@ -5,6 +5,7 @@ import * as cookieParser from 'cookie-parser'
 import { AppModule } from './app.module'
 
 const port = process.env.PORT || 5000
+// frontend domain
 const fe_origin = process.env.NODE_ENV === 'production' ? 'https://chat-client.dezzerlol.tech' : 'http://localhost:3000'
 
 async function bootstrap() {

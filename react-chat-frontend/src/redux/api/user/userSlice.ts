@@ -1,5 +1,6 @@
 import { RootState } from '@redux/store'
 import { getSocket } from '@services/socket'
+import { playSound } from '@utils/playSound'
 import { Chat } from 'types/app.types'
 import { apiSlice } from '../apiSlice'
 
@@ -79,6 +80,8 @@ export const userApi = apiSlice.injectEndpoints({
 
               if (openedChatId !== msg.chatId) {
                 chat.unreadCount = chat.unreadCount + 1
+
+                playSound()
               }
 
               return draft

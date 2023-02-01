@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import generateId from 'src/common/generateId'
+import generateId from 'src/common/helpers/generateId'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { NewMessage } from './types/newMessage.type'
 

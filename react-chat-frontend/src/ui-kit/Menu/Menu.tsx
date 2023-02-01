@@ -3,7 +3,7 @@ import React, { createContext, HTMLAttributes, useContext, useRef } from 'react'
 
 interface MenuItemProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
-  icon?: any
+  icon?: React.ReactNode
   className?: React.ComponentProps<'div'>['className']
 }
 

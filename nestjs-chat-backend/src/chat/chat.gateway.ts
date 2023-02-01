@@ -32,8 +32,6 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     const chats = await this.chatService.getChatIdsByUserId(user.id)
     client.join(chats)
 
-    console.log(client.rooms)
-
     this.userService.updateLastSeen(user.id)
   }
 

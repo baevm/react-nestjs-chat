@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: chat-test-db
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: chat-test-db
+    ports:
+      - 5432:5432
+    restart: unless-stopped

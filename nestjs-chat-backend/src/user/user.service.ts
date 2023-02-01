@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { CurrUser } from 'src/common/decorators/get-current-user.decorator'
-import generateId from 'src/common/generateId'
+import generateId from 'src/common/helpers/generateId'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
@@ -35,30 +35,7 @@ export class UserService {
   }
 
   async getChats(userId: string) {
-    /* const chats = await this.prisma.chat.findMany({
-      where: {
-        participants: {
-          some: {
-            userId,
-          },
-        },
-      },
-      include: {
-        messages: true,
-        participants: {
-          select: {
-            unreadCount: true,
-            user: {
-              select: {
-                avatar: true,
-                username: true,
-                id: true,
-              },
-            },
-          },
-        },
-      },
-    }) */
+  
 
     const chats = await this.prisma.participants.findMany({
       where: {

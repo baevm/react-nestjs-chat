@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common/decorators'
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy } from 'passport-jwt'
+import { ACCESS_TOKEN } from 'src/common/constants/token.const'
 
 type JwtPayload = {
   sub: string
@@ -10,7 +11,7 @@ type JwtPayload = {
 const cookieExtractFromRequest = (req: any) => {
   let token = null
   if (req && req.cookies) {
-    token = req.cookies['ACCESS_TOKEN']
+    token = req.cookies[ACCESS_TOKEN]
   }
   return token
 }
