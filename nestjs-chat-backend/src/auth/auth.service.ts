@@ -62,7 +62,7 @@ export class AuthService {
   }
 
   async logout(userId: string) {
-    await this.prisma.user.updateMany({
+    return this.prisma.user.updateMany({
       where: {
         id: userId,
         hashedRt: {
@@ -129,7 +129,7 @@ export class AuthService {
 
   parseCookies(cookie: string) {
     const cookies = parse(cookie)
-    const user = this.jwtService.decode(cookies.REFRESH_TOKEN) 
+    const user = this.jwtService.decode(cookies.REFRESH_TOKEN)
 
     return { cookies, user }
   }

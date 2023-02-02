@@ -19,9 +19,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "dbpush:dev": "dotenv -e .env.dev prisma db push",
     "dbpush:prod": "dotenv -e .env.prod prisma db push",
-    "db:restart": "docker compose down && docker compose up -d",
-    "pretest:int": "yarn db:restart",
-    "test:int": "jest -i --no-cache --watch --config jest-int.json"
+    "db:restart": "docker compose down && docker compose up -d && timeout /t 5",
+    "pretest:int": "yarn db:restart && dotenv -e .env.dev -- prisma migrate reset --force",
+    "test:int": "dotenv -e .env.dev -- jest -i --no-cache --watch --config jest-int.json",
+    "dbmigrate:dev": "dotenv -e .env.dev prisma migrate dev --create-only"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

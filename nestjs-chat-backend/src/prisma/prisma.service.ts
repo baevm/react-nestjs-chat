@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client'
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  constructor(private config: ConfigService) {
+  constructor(config: ConfigService) {
     super({
       datasources: {
         db: {
@@ -16,7 +16,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
   async onModuleInit() {
     await this.$connect()
-    console.log(this.config.get('DATABASE_URL'))
   }
 
   async enableShutdownHooks(app: INestApplication) {
@@ -25,10 +24,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     })
   }
 
+  // refactor finding of all models names
   async dropDatabase() {
     if (process.env.NODE_ENV === 'production') return
 
-    const models = Reflect.ownKeys(this).filter((key) => key[0] !== '_')
+    const models = Reflect.ownKeys(this).filter(
+      (key) => typeof key === 'string' && key[0] !== '_' && key[0] !== "$" && key[0] === key[0].toUpperCase()
+    )
     return Promise.all(models.map((modelKey) => this[modelKey].deleteMany()))
   }
 }
