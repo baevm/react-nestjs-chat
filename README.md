@@ -1,6 +1,6 @@
 # Chat app
 ### Made with react.js and nest.js
-<b> Deployed at: https://chat-client.dezzerlol.tech/ </b>
+<s><b> Deployed at: https://chat-client.dezzerlol.tech/ </b></s>
 
 ### Features:
 - [x] Auth with JWT refresh and access tokens
@@ -8,11 +8,11 @@
 - [x] Group chats between multiple users
 - [x] Responsive design
 - [x] Dark mode 
-- [ ] Custom ui-kit with storybook
+- [x] Custom ui-kit with storybook
+- [x] Some tests
 - [ ] Attach files to message
 - [ ] Reply to messages
 - [ ] Animations
-- [ ] Tests
 
 ## Run client locally
 
@@ -35,3 +35,9 @@ cd nestjs-chat-backend
 yarn prisma db push
 yarn start:dev
 ```
+
+# Screenshots
+![Chat Screenshot](https://raw.githubusercontent.com/dezzerlol/react-nestjs-chat/master/assets/chat_screenshot1.png)
+
+
+![Chat Screenshot](https://raw.githubusercontent.com/dezzerlol/react-nestjs-chat/master/assets/chat_screenshot3.png)
