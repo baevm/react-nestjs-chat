@@ -17,6 +17,8 @@ export const authSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
+
+      extraOptions: { maxRetries: 5 },
     }),
 
     signup: builder.mutation<any, any>({

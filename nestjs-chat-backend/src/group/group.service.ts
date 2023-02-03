@@ -1,21 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import generateId from 'src/common/helpers/generateId'
+import { ChatService } from 'src/chat/chat.service'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class GroupService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private chatService: ChatService) {}
 
   async createGroup(userId: string, groupName: string) {
-    const group = await this.prisma.chat.create({
-      data: {
-        id: generateId('G'),
-        title: groupName,
-        type: 'group',
-      },
-    })
+    const group = await this.chatService.createChatGroup(groupName)
 
-    const participants = await this.prisma.participants.create({
+    const connectOwner = await this.prisma.participants.create({
       data: {
         chatId: group.id,
         userId,

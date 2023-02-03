@@ -1,6 +1,5 @@
 import { HttpException } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
-import { User } from '@prisma/client'
 import { AppModule } from 'src/app.module'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { AuthService } from '../auth.service'

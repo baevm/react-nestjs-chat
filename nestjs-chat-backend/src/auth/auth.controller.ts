@@ -6,6 +6,7 @@ import { GetCurrentUserId } from 'src/common/decorators/get-current-userId.decor
 import { Public } from 'src/common/decorators/public.decorator'
 import { AtGuard } from 'src/common/guards/at.guard'
 import { RtGuard } from 'src/common/guards/rt.guard'
+import { isProduction } from 'src/common/helpers/isProduction'
 import { AuthService } from './auth.service'
 import { AuthDto } from './dto/auth.dto'
 import { Tokens } from './types/tokens.type'
@@ -33,19 +34,19 @@ export class AuthController {
       secure: true,
       maxAge: 60 * 15 * 1000,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
+      domain: isProduction ? cookieDomain : null,
     })
     res.cookie(REFRESH_TOKEN, tokens.refresh_token, {
       secure: true,
       maxAge: 60 * 60 * 24 * 7 * 1000,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
+      domain: isProduction ? cookieDomain : null,
     })
 
     return tokens
   }
 
-  @UseGuards(AtGuard)
+  @UseGuards(RtGuard)
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
   async logout(@GetCurrentUserId() userId: string, @Res({ passthrough: true }) res: Response) {
@@ -53,16 +54,16 @@ export class AuthController {
       secure: true,
       maxAge: 1,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
+      domain: isProduction ? cookieDomain : null,
     })
     res.cookie(REFRESH_TOKEN, '', {
       secure: true,
       maxAge: 1,
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
+      domain: isProduction ? cookieDomain : null,
     })
-
-    return this.authService.logout(userId)
+    this.authService.logout(userId)
+    return res.redirect('/')
   }
 
   @Public()
@@ -74,21 +75,35 @@ export class AuthController {
     @GetCurrentUser('refreshToken') refreshToken: string,
     @Res({ passthrough: true }) res: Response
   ): Promise<Tokens> {
-    const tokens = await this.authService.refreshTokens(userId, refreshToken)
+    try {
+      const tokens = await this.authService.refreshTokens(userId, refreshToken)
+      res.cookie(ACCESS_TOKEN, tokens.access_token, {
+        secure: true,
+        maxAge: 60 * 15 * 1000,
+        sameSite: 'none',
+        domain: isProduction ? cookieDomain : null,
+      })
+      res.cookie(REFRESH_TOKEN, tokens.refresh_token, {
+        secure: true,
+        maxAge: 60 * 60 * 24 * 7 * 1000,
+        sameSite: 'none',
+        domain: isProduction ? cookieDomain : null,
+      })
 
-    res.cookie(ACCESS_TOKEN, tokens.access_token, {
-      secure: true,
-      maxAge: 60 * 15 * 1000,
-      sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
-    })
-    res.cookie(REFRESH_TOKEN, tokens.refresh_token, {
-      secure: true,
-      maxAge: 60 * 60 * 24 * 7 * 1000,
-      sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? cookieDomain : null,
-    })
-
-    return tokens
+      return tokens
+    } catch (error) {
+      res.cookie(ACCESS_TOKEN, '', {
+        secure: true,
+        maxAge: 1,
+        sameSite: 'none',
+        domain: isProduction ? cookieDomain : null,
+      })
+      res.cookie(REFRESH_TOKEN, '', {
+        secure: true,
+        maxAge: 1,
+        sameSite: 'none',
+        domain: isProduction ? cookieDomain : null,
+      })
+    }
   }
 }

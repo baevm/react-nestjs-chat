@@ -7,6 +7,26 @@ import { NewMessage } from './types/newMessage.type'
 export class ChatService {
   constructor(private prisma: PrismaService) {}
 
+  async createChatGroup(groupName: string) {
+    return this.prisma.chat.create({
+      data: {
+        id: generateId('G'),
+        title: groupName,
+        type: 'group',
+      },
+    })
+  }
+
+  async createChatContact(title: string) {
+    return this.prisma.chat.create({
+      data: {
+        id: generateId('C'),
+        title: title,
+        type: 'contact',
+      },
+    })
+  }
+
   async getChatIdsByUserId(userId: string) {
     const chats = await this.prisma.participants.findMany({
       where: {
@@ -56,8 +76,6 @@ export class ChatService {
         AND: [{ chatId }, { userId }],
       },
     })
-
-    console.log({ participant })
 
     return this.prisma.participants.update({
       where: { id: participant.id },

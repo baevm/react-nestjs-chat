@@ -1,4 +1,4 @@
-import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 import { serverUrl } from 'constants/serverUrl'
 
@@ -12,14 +12,18 @@ interface CustomError {
 }
 
 const mutex = new Mutex()
-const baseQuery = fetchBaseQuery({
-  baseUrl: serverUrl,
-  credentials: 'include',
-}) as BaseQueryFn<string | FetchArgs, unknown, CustomError>
+const baseQuery = retry(
+  fetchBaseQuery({
+    baseUrl: serverUrl,
+    credentials: 'include',
+  })
+) as BaseQueryFn<string | FetchArgs, unknown, CustomError>
 
 const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (args, api, extraOptions) => {
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
+
+  console.log({ result })
 
   // if api resolves with 401 error (no access token)
   // refresh token, but block all other requests while refreshing

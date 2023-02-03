@@ -29,10 +29,11 @@ export const userApi = apiSlice.injectEndpoints({
             socket.emit('user-online', { username: data.username, id: data.id })
           })
         } catch (error) {
-          console.error(error)
+          return
         }
         await cacheEntryRemoved
       },
+      extraOptions: { maxRetries: 2 },
     }),
 
     sendMessage: builder.mutation<any, any>({
