@@ -7,6 +7,6 @@ export default function formatDate(date: string) {
   /* if (today.diff(createdAt, 'day') <= 7) {
     return createdAt.format('dddd')
   } else { */
-    return createdAt.format('MMM DD, YYYY')
+  return createdAt.format('MMM DD, YYYY')
   /* } */
 }

@@ -56,12 +56,12 @@ export const userApi = apiSlice.injectEndpoints({
           await cacheDataLoaded
 
           const socket = getSocket()
-          const currentUser = getState().api.queries['getUser(undefined)']?.data as { id: string }
 
           // on unread message event
           // check if opened chat id from store is equal to chatId from message
           // if equal emit message read to server
           socket.on('unread-message', (msg) => {
+            const currentUser = getState().api.queries['getUser(undefined)']?.data as { id: string }
             const openedChatId = (getState() as RootState).ui.openedChat?.chatId
 
             if (openedChatId === msg.chatId) {

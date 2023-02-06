@@ -16,7 +16,7 @@ const ContactItem = ({ avatar, title, lastMessageTime, subtitle, unreadCount, is
     <button
       {...props}
       id='chat-item'
-      className={`w-full p-2 rounded-lg cursor-pointer flex gap-2 items-center ${
+      className={`flex w-full cursor-pointer items-center gap-2 rounded-lg p-2 ${
         isActive ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
       }`}>
       <Avatar src={avatar} size='lg' alt={`${title} avatar`} />

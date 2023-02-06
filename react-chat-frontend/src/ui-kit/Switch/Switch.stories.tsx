@@ -13,4 +13,3 @@ export default meta
 const Template: StoryFn<typeof Switch> = (args) => <Switch {...args} />
 
 export const checked = Template.bind({})
-

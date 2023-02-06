@@ -12,12 +12,10 @@ interface CustomError {
 }
 
 const mutex = new Mutex()
-const baseQuery = retry(
-  fetchBaseQuery({
-    baseUrl: serverUrl,
-    credentials: 'include',
-  })
-) as BaseQueryFn<string | FetchArgs, unknown, CustomError>
+const baseQuery = fetchBaseQuery({
+  baseUrl: serverUrl,
+  credentials: 'include',
+}) as BaseQueryFn<string | FetchArgs, unknown, CustomError>
 
 const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (args, api, extraOptions) => {
   await mutex.waitForUnlock()

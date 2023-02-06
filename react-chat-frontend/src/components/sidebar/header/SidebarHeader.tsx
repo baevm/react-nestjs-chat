@@ -13,8 +13,8 @@ interface FolderProps {
 const FolderItem = ({ folderName, activeFolder, setActiveFolder, contactsLength }: FolderProps) => {
   return (
     <div
-      className={`border-active-item-color min-w-[3rem] flex gap-2 cursor-pointer font-medium ${
-        activeFolder === folderName ? 'border-b-2 text-active-item-color' : 'text-gray-500'
+      className={`border-active-item-color flex min-w-[3rem] cursor-pointer gap-2 font-medium ${
+        activeFolder === folderName ? 'text-active-item-color border-b-2' : 'text-gray-500'
       }`}
       onClick={() => {
         setActiveFolder(folderName)
@@ -31,8 +31,8 @@ const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
   return (
     <div
       id='sidebar-header'
-      className='h-24 w-full border-b-[1px] bg-background-color border-border-color shadow-sm pt-2 px-4 flex flex-col justify-between'>
-      <div className='w-full flex items-center gap-4'>
+      className='bg-background-color border-border-color flex h-24 w-full flex-col justify-between border-b-[1px] px-4 pt-2 shadow-sm'>
+      <div className='flex w-full items-center gap-4'>
         <MenuButton />
         <SearchInput />
       </div>

@@ -19,7 +19,7 @@ const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
 
   return (
     <Modal isOpened={isModalOpen} onClose={() => setIsModalOpen(false)} closeOnClickOutside={false}>
-      <div id='avatar-modal-header' className='w-full text-gray-300 px-4 py-2 flex items-center justify-between'>
+      <div id='avatar-modal-header' className='flex w-full items-center justify-between px-4 py-2 text-gray-300'>
         <div className='flex gap-2'>
           <Avatar src={avatar} size='lg' alt={`${username} avatar`} />
           <div className='flex flex-col'>
@@ -39,8 +39,8 @@ const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
           </ActionIcon>
         </div>
       </div>
-      <div className='w-full h-full flex items-center justify-center'>
-        <img ref={imgRef} src={avatar} className='w-32 h-32' alt={`${username} opened avatar`} />
+      <div className='flex h-full w-full items-center justify-center'>
+        <img ref={imgRef} src={avatar} className='h-32 w-32' alt={`${username} opened avatar`} />
       </div>
     </Modal>
   )

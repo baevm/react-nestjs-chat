@@ -7,7 +7,7 @@ const AuthInput = React.forwardRef<HTMLInputElement, AuthInputProps>(({ ...props
     <input
       ref={ref}
       {...props}
-      className='w-full p-2 rounded-md border-[#dadce0] border-[1px] focus:border-active-item-color focus:outline-none'
+      className='focus:border-active-item-color w-full rounded-md border-[1px] border-[#dadce0] p-2 focus:outline-none'
     />
   )
 })

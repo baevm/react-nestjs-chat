@@ -11,22 +11,12 @@ type Props = {
   unreadCount: number
   lastMessageTime: string
   lastMessage: string
-  setContextMenuId: (id: string | null) => void
-  contextMenuId: string | null
 }
 
-const ClickableContact = ({
-  id,
-  title,
-  avatar,
-  unreadCount,
-  lastMessage,
-  lastMessageTime,
-  setContextMenuId,
-  contextMenuId,
-}: Props) => {
+const ClickableContact = ({ id, title, avatar, unreadCount, lastMessage, lastMessageTime }: Props) => {
   const router = useRouter()
   const openedChatId = router.query.id ? router.query.id[0] : null
+  const [contextMenuId, setContextMenuId] = useState<string | null>('')
   const [posXY, setPosXY] = useState({ x: 0, y: 0 })
   const [handleUpdate, { isLoading }] = useUpdateUnreadCountMutation()
 

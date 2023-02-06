@@ -45,18 +45,28 @@ const MenuDropdown = ({ children, className }: MenuDropdownProps) => {
   if (!isOpen) return null
 
   return (
-    <div id='menu-dropdown' className={`rounded-xl absolute py-2 px-2 dropdown-shadow border-gray-300 ${className}`}>
-      <div className='w-full flex flex-col gap-2'>{children}</div>
+    <div id='menu-dropdown' className={`dropdown-shadow absolute rounded-xl border-gray-300 py-2 px-2 ${className}`}>
+      <div className='flex w-full flex-col gap-2'>{children}</div>
     </div>
   )
 }
 
 export const MenuItem = ({ children, icon, className, ...props }: MenuItemProps) => {
+  function handleKeyDown(e: React.KeyboardEvent<HTMLElement>) {
+    if (e.key === 'Enter' || e.key === 'space') {
+      e.preventDefault()
+      props.onClick?.(e as any)
+    }
+  }
+
   return (
     <div
       {...props}
       id='menu-item'
-      className={`p-2 w-52 whitespace-nowrap font-medium flex items-center gap-2 text-sm hover:bg-[#00000011] active:scale-[0.98] rounded-lg cursor-pointer ${className}`}>
+      role='button'
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      className={`flex w-52 cursor-pointer items-center gap-2 whitespace-nowrap rounded-lg p-2 text-sm font-medium hover:bg-[#00000011] active:scale-[0.98] ${className}`}>
       {icon} {children}
     </div>
   )
@@ -74,4 +84,3 @@ const MenuTarget = ({ children, className }: MenuTargetProps) => {
 Menu.Item = MenuItem
 Menu.Target = MenuTarget
 Menu.Dropdown = MenuDropdown
-

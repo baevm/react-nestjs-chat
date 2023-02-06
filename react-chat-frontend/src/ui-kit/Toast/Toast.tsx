@@ -20,11 +20,11 @@ export const Toast = (props: ToastProps) => {
   return (
     <div
       ref={toastRef}
-      className=' bg-white min-h-[2.5rem] min-w-[15rem] max-w-[4.5rem] rounded p-3 z-[999999] 
-        flex justify-start items-start flex-col gap-2
+      className=' border-border-color z-[999999] flex min-h-[2.5rem] min-w-[15rem] max-w-[4.5rem] flex-col 
+        items-start justify-start gap-2 rounded border-[1px]
         
-        border-border-color border-[1px]'>
-      <div className='flex justify-between w-full'>
+        bg-white p-3'>
+      <div className='flex w-full justify-between'>
         <div className='flex gap-2'>
           {IconTypes[props.type]}
           <span className='font-medium'>{props.title}</span>

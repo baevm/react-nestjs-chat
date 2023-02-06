@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { closeChat, openChat } from 'redux/slices/uiSlice'
 import ChatHeader from './header/ChatHeader'
 import InputWrapper from './input/InputWrapper'
-import MessagesContainer from './messages/MessagesContainer'
+import MessagesContainer from './messageContainer/MessagesContainer'
 
 const Chat = () => {
   const router = useRouter()
@@ -31,7 +31,7 @@ const Chat = () => {
     return (
       <Panel
         order={2}
-        className={`w-full h-full flex flex-col bg-chat-box-background-color ${
+        className={`bg-chat-box-background-color flex h-full w-full flex-col ${
           isChatOpen ? 'absolute md:relative' : 'hidden md:block'
         }`}></Panel>
     )
@@ -40,13 +40,13 @@ const Chat = () => {
   return (
     <Panel
       order={2}
-      className={`chat-container w-full h-full flex flex-col bg-chat-box-background-color ${
+      className={`chat-container bg-chat-box-background-color flex h-full w-full flex-col ${
         isChatOpen ? 'absolute md:relative' : 'hidden'
       }`}>
       <ChatHeader />
       <div
         id='chat-box'
-        className='flex flex-col-reverse items-center w-full h-full py-4 px-4 md:px-0 overflow-y-auto max-h-[calc(100%-130px)] '>
+        className='flex h-full max-h-[calc(100%-130px)] w-full flex-col-reverse items-center overflow-y-auto py-4 px-4 md:px-0 '>
         <MessagesContainer />
         <InputWrapper />
       </div>

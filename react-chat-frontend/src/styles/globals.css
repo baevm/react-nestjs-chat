@@ -96,7 +96,7 @@ em-emoji-picker {
 
 /* Message styles */
 @layer components {
-  .message {
+  /* .message {
   }
 
   .message::before,
@@ -142,5 +142,5 @@ em-emoji-picker {
     left: 20px;
     transform: translate(-30px, -2px);
     width: 10px;
-  }
+  } */
 }

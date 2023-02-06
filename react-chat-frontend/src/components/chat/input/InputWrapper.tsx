@@ -30,14 +30,14 @@ const InputWrapper = () => {
   return (
     <div
       id='chat-input'
-      className='px-8 w-full md:w-1/2 md:px-0 min-w-[300px] h-12 flex items-end gap-2 absolute bottom-4 z-50'>
-      <div className='w-full h-full flex items-center bg-input-color rounded-xl'>
+      className='absolute bottom-4 z-50 flex h-12 w-full min-w-[300px] items-end gap-2 px-8 md:w-1/2 md:px-0'>
+      <div className='bg-input-color flex h-full w-full items-center rounded-xl'>
         <EmojiButton setNewMessage={setNewMessage} />
         <form onSubmit={handleSend} className='w-full'>
           <input
             onChange={(e) => setNewMessage(e.target.value)}
             value={newMessage}
-            className='h-full w-full outline-none bg-input-color text-text-color'
+            className='bg-input-color text-text-color h-full w-full outline-none'
             placeholder='Message'
             autoFocus
           />
@@ -46,7 +46,7 @@ const InputWrapper = () => {
           <AiOutlinePaperClip color='#707579' />
         </ActionIcon>
       </div>
-      <button className='bg-background-color rounded-full p-3  hover:bg-active-item-color'>
+      <button className='bg-background-color hover:bg-active-item-color rounded-full p-3'>
         <BiMicrophone />
       </button>
     </div>

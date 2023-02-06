@@ -13,7 +13,6 @@ const Sidebar = () => {
   const { data: user, isLoading, isError, error } = useGetUserQuery()
   const { data: chats, isLoading: chatsLoading } = useGetChatsQuery()
   const [activeFolder, setActiveFolder] = useState('All')
-  const [contextMenuId, setContextMenuId] = useState<string | null>('')
 
   function getLastMessage(messages: Message[], type: ChatType, participants: any) {
     if (messages.length < 1) {
@@ -43,13 +42,13 @@ const Sidebar = () => {
 
   return (
     <Panel
-      className={`h-full w-full border-r-[1px] flex flex-col border-border-color bg-background-color relative`}
+      className={`border-border-color bg-background-color relative flex h-full w-full flex-col border-r-[1px]`}
       order={1}
       maxSize={35}
       minSize={20}>
       <SidebarHeader setActiveFolder={setActiveFolder} activeFolder={activeFolder} />
 
-      <div id='sidebar-chats' className='p-2 overflow-y-auto' onContextMenu={(e) => e.preventDefault()}>
+      <div id='sidebar-chats' className='overflow-y-auto p-2' onContextMenu={(e) => e.preventDefault()}>
         {chats?.map((item) => (
           <ClickableContact
             key={item.id}
@@ -58,8 +57,6 @@ const Sidebar = () => {
             avatar={item.type === 'contact' ? getContact(item.participants, user.id).avatar : null}
             lastMessage={getLastMessage(item.messages, item.type, item.participants)}
             lastMessageTime={getLastMessageTime(item.messages)}
-            setContextMenuId={setContextMenuId}
-            contextMenuId={contextMenuId}
             unreadCount={item?.unreadCount}
           />
         ))}

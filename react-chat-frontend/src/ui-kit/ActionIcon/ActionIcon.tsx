@@ -13,7 +13,7 @@ export const ActionIcon = ({ children, className, isLoading, ...props }: ButtonP
       disabled={isLoading}
       data-loading={isLoading || undefined}
       {...props}
-      className={`cursor-pointer border-0 rounded-full p-2 transition-all hover:bg-icon-hover-color active:scale-90 ${className}`}>
+      className={`hover:bg-icon-hover-color cursor-pointer rounded-full border-0 p-2 transition-all active:scale-90 ${className}`}>
       {isLoading ? <Loader /> : children}
     </button>
   )

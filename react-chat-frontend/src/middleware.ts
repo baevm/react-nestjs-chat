@@ -7,7 +7,6 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname = '/'
     return NextResponse.redirect(request.nextUrl)
   }
-
 }
 
 export const config = {

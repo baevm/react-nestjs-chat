@@ -33,5 +33,10 @@ export const Portal = ({ children, target, className }: PortalProps) => {
 
   if (!isMounted) return null
 
-  return createPortal(<div id='portal' className={className}>{children}</div>, ref.current!)
+  return createPortal(
+    <div id='portal' className={className}>
+      {children}
+    </div>,
+    ref.current!
+  )
 }

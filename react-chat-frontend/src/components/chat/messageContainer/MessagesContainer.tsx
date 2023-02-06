@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { useGetUserQuery } from 'redux/api/user/userSlice'
 import { Message } from 'types/app.types'
 import GroupDate from './GroupDate'
-import MessageItem from './MessageItem'
+import MessageItem from './message/MessageItem'
 
 type GroupResult = {
   [key: string]: Message[]
@@ -39,22 +39,20 @@ const MessagesContainer = () => {
   // first map by groups
   // then map messages of that group
   return (
-    <div id='chat-list' className='w-full md:w-1/2 flex flex-col flex-1 gap-4'>
+    <div id='chat-list' className='flex w-full flex-1 flex-col gap-4 md:w-1/2'>
       {Object.keys(messageDateGroups).map((group) => (
-        <div key={group} className='w-full flex-col flex'>
+        <div key={group} className='flex w-full flex-col'>
           <GroupDate date={group} />
           {messageDateGroups[group].map((message) => (
             <MessageItem
               key={message.id}
+              id={message.id}
               isOwn={message.userId === user?.id}
               createdAt={formatTime(message.createdAt)}
               text={message.text}
               username={chatType === 'group' ? getMessageUser(activeChat!.participants, message.userId).username : ''}
-              avatar={
-                chatType === 'group'
-                  ? getMessageUser(activeChat!.participants, message.userId).avatar ?? '/user.png'
-                  : ''
-              }
+              isGroup={chatType === 'group'}
+              avatar={getMessageUser(activeChat!.participants, message.userId).avatar ?? '/user.png'}
             />
           ))}
         </div>

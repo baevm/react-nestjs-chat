@@ -27,7 +27,6 @@ describe('useClickOutside', () => {
       </div>
     )
 
-
     renderHook(() => useClickOutside(ref, handler))
 
     fireEvent.mouseDown(screen.getByTestId('test-id'))

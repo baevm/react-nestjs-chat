@@ -22,7 +22,7 @@ const ContextMenu = ({
       <div
         style={{ top: yPos, left: xPos }}
         ref={contextRef}
-        className={`rounded-md absolute py-2 px-2 dropdown-shadow text-text-color border-gray-300`}>
+        className={`dropdown-shadow text-text-color absolute rounded-md border-gray-300 py-2 px-2`}>
         <MenuItem icon={<IoFolderOpenOutline size='20' />}>Add to folder</MenuItem>
         <MenuItem icon={<MdOutlineMarkEmailRead size='20' />}>Mark as read</MenuItem>
         <MenuItem icon={<IoTrashBinOutline size='20' color='#DC2626' />} className='text-red-600'>

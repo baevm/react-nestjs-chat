@@ -6,8 +6,6 @@ const NewGroupModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: 
   const [groupName, setGroupName] = useState('')
   const [handleCreate, { isLoading, isError }] = useCreateGroupMutation()
 
-  if (!isShow) return null
-
   const handleAddContact = () => {
     if (!groupName) return
 
@@ -16,9 +14,9 @@ const NewGroupModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: 
 
   return (
     <Modal isOpened={isShow} onClose={handleClose}>
-      <div className='bg-background-color p-4 rounded-md'>
+      <div className='bg-background-color rounded-md p-4'>
         <div className='modal-header'>
-          <div className='text-lg font-semibold text-text-color'>New Group</div>
+          <div className='text-text-color text-lg font-semibold'>New Group</div>
         </div>
 
         <div className='my-4'>
@@ -26,19 +24,19 @@ const NewGroupModal = ({ isShow, handleClose }: { isShow: boolean; handleClose: 
             onChange={(e) => {
               setGroupName(e.target.value)
             }}
-            className='border-[1px] border-border-color bg-input-color text-text-color rounded-md p-2 focus:outline-none focus:border-active-item-color'
+            className='border-border-color bg-input-color text-text-color focus:border-active-item-color rounded-md border-[1px] p-2 focus:outline-none'
             placeholder='Group name'
           />
         </div>
 
-        <div className='flex gap-2 justify-end font-semibold'>
+        <div className='flex justify-end gap-2 font-semibold'>
           <button
-            className='modal-default-button text-active-item-color hover:bg-icon-hover-color p-1 rounded-md'
+            className='modal-default-button text-active-item-color hover:bg-icon-hover-color rounded-md p-1'
             onClick={() => handleClose()}>
             Cancel
           </button>
           <button
-            className='modal-default-button text-active-item-color hover:bg-icon-hover-color p-1 rounded-md'
+            className='modal-default-button text-active-item-color hover:bg-icon-hover-color rounded-md p-1'
             onClick={handleAddContact}
             disabled={isLoading}>
             {!isLoading ? 'Done' : 'Load...'}

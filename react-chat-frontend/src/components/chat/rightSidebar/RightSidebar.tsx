@@ -12,7 +12,7 @@ const TABS = ['Members', 'Media', 'Files', 'Links']
 const TabItem = ({ tab, activeTab, setActiveTab }: any) => {
   return (
     <div
-      className={`py-4 text-active-item-color font-medium border-active-item-color cursor-pointer ${
+      className={`text-active-item-color border-active-item-color cursor-pointer py-4 font-medium ${
         activeTab === tab ? 'text-active-item-color border-b-2 ' : 'text-gray-500'
       }`}
       onClick={() => setActiveTab(tab)}>
@@ -34,23 +34,23 @@ const RightSidebar = ({ setIsSidebarOpen }: { setIsSidebarOpen: (val: boolean) =
 
   return (
     <Portal>
-      <div className='w-full border-border-color border-l-[1px] absolute right-0 top-0 md:max-w-sm z-50 bg-background-color text-text-color h-full flex flex-col'>
-        <div className='flex gap-2 items-center h-14 p-2'>
+      <div className='border-border-color bg-background-color text-text-color absolute right-0 top-0 z-50 flex h-full w-full flex-col border-l-[1px] md:max-w-sm'>
+        <div className='flex h-14 items-center gap-2 p-2'>
           <ActionIcon onClick={() => setIsSidebarOpen(false)}>
             <IoClose size='26' />
           </ActionIcon>
-          <h1 className='font-semibold text-lg'>User info</h1>
+          <h1 className='text-lg font-semibold'>User info</h1>
         </div>
-        <div className='w-full relative'>
+        <div className='relative w-full'>
           <img src={avatar} className='w-full' alt={`${title} sidebar avatar`} />
           <div className='absolute bottom-0 px-4 text-lg text-black'>{title}</div>
         </div>
-        <div className='px-4 flex gap-2 border-border-color border-b-[1px]'>
+        <div className='border-border-color flex gap-2 border-b-[1px] px-4'>
           {TABS.map((tab) => (
             <TabItem key={tab} tab={tab} setActiveTab={setActiveTab} activeTab={activeTab} />
           ))}
         </div>
-        <div className='px-4 py-2 flex flex-col'>
+        <div className='flex flex-col px-4 py-2'>
           {activeChat?.participants.map(({ user }) => (
             <ContactItem
               key={user.id}

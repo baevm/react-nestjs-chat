@@ -13,7 +13,7 @@ const FloatingButton = () => {
   const [type, setType] = useState<ButtonOptions>(null)
   const [isShow, setIsShow] = useState(false)
 
-  const isChatOpen = useAppSelector(state => state.ui.isChatOpen)
+  const isChatOpen = useAppSelector((state) => state.ui.isChatOpen)
 
   const handleClose = () => {
     setType(null)
@@ -26,14 +26,14 @@ const FloatingButton = () => {
   }
 
   return (
-    <div className={`absolute z-50 bottom-4 right-4 ${isChatOpen ? 'hidden md:block' : ''}`}>
+    <div className={`absolute bottom-4 right-4 z-50 ${isChatOpen ? 'hidden md:block' : ''}`}>
       <Menu setIsOpen={setIsShow} isOpen={isShow}>
         <Menu.Target>
-          <button className='w-14 h-14 relative flex items-center justify-center bg-active-item-color rounded-full active:scale-95'>
+          <button className='bg-active-item-color relative flex h-14 w-14 items-center justify-center rounded-full active:scale-95'>
             <RiPencilFill color='white' />
           </button>
         </Menu.Target>
-        <Menu.Dropdown className='bottom-16 right-4 text-text-color'>
+        <Menu.Dropdown className='text-text-color bottom-16 right-4'>
           <Menu.Item onClick={() => handleOpen('contact')} icon={<IoPersonOutline size='20' />}>
             New contact
           </Menu.Item>

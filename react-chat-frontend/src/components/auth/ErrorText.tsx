@@ -2,7 +2,7 @@ import React from 'react'
 
 const ErrorText = ({ children }: { children: React.ReactNode }) => {
   return (
-    <p role='alert' className='text-red-500 text-sm self-start'>
+    <p role='alert' className='self-start text-sm text-red-500'>
       {children}
     </p>
   )

@@ -43,7 +43,7 @@ const MenuButton = () => {
           <Menu.Item icon={<IoBookmarkOutline size='20' />}>Saved messages</Menu.Item>
           <Menu.Item icon={<IoPersonOutline size='20' />}>Contacts</Menu.Item>
           <Menu.Item icon={<IoMoonOutline size='20' />}>
-            <div className='w-full flex items-center justify-between'>
+            <div className='flex w-full items-center justify-between'>
               Night mode
               <Switch onChange={handleTheme} checked={theme === 'dark'} />
             </div>
