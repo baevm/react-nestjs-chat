@@ -3,6 +3,7 @@ import generateId from 'src/common/helpers/generateId'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { NewMessage } from './types/newMessage.type'
 
+
 @Injectable()
 export class ChatService {
   constructor(private prisma: PrismaService) {}
@@ -48,6 +49,7 @@ export class ChatService {
         createdAt: message.createdAt,
         chatId: message.chatId,
         userId: message.userId,
+        parentMessageId: message.parentMessageId ?? null,
       },
     })
 

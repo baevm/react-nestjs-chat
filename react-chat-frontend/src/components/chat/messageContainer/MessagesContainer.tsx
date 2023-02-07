@@ -1,6 +1,5 @@
 import { useAppSelector } from '@redux/hooks'
 import formatDate from '@utils/formatDate'
-import formatTime from '@utils/formatTime'
 import { useMemo } from 'react'
 import { useGetUserQuery } from 'redux/api/user/userSlice'
 import { Message } from 'types/app.types'
@@ -48,11 +47,12 @@ const MessagesContainer = () => {
               key={message.id}
               id={message.id}
               isOwn={message.userId === user?.id}
-              createdAt={formatTime(message.createdAt)}
-              text={message.text}
-              username={chatType === 'group' ? getMessageUser(activeChat!.participants, message.userId).username : ''}
               isGroup={chatType === 'group'}
+              text={message.text}
+              createdAt={message.createdAt}
+              username={getMessageUser(activeChat!.participants, message.userId).username}
               avatar={getMessageUser(activeChat!.participants, message.userId).avatar ?? '/user.png'}
+              replyTo={message.reply_to}
             />
           ))}
         </div>

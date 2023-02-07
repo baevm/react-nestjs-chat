@@ -48,11 +48,33 @@ export class UserService {
         id: true,
         unreadCount: true,
         chatId: true,
+
         chat: {
           select: {
             type: true,
-            messages: true,
             title: true,
+            messages: {
+              select: {
+                id: true,
+                text: true,
+                userId: true,
+                chatId: true,
+                createdAt: true,
+                updatedAt: true,
+                reply_to: {
+                  select: {
+                    text: true,
+                    id: true,
+                    user: {
+                      select: {
+                        avatar: true,
+                        username: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
             participants: {
               select: {
                 user: {

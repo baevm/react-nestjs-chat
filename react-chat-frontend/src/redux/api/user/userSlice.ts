@@ -1,7 +1,7 @@
 import { RootState } from '@redux/store'
 import { getSocket } from '@services/socket'
 import { playSound } from '@utils/playSound'
-import { Chat } from 'types/app.types'
+import { Chat, RepliedMessage } from 'types/app.types'
 import { apiSlice } from '../apiSlice'
 
 type MessageFromServer = {
@@ -11,6 +11,7 @@ type MessageFromServer = {
   receiverId: string
   text: string
   userId: string
+  reply_to: RepliedMessage
 }
 
 export const userApi = apiSlice.injectEndpoints({
@@ -36,18 +37,6 @@ export const userApi = apiSlice.injectEndpoints({
       extraOptions: { maxRetries: 2 },
     }),
 
-    sendMessage: builder.mutation<any, any>({
-      queryFn: (message: any) => {
-        const socket = getSocket()
-
-        return new Promise((resolve) => {
-          socket.emit('send-message-to-server', message, (message: any) => {
-            resolve({ data: message })
-          })
-        })
-      },
-    }),
-
     getChats: builder.query<Chat[], void>({
       query: () => '/user/chats',
       providesTags: ['Chats'],
@@ -66,6 +55,8 @@ export const userApi = apiSlice.injectEndpoints({
 
             if (openedChatId === msg.chatId) {
               socket.emit('message-read', { userId: currentUser.id, chatId: msg.chatId })
+            } else {
+              playSound()
             }
           })
 
@@ -73,6 +64,7 @@ export const userApi = apiSlice.injectEndpoints({
           // if opened chat id from store not equal to chatId from message
           // update unread count
           socket.on('send-message-to-chat', (msg: MessageFromServer) => {
+            console.log({ msg })
             const openedChatId = (getState() as RootState).ui.openedChat?.chatId
 
             updateCachedData((draft) => {
@@ -81,8 +73,6 @@ export const userApi = apiSlice.injectEndpoints({
 
               if (openedChatId !== msg.chatId) {
                 chat.unreadCount = chat.unreadCount + 1
-
-                playSound()
               }
 
               return draft
@@ -104,26 +94,7 @@ export const userApi = apiSlice.injectEndpoints({
           type: item.chat.type,
         }))
 
-        console.log({ formatedChats })
         return formatedChats
-      },
-    }),
-
-    updateUnreadCount: builder.mutation<any, string>({
-      query: (chatId) => ({
-        url: '/chat/updateUnreadCount',
-        body: { chatId },
-        method: 'POST',
-      }),
-      async onQueryStarted(chatId, { dispatch }) {
-        dispatch(
-          userApi.util.updateQueryData('getChats', undefined, (draft) => {
-            let chat = draft.find((chat: any) => chat.chatId === chatId)
-            chat!.unreadCount = 0
-
-            return draft
-          })
-        )
       },
     }),
 
@@ -145,10 +116,4 @@ export const userApi = apiSlice.injectEndpoints({
   }),
 })
 
-export const {
-  useGetUserQuery,
-  useAddContactMutation,
-  useGetChatsQuery,
-  useSendMessageMutation,
-  useUpdateUnreadCountMutation,
-} = userApi
+export const { useGetUserQuery, useAddContactMutation, useGetChatsQuery } = userApi

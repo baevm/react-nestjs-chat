@@ -21,7 +21,6 @@ const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, CustomError> =
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
 
-  console.log({ result })
 
   // if api resolves with 401 error (no access token)
   // refresh token, but block all other requests while refreshing

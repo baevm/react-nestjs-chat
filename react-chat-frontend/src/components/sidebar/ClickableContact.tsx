@@ -1,5 +1,5 @@
 import ContactItem from '@components/common/ContactItem'
-import { useUpdateUnreadCountMutation } from '@redux/api/user/userSlice'
+import { useUpdateUnreadCountMutation } from '@redux/api/chat/chatSlice'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import ContextMenu from './ContextMenu'

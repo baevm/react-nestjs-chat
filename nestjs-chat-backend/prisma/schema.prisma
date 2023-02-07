@@ -66,17 +66,21 @@ model Participants {
 }
 
 model Message {
-  id     String @id @unique
-  text   String
-  userId String
-  chatId String
+  id              String  @id @unique
+  text            String
+  userId          String
+  chatId          String
+  parentMessageId String?
 
-  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat     Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reply_to Message? @relation(name: "ParentMessage", fields: [parentMessageId], references: [id])
 
-  updatedAt DateTime         @updatedAt
-  createdAt DateTime         @default(now())
-  unreadBy  UnreadMessages[]
+  replies  Message[]        @relation(name: "ParentMessage")
+  unreadBy UnreadMessages[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }
 
 model UnreadMessages {

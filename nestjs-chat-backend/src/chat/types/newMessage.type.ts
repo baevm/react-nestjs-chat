@@ -4,4 +4,5 @@ export type NewMessage = {
   receiverId?: string
   groupId?: string
   chatId: string
+  parentMessageId?: string
 }

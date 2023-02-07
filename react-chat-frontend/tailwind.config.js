@@ -27,6 +27,7 @@ module.exports = {
         'badge-background-color': 'var(--badge-background-color)',
         'patern-color': 'var(--patern-color)',
         'modal-background': 'var(--modal-background)',
+        'accent-color': 'var(--accent-color)',
       },
 
       keyframes: {

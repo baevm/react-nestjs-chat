@@ -17,6 +17,15 @@ export type Participant = {
   avatar: string | null
 }
 
+export type RepliedMessage = {
+  id: string
+  text: string
+  user: {
+    avatar: string | null
+    username: string
+  }
+}
+
 export type Message = {
   chatId: string
   createdAt: string
@@ -24,6 +33,7 @@ export type Message = {
   text: string
   updatedAt?: string
   userId: string
+  reply_to: RepliedMessage
 }
 
 export type Chat = {

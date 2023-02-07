@@ -39,8 +39,12 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   async handleMessage(client: Socket, message: NewMessage) {
     const formatMessage = this.chatService.formatMessage(message)
 
+    // emit event of new message to all online users of chat
     this.wss.to(message.chatId).emit('send-message-to-chat', formatMessage)
-    await this.chatService.saveMessage(formatMessage)
+
+    this.chatService.saveMessage(formatMessage)
+
+    // emit event of unread message to all online users of chat except sender
     this.wss.to(message.chatId).except(client.id).emit('unread-message', { chatId: formatMessage.chatId })
 
     return 'ok'
@@ -49,7 +53,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   @SubscribeMessage('message-read')
   async handleMessageRead(client: Socket, data: { userId: string; chatId: string }) {
     const handleRead = await this.chatService.updateUnreadCount(data.userId, data.chatId)
- 
+
     return 'ok'
   }
 
