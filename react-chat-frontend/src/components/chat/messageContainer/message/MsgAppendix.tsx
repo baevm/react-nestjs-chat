@@ -1,7 +1,14 @@
+import { cls } from 'ui-kit'
+
 const MsgAppendix = ({ isOwn, isOtherFromGroup }: { isOwn: boolean; isOtherFromGroup: boolean }) => {
   return (
     <div
-      className={`absolute bottom-[9px] ${isOwn ? 'right-[15px]' : isOtherFromGroup ? 'left-[39px]' : 'left-[15px]'}`}>
+      className={cls(
+        'absolute bottom-[9px]',
+        isOwn && 'right-[15px]',
+        !isOwn && !isOtherFromGroup && 'left-[15px]',
+        isOtherFromGroup && 'left-[39px]',
+      )}>
       <svg width='9' height='20' xmlns='http://www.w3.org/2000/svg'>
         <defs>
           <filter x='-50%' y='-14.7%' width='200%' height='141.2%' filterUnits='objectBoundingBox' id='a'>

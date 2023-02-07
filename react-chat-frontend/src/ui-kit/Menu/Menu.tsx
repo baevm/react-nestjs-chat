@@ -45,7 +45,7 @@ const MenuDropdown = ({ children, className }: MenuDropdownProps) => {
   if (!isOpen) return null
 
   return (
-    <div id='menu-dropdown' className={`dropdown-shadow absolute rounded-xl border-gray-300 py-2 px-2 ${className}`}>
+    <div id='menu-dropdown' className={`dropdown-bg-with-shadow absolute rounded-xl border-gray-300 py-2 px-2 ${className}`}>
       <div className='flex w-full flex-col gap-2'>{children}</div>
     </div>
   )

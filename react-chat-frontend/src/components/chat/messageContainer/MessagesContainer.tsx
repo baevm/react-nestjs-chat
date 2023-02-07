@@ -38,7 +38,7 @@ const MessagesContainer = () => {
   // first map by groups
   // then map messages of that group
   return (
-    <div id='chat-list' className='flex w-full flex-1 flex-col gap-4 md:w-1/2'>
+    <div id='chat-list' className='relative flex w-full flex-1 flex-col gap-4 md:w-1/2'>
       {Object.keys(messageDateGroups).map((group) => (
         <div key={group} className='flex w-full flex-col'>
           <GroupDate date={group} />
@@ -57,7 +57,8 @@ const MessagesContainer = () => {
           ))}
         </div>
       ))}
-      <div id='bottom'></div>
+
+      <div id='bottom' className='scroll-mt-24'></div>
     </div>
   )
 }

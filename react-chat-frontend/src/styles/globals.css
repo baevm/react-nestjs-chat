@@ -89,7 +89,7 @@ em-emoji-picker {
 }
 
 @layer utilities {
-  .dropdown-shadow {
+  .dropdown-bg-with-shadow {
     box-shadow: 0 0.25rem 0.5rem 0.125rem var(--dropdown-shadow-color);
     backdrop-filter: blur(10px);
     background: var(--dropdown-background-color);

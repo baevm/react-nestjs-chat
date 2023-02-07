@@ -39,8 +39,12 @@ const InputWrapper = () => {
       },
     }
     sendMessage(message)
+
     setNewMessage('')
     clearReply()
+
+    const bottom = document.getElementById('bottom')
+    bottom?.scrollIntoView({})
   }
 
   const clearReply = () => {

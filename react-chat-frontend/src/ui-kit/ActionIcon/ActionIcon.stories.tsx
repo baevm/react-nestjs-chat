@@ -23,7 +23,7 @@ export default meta
 
 const Template: StoryFn<typeof ActionIcon> = (args) => (
   <ActionIcon {...args}>
-    <IoAddCircle />
+    <IoAddCircle color='red' size='24' />
   </ActionIcon>
 )
 
