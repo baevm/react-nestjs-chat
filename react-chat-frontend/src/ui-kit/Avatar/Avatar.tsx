@@ -4,12 +4,12 @@ type AvatarSizes = 'xs' | 'sm' | 'md' | 'lg'
 
 type RoundedSizes = 'sm' | 'md' | 'full'
 
-export interface AvatarProps extends React.HTMLAttributes<HTMLImageElement> {
+export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string | null
   alt: string
   size?: AvatarSizes
   rounded?: RoundedSizes
-  className?: React.ComponentProps<'image'>['className']
+  className?: React.ComponentProps<'div'>['className']
 }
 
 const sizeMap: Record<AvatarSizes, string> = {
@@ -25,15 +25,16 @@ const roundesSizesMap: Record<RoundedSizes, string> = {
   full: 'rounded-full',
 }
 
-const defaultAvatarSrc = '/user.png'
+const defaultAvatarSrc = '/images/user.png'
 
 export const Avatar = ({ alt, src, size = 'sm', rounded = 'full', className = '', ...props }: AvatarProps) => {
   return (
-    <img
-      src={src ? src : defaultAvatarSrc}
-      alt={alt}
-      {...props}
-      className={`${sizeMap[size]} ${roundesSizesMap[rounded]} ${className}`}
-    />
+    <div className={`${sizeMap[size]} `} {...props}>
+      <img
+        src={src ? src : defaultAvatarSrc}
+        alt={alt}
+        className={`${roundesSizesMap[rounded]} ${className} h-full w-full`}
+      />
+    </div>
   )
 }

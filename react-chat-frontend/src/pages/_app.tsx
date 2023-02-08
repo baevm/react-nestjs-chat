@@ -5,13 +5,14 @@ import '../styles/globals.css'
 import { Provider } from 'react-redux'
 import { store } from 'redux/store'
 import { ToastProvider } from '@ui-kit'
+import { appWithTranslation } from 'next-i18next'
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
 })
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <Provider store={store}>
       <IconContext.Provider value={{ size: '24', color: 'var(--icon-color)' }}>
@@ -24,3 +25,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </Provider>
   )
 }
+
+export default appWithTranslation(App)

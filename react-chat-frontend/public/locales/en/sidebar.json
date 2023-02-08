@@ -1,0 +1,17 @@
+{
+  "search": "Search",
+  "folder-all": "All",
+  "you": "You",
+  "menu": {
+    "saved-messages": "Saved messages",
+    "contacts": "Contacts",
+    "night-mode": "Night mode",
+    "logout": "Logout",
+    "change-locale": "Change language to {{changeTo}}"
+  },
+  "floating-button": {
+    "new-contact": "New contact",
+    "new-group": "New group",
+    "new-message": "New message"
+  }
+}

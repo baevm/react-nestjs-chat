@@ -1,4 +1,6 @@
 import { Badge } from '@ui-kit'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useGetUserQuery } from 'redux/api/user/userSlice'
 import MenuButton from './MenuButton'
 import SearchInput from './SearchInput'
@@ -14,7 +16,7 @@ const FolderItem = ({ folderName, activeFolder, setActiveFolder, contactsLength 
   return (
     <div
       className={`border-active-item-color flex min-w-[3rem] cursor-pointer gap-2 font-medium ${
-        activeFolder === folderName ? 'text-active-item-color border-b-2' : 'text-gray-500'
+        true ? 'text-active-item-color border-b-2' : 'text-gray-500'
       }`}
       onClick={() => {
         setActiveFolder(folderName)
@@ -25,8 +27,11 @@ const FolderItem = ({ folderName, activeFolder, setActiveFolder, contactsLength 
   )
 }
 
-const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
+const SidebarHeader = () => {
+  const { t } = useTranslation(['sidebar'])
+  const [activeFolder, setActiveFolder] = useState('All')
   const { data: user, isLoading, isError, error } = useGetUserQuery()
+
 
   return (
     <div
@@ -41,7 +46,7 @@ const SidebarHeader = ({ setActiveFolder, activeFolder }: any) => {
         <FolderItem
           activeFolder={activeFolder}
           contactsLength={user?.participants ? user.participants.length : 0}
-          folderName='All'
+          folderName={t('folder-all')}
           setActiveFolder={setActiveFolder}
         />
 

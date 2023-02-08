@@ -1,12 +1,13 @@
 import { useAppDispatch } from '@redux/hooks'
 import { setReplyMessage } from '@redux/slices/chatSlice'
+import { Avatar, cls, ContextMenu } from '@ui-kit'
 import formatTime from '@utils/formatTime'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BsReply } from 'react-icons/bs'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { RiPencilFill } from 'react-icons/ri'
 import { RepliedMessage as RepliedMessageType } from 'types/app.types'
-import { Avatar, cls, ContextMenu } from '@ui-kit'
 import MsgAppendix from './MsgAppendix'
 import RepliedMessage from './RepliedMessage'
 
@@ -25,8 +26,9 @@ const MessageItem = ({ id, text, createdAt, isOwn, username, avatar, isGroup, re
   const [contextMenuMsgId, setContextMenuMsgId] = useState<string | null>('')
   const dispatch = useAppDispatch()
   const isOtherFromGroup = !isOwn && isGroup
+  const { t } = useTranslation('common')
 
-  function handleNewReply() {
+  const handleNewReply = () => {
     const msg = {
       id,
       username,
@@ -34,6 +36,10 @@ const MessageItem = ({ id, text, createdAt, isOwn, username, avatar, isGroup, re
       text,
     }
     dispatch(setReplyMessage(msg))
+  }
+
+  const handleEdit = () => {
+    console.log('not implemented yet')
   }
 
   return (
@@ -71,11 +77,13 @@ const MessageItem = ({ id, text, createdAt, isOwn, username, avatar, isGroup, re
 
       <ContextMenu.Dropdown>
         <ContextMenu.Item icon={<BsReply size='20' />} onClick={handleNewReply}>
-          Reply
+          {t('reply')}
         </ContextMenu.Item>
-        <ContextMenu.Item icon={<RiPencilFill size='20' />}>Edit</ContextMenu.Item>
+        <ContextMenu.Item icon={<RiPencilFill size='20' />} onClick={handleEdit}>
+          {t('edit')}
+        </ContextMenu.Item>
         <ContextMenu.Item icon={<IoTrashBinOutline size='20' color='#DC2626' />} className='text-red-600'>
-          Remove
+          {t('delete')}
         </ContextMenu.Item>
       </ContextMenu.Dropdown>
     </ContextMenu>

@@ -5,6 +5,7 @@ import { setReplyMessage } from '@redux/slices/chatSlice'
 import { ActionIcon } from '@ui-kit'
 import { getContact } from '@utils/getContact'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AiOutlinePaperClip } from 'react-icons/ai'
 import { BiMicrophone } from 'react-icons/bi'
 import { BsReply } from 'react-icons/bs'
@@ -13,6 +14,7 @@ import EmojiButton from './EmojiButton'
 
 const InputWrapper = () => {
   const dispatch = useAppDispatch()
+  const { t } = useTranslation('common')
   const [newMessage, setNewMessage] = useState('')
   const { data: user, isLoading, isError, error } = useGetUserQuery()
   const [sendMessage, { isLoading: isSending }] = useSendMessageMutation()
@@ -82,7 +84,7 @@ const InputWrapper = () => {
               onChange={(e) => setNewMessage(e.target.value)}
               value={newMessage}
               className='bg-input-color text-text-color h-full w-full outline-none'
-              placeholder='Message'
+              placeholder={t('message')!}
               autoFocus
             />
           </form>

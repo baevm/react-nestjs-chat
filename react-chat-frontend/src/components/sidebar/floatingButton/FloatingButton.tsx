@@ -6,14 +6,15 @@ import { ChatType } from 'types/app.types'
 import NewContactModal from './NewContactModal'
 import NewGroupModal from './NewGroupModal'
 import { Menu } from '@ui-kit'
+import { useTranslation } from 'react-i18next'
 
 type ButtonOptions = ChatType | 'message' | null
 
 const FloatingButton = () => {
   const [type, setType] = useState<ButtonOptions>(null)
   const [isShow, setIsShow] = useState(false)
-
   const isChatOpen = useAppSelector((state) => state.ui.isChatOpen)
+  const { t } = useTranslation(['sidebar'])
 
   const handleClose = () => {
     setType(null)
@@ -35,13 +36,13 @@ const FloatingButton = () => {
         </Menu.Target>
         <Menu.Dropdown className='text-text-color bottom-16 right-4'>
           <Menu.Item onClick={() => handleOpen('contact')} icon={<IoPersonOutline size='20' />}>
-            New contact
+            {t('floating-button.new-contact')}
           </Menu.Item>
           <Menu.Item onClick={() => handleOpen('group')} icon={<IoPeopleOutline size='20' />}>
-            New group
+            {t('floating-button.new-group')}
           </Menu.Item>
           <Menu.Item onClick={() => handleOpen('message')} icon={<IoChatboxEllipsesOutline size='20' />}>
-            New message
+            {t('floating-button.new-message')}
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>

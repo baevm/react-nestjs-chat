@@ -1,0 +1,17 @@
+{
+  "search": "Поиск",
+  "folder-all": "Все",
+  "you": "Вы",
+  "menu": {
+    "saved-messages": "Сохраненные сообщения",
+    "contacts": "Контакты",
+    "night-mode": "Ночной режим",
+    "logout": "Выйти",
+    "change-locale": "Сменить язык на {{changeTo}}"
+  },
+  "floating-button": {
+    "new-contact": "Новый контакт",
+    "new-group": "Создать группу",
+    "new-message": "Новое сообщение"
+  }
+}

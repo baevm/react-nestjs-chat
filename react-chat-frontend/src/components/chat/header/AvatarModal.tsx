@@ -4,10 +4,12 @@ import { IoClose } from 'react-icons/io5'
 import { BiZoomIn, BiZoomOut } from 'react-icons/bi'
 import { ActionIcon, Modal } from '@ui-kit'
 import { Avatar } from 'ui-kit/Avatar'
+import { useTranslation } from 'react-i18next'
 
 const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
   const imgRef = useRef<HTMLImageElement | null>(null)
   const headerIconsRef = useRef<HTMLDivElement | null>(null)
+  const { t } = useTranslation('common')
 
   useClickOutside(imgRef, (e) => {
     if (!headerIconsRef.current?.contains(e.target)) {
@@ -15,7 +17,7 @@ const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
     }
   })
 
-  const avatar = image ? image : '/user.png'
+  const avatar = image ? image : '/images/user.png'
 
   return (
     <Modal isOpened={isModalOpen} onClose={() => setIsModalOpen(false)} closeOnClickOutside={false}>
@@ -24,7 +26,7 @@ const AvatarModal = ({ image, username, setIsModalOpen, isModalOpen }: any) => {
           <Avatar src={avatar} size='lg' alt={`${username} avatar`} />
           <div className='flex flex-col'>
             <div className='font-semibold'>{username}</div>
-            <div className='text-sm'>Profile Photo</div>
+            <div className='text-sm'>{t('profile-photo')}</div>
           </div>
         </div>
         <div ref={headerIconsRef}>

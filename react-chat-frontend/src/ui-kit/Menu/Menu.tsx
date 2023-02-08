@@ -45,7 +45,9 @@ const MenuDropdown = ({ children, className }: MenuDropdownProps) => {
   if (!isOpen) return null
 
   return (
-    <div id='menu-dropdown' className={`dropdown-bg-with-shadow absolute rounded-xl border-gray-300 py-2 px-2 ${className}`}>
+    <div
+      id='menu-dropdown'
+      className={`dropdown-bg-with-shadow absolute rounded-xl border-gray-300 py-2 px-2 ${className}`}>
       <div className='flex w-full flex-col gap-2'>{children}</div>
     </div>
   )
@@ -66,8 +68,9 @@ export const MenuItem = ({ children, icon, className, ...props }: MenuItemProps)
       role='button'
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className={`flex w-52 cursor-pointer items-center gap-2 whitespace-nowrap rounded-lg p-2 text-sm font-medium hover:bg-[#00000011] active:scale-[0.98] ${className}`}>
-      {icon} {children}
+      className={`flex min-w-[13rem] cursor-pointer items-center gap-2 rounded-lg p-2 text-sm font-medium hover:bg-[#00000011] active:scale-[0.98] ${className}`}>
+      {icon}
+      <span className='flex w-full overflow-hidden text-ellipsis whitespace-nowrap'>{children}</span>
     </div>
   )
 }

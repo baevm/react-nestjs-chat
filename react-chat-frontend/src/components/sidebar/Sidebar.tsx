@@ -1,6 +1,7 @@
 import formatLastMsgTime from '@utils/formatLastMsgTime'
 import { getContact } from '@utils/getContact'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Panel } from 'react-resizable-panels'
 import { useGetChatsQuery, useGetUserQuery } from 'redux/api/user/userSlice'
 import { ChatType, Message } from 'types/app.types'
@@ -12,7 +13,8 @@ import ResizeHandle from './ResizeHandle'
 const Sidebar = () => {
   const { data: user, isLoading, isError, error } = useGetUserQuery()
   const { data: chats, isLoading: chatsLoading } = useGetChatsQuery()
-  const [activeFolder, setActiveFolder] = useState('All')
+  
+  const { t } = useTranslation(['sidebar'])
 
   function getLastMessage(messages: Message[], type: ChatType, participants: any) {
     if (messages.length < 1) {
@@ -21,12 +23,14 @@ const Sidebar = () => {
 
     const messageText = messages[messages.length - 1].text
     const senderId = messages[messages.length - 1].userId
+    const isOwnMessage = user?.id === senderId
+    const you = `${t('you')}: `
 
     if (type === 'group') {
       const senderName = participants.find(({ user }: any) => user.id === senderId).user.username
-      return senderName + ': ' + messageText
+      return (isOwnMessage ? you : `${senderName}: `) + messageText
     } else {
-      return (user?.id === senderId ? 'You: ' : '') + messageText
+      return (isOwnMessage ? you : '') + messageText
     }
   }
 
@@ -46,7 +50,7 @@ const Sidebar = () => {
       order={1}
       maxSize={35}
       minSize={20}>
-      <SidebarHeader setActiveFolder={setActiveFolder} activeFolder={activeFolder} />
+      <SidebarHeader />
 
       <div id='sidebar-chats' className='overflow-y-auto p-2' onContextMenu={(e) => e.preventDefault()}>
         {chats?.map((item) => (

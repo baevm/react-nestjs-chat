@@ -37,7 +37,7 @@ const SignupPage = () => {
 
   return (
     <div className='flex h-screen w-screen flex-col items-center'>
-      <img src='/auth_page_logo.svg' className='absolute mt-24 h-64 w-64' />
+      <img src='/images/auth_page_logo.svg' className='absolute mt-24 h-64 w-64' alt='logo' />
       <div className='flex h-full w-[400px] flex-col items-center justify-center gap-2 '>
         <div className='flex flex-col items-start self-start'>
           <h1 className='text-xl font-semibold'>Create account</h1>

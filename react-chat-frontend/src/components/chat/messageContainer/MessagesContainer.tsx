@@ -51,7 +51,7 @@ const MessagesContainer = () => {
               text={message.text}
               createdAt={message.createdAt}
               username={getMessageUser(activeChat!.participants, message.userId).username}
-              avatar={getMessageUser(activeChat!.participants, message.userId).avatar ?? '/user.png'}
+              avatar={getMessageUser(activeChat!.participants, message.userId).avatar ?? '/images/user.png'}
               replyTo={message.reply_to}
             />
           ))}

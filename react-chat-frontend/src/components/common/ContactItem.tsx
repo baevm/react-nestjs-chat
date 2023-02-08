@@ -20,7 +20,7 @@ const ContactItem = ({ avatar, title, lastMessageTime, subtitle, unreadCount, is
         isActive ? 'bg-active-item-color text-white' : 'hover:bg-chat-hover-color'
       }`}>
       <Avatar src={avatar} size='lg' alt={`${title} avatar`} />
-      <div className='w-full'>
+      <div className='flex-1'>
         <div className='flex justify-between'>
           <div className={`font-medium ${isActive ? 'text-white' : 'text-text-color'}`}>{title}</div>
           <div className={`text-xs  ${isActive ? 'text-white' : 'text-text-secondary-color'}`}>{lastMessageTime}</div>
