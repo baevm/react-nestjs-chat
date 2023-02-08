@@ -10,14 +10,16 @@
 - [x] Dark mode 
 - [x] Custom ui-kit with storybook
 - [x] Some tests
+- [x] i18n 
+- [x] Reply to messages
 - [ ] Attach files to message
-- [ ] Reply to messages
 - [ ] Animations
 
 ## Run client locally
 
 ```bash
 cd react-chat-frontend
+yarn install
 yarn dev
 ```
 
@@ -25,12 +27,14 @@ yarn dev
 
 ```bash
 cd nestjs-chat-backend
+yarn install
 ```
 
-### Create .env file with:
+### Then create .env file with:
  - DATABASE_URL:
  - JWT_SECRET_KEY:
 
+### Then push schema to database and start server:
 ```bash
 yarn prisma db push
 yarn start:dev
