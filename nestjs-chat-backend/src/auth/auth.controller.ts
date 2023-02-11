@@ -62,8 +62,7 @@ export class AuthController {
       sameSite: 'none',
       domain: isProduction ? cookieDomain : null,
     })
-    this.authService.logout(userId)
-    return res.redirect('/')
+    return this.authService.logout(userId)
   }
 
   @Public()
