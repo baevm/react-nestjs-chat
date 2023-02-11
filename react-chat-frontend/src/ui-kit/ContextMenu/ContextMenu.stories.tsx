@@ -24,15 +24,15 @@ const Template: StoryFn<typeof ContextMenu> = (args) => {
         alignItems: 'center',
       }}>
       <ContextMenu>
-        <ContextMenu.MenuTarget>
+        <ContextMenu.Target>
           <div className='h-32 w-32 border-2 border-gray-400'>Right click here to open context menu</div>
-        </ContextMenu.MenuTarget>
+        </ContextMenu.Target>
 
-        <ContextMenu.MenuDropdown>
+        <ContextMenu.Dropdown>
           <ContextMenu.Item>Test</ContextMenu.Item>
           <ContextMenu.Item>Test 1</ContextMenu.Item>
           <ContextMenu.Item>Test 2</ContextMenu.Item>
-        </ContextMenu.MenuDropdown>
+        </ContextMenu.Dropdown>
       </ContextMenu>
     </div>
   )
